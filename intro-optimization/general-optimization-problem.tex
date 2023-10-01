@@ -1,0 +1,1010 @@
+\chapter{General optimization problem} % (fold)
+\label{chap:General optimization problem}
+
+\section{Optimization problems in real life} % (fold)
+\label{sec:Optimization problems in real life}
+
+\subsection{Production planning problem} % (fold)
+\label{sub:Production planning problem}
+
+Consider a production company \( X \). Company \( X \) can produce many types of
+products, denoted as \( P_{1}, P_{2}, \ldots , P_{m} \). But producing
+these products is of course, not free. In order to produce all of these
+products, the production pipeline needs some ingredients, which will be denoted
+as \( I_{1}, I_{2}, \ldots , I_{n} \). All of the ingredients is stored in some
+sort of storage, and there is only a limited amount of them.
+
+\begin{quote}
+  If the company can buy ingredients from external sources, one could either set
+  the limit to \( \infty \) (if the cost of buying is not significant), or
+  introduce a "money" ingredient, which represents the money needed to buy the
+  actual ingredients. Hence, one can see that this model is extremely versatile
+  for many types of production planning.
+\end{quote}
+
+Now, consider the production pipeline of the product \( P_{i} \). Assuming that
+in order to produce an unit of \( P_{i} \), the company needs a total of \( a(i,
+j) \) units of the ingredient \( I_{j} \). One can make things more neat by
+introducing a matrix \( A \) such that \( A^{j}_{i} = a(i, j) \), and all of the
+production formulas are encoded in a single matrix.
+
+If the company wants to produce \( x^{i} \) units of \( P_{i} \), then it would
+take \( A^{j}_{i}x_{i} \) units of \( I_{j} \). The amount of units for \(
+I_{j}\) in order to produce all products would be the sum of all \(
+A^{j}_{i}x^{i} \), which is simply the product \( A^{j}x \). One can even take
+it a step further: \( Ax \) is the row vector, with \( (Ax)^{j} = A^{j}x \)
+being the total amount of units of \( I_{j} \) that the company needs in order
+to produce \( x^{i} \) products \( P_{i} \) for all \( i \).
+
+Let \( b \) be a row vector holding all of the limits, i.e. \( b^{i} \) being
+the maximum units of \( I^{i} \) that the company could use in its production
+pipeline. Then, the condition simply became \( Ax\le b \).
+
+\begin{quote}
+  Matrix comparison is simply defined as \( A > B \) if \( A - B \) only have
+  positve entries. In other terms, \( A > B \) if \( A^{i}_{j} > B^{i}_{j} \)
+  for all \( i \) and \( j \) such that the expression makes sense.
+  Similarly, one can define the operations \( <, \ge, \le \). An important thing
+  to note is this ordering of matrices is only a partial order.
+\end{quote}
+
+Another condition in this problem is \( x \ge  0 \), since the company could not
+produce a negative amount of products. If some product \( P_{i} \) is
+"inseparable", in the sense of that there could not be a decimal amount of \(
+P_{i} \), then \( x^{i} \) needs to be a natural number. However, we will not
+consider that possibility here.
+
+Now, we can discuss the thing we want to optimize. As a company, the first thing
+we would want to optimize is profits. However, we don't have enough data to
+calculate that, as we don't yet know the cost for the ingredients. Hence, we
+would be interested in optimizing the second best thing, revenue. Denote \(
+c_{i} \) as the selling price of an unit of \( P_{i} \), then the total revenue
+is \( c_{i}x^{i} \), or simply \( cx \).
+
+After all of that modeling, we arrive at a purely mathematical problem.
+\begin{align*}
+  \max\, &f(x) = cx\\
+  \text{s.t.}\, &x \ge 0\\
+              &Ax \le  b
+.\end{align*}
+
+This problem is the \textbf{standard form linear program}, which will be
+discussed in the linear programming chapter.
+
+% subsection Production planning problem (end)
+
+\subsection{House pricing prediction} % (fold)
+\label{sub:House pricing prediction}
+
+We are given a dataset, including many houses \( H^{1}, H^{2}, \ldots, H^{n} \).
+For each house \( H^{i} \), we know its properties, encoded as a column vector:
+\( X^{i}_{j}\) is the \( j \)-th property of the \( i \)-th house \( H^{i} \).
+Here, we encoded all of the properties in a single matrix, like in the
+above problem.
+
+We also know the price of the house \( H^{i} \), which will be stored in the row
+vector \( y \), with \( y^{i} \) denoting the price of the house \( H^{i} \).
+
+Then, consider the prediction function \( f(x) = xw \), with \( x \) being the
+column vector containing the predicted house's properties. If \( f \) is
+100\% correct, then we would expect \( f(X_{i}) = X_{i}w = y_{i} \) for all
+indices \( i \). However, when the number of properties is less than the number
+of sample houses, this is generally not the case. Hence, one would consider the
+errors \( e^{i} = y^{i} - X^{i}w \), or one can rewrite this as \( e = y - Xw
+\), and try to "minimize" this vector. In order to do so, one would need to
+"combine" all of the components of the vector into a single number, which could
+be carried out using some \textbf{norm}. The \( L^{2} \)-norm is regularly used
+here, since it has a very valuable property of being continuous\footnote{The
+norm \( g(x) =\sqrt{x^{T}x}  \) may not be continuous at \( x = 0 \), but one
+could simply consider its square \( g(x)^2= x^{T}x \), which is more efficient
+to compute and is continuous everywhere.}.
+
+After all of that, once again, we arrive at a purely mathematical problem.
+\begin{align*}
+  \min\, &g(w) = (y-Xw)^{T}(y-Xw)\\
+  \text{s.t.}\, &w \in \mathbb{R}^{n}
+.\end{align*}
+
+\begin{quote}
+  One could even go further by expanding \( g(w) \).
+  \begin{align*}
+    g(w) &= (y-Xw)^{T}(y-Xw)\\
+         &= (y^{T}-w^{T}X^{T})(y-Xw)\\
+         &= y^{T}y - y^{T}Xw - yw^{T}X^{T} + w^{T}X^{T}X^{T}w\\
+         &= w^{T}X^{T}Xw - 2y^{T}Xw + \text{const, (since \( y^{T}Xw = yw^{T}X^{T} =
+         \langle y, Xw \rangle \))} 
+  .\end{align*}
+
+  We will stop here, because we almost accidentally solved the \textbf{linear
+  regression} problem.
+\end{quote}
+
+Another note is despite \( L^2 \)-norm is very nice to work with, the problem
+utilizing the \( L^{1} \)-norm tends to have better results (especially when
+there are outliers).
+
+% subsection House pricing prediction (end)
+
+% section Optimization problems in real life (end)
+
+\section{General optimization problem} % (fold)
+\label{sec:General optimization problem}
+
+Consider the generalized optimization problem: \( \min f(x), x \in D \). In the
+scope of this book, we will only consider \( f: D \to \mathbb{R} \) and \( D
+\subseteq \mathbb{R}^{n} \).
+
+The maximum variant of the problem, \( \max f(x), x \in D \) could be solved by
+solving the minimum variant one: \( \min -f(x), x \in D \). Hence, we just need
+to investigate the minimum variant problem.
+
+The function \( f(x) \) has a fancy name, \textbf{objective function}, since our
+\textit{objective} is to find an \( x \) such that \( f(x) \) is minimized.
+
+The set \( D \) is called the \textbf{feasible set} or the \textbf{constrained
+set}. An element \( x \in D \) is a \textbf{feasible solution},
+\textbf{candidate solution}, or simply a \textbf{solution} of the problem. A
+solution \( x \in D \) is \textbf{more optimal} than another solution \( y \in D
+\) iff \( f(x) < f(y) \). Similarly \( x \) is \textbf{as optimal as} \( y \) if \(
+f(x) = f(y)\), and \( x \) is \textbf{at least as optimal as} \( y \) if \( f(x)
+\le f(y)\).
+
+Consider a \( D' \subseteq D \), then a solution \( x \in D' \) is \textbf{\( D'
+\)-optimal} iff \( x \) is at least as optimal as all \( x' \in D' \). If
+equality only happens when \( x = x' \), then \( x \) is strictly \( D'
+\)-optimal.
+
+Since \( D \subseteq  \mathbb{R}^{n} \), we can consider Euclidean topology on \(
+\mathbb{R}^{n} \) and use topological concepts like \textit{open sets, closed
+sets, neighborhoods}, etc. If a solution \( x \) is (strictly) \( D' \)-optimal
+for some neighborhood \( D' \) of \( x \), then one could say \( x \) is a
+(strictly) locally optimal solution ((S)LOS) of the problem.
+
+In the special case \( x \) is a (strictly) \( D \)-optimal solution, then one
+would call \( x \) a globally optimal solution (GOS), or (in the strict case)
+\textbf{the} strictly globally optimal solution (SGOS) of the problem.
+
+We have these following trivial statements.
+\begin{itemize}
+  \item Strictly globally optimal solution for a problem, if it exists, is
+    unique.
+  \item A (strictly) globally optimal solution is a (strictly) locally
+    optimal solution.
+\end{itemize}
+
+Denote the above problem as \( P \). Then, the set of all GOSes will be denoted
+as \( \operatorname{Argmin}(P) \), or \( \operatorname{Argmin}\limits_{x \in D}
+f(x) \). The SGOS, if it exists, is denoted as \( \operatorname{argmin}(P) \) \(
+\operatorname{argmin}\limits_{x \in D} f(x) \).
+
+\subsection{Basic topological concepts} % (fold)
+\label{sub:Basic topological concepts}
+
+\begin{definition}
+A \textbf{topology} on a set \( X \) is a collection \( \Sigma \) of subsets of
+\( X \), such that
+
+\begin{itemize}
+  \item \( \varnothing, X \in \Sigma \)
+  \item If \( \mathcal{C} \subseteq \Sigma \), then \( \cup_{S \in
+    \mathcal{C}} S \in \Sigma \).
+  \item If \( \mathcal{C} \subseteq \Sigma \), then \( \cup_{S \in
+    \mathcal{C}} S \in \Sigma \), with an additional condition that \(
+    \mathcal{C} \) must be finite.
+\end{itemize}
+
+\( X \) and \( \Sigma \) could be grouped together to form a \textbf{topological
+space} \( (X, \Sigma) \). A set \( S \in \Sigma \) is called as an \textbf{open
+set}.
+
+A \textbf{metric} on a set \( X \) is a function \( d: X^2 \to  \mathbb{R} \)
+such that
+
+\begin{itemize}
+  \item \( d(x, y) \ge 0, \forall x, y \in D \). Equality only holds if \( x = y
+    \).
+  \item \( d(x, y) = d(y, x), \forall x, y \in D \).
+  \item \( d(x, y) \le d(x, z) + d(z, y), \forall x, y, z \in D \).
+\end{itemize}
+
+A set \( X \)  with a metric \( d \) on \( X \) could be grouped together to
+form a metric space \( (X, d) \).
+\end{definition}
+
+Let \( (X, d) \) be a metric space. Denote the \textbf{open ball} with center
+\( x_{0} \in X \) and radius \( \varepsilon > 0 \) as \( B(x_{0}, \varepsilon)
+= \{x \in X, d(x_{0},x) < \varepsilon\}  \). Let \( \mathcal{B} \) be the set
+of all open balls: \( \mathcal{B} = \{B(x_{0}, \varepsilon), x_{0} \in X,
+\varepsilon > 0\}   \) and denote
+\[
+  \Sigma(X) = \bigcap\limits_{\substack{\mathcal{B} \subseteq \Sigma\\ (X,
+  \Sigma) \text{ is a topological space}}} \Sigma
+.\] as the topology generated by \( \mathcal{B} \). Then, the topological space
+\( (X, \Sigma) \) is called the \textbf{topological space generated from the
+metric space} \( (X, d) \).
+  
+\begin{theorem}
+  For a topological space \( (X, \Sigma) \) generated from a metric space \( (X,
+  d) \), these following statements hold true:
+  \begin{itemize}
+    \item If \( S \in \Sigma \), then  \( \forall x_{0} \in S, \exists
+      \varepsilon > 0 \) s.t. \( B(x_{0}, \varepsilon) \subseteq S \). Moreover,
+      this implication is two-sided, which means that \( \Sigma \) can be
+      defined as the set of all subsets \( S \) of \( X \) satisfying the above
+      property.
+    \item Consider a set \( S \subseteq  X \). Then, the \textbf{complement} of \( S \)
+      in \( X \), denoted as \( S^{c} \) is defined as \(
+      S^{c} = X \setminus S \). The \textbf{boundary} of \( S \), denoted
+      as \( \partial S \), is defined to be the set of all \( x \in X \) such
+      that \( \forall \varepsilon > 0, B(x, \varepsilon) \) intersects both \(
+      S \) and \( S^{c} \). Then, \( S \cap \partial S = \varnothing \)
+      for all \( S \in \Sigma \).
+    \item A set \( S \) is \textbf{closed} if and only if \( S^{c} \) is
+      open. Then \( \partial S \subseteq S \) iff \( S \) is closed.
+    \item For a set \( S \subseteq  X \), its \textbf{closure}, \( \overline{S} =
+      S \cup  \partial S\), is a closed set.
+    \item Let \( S \) be a subset of \( X \). Then, \( x \in S \) is an
+      interior point of \( S \) if there exists an open ball \( B(x,
+      \varepsilon) \) which lies completely inside of \( S \), i.e. \( B(x,
+      \varepsilon) \subseteq  S \). The set of all interior points of \( S \),
+      denoted as \( \operatorname{Int} S \), is the \textbf{interior} of \( S
+      \). Then for all \( S \subseteq  X \), \( \operatorname{Int} S = S \setminus
+      \partial S\) is an open set.
+  \end{itemize}
+\end{theorem}
+
+\begin{proof}
+  Define \( \Sigma'(X) = \{ S \subseteq X, \exists \varepsilon>0, 
+B(x_{0}, \varepsilon) \subseteq S \}\). We will prove \( \Sigma(X) = \Sigma'(X)
+  \).
+
+  Let \( S' \subseteq \Sigma'(X) \), then for every \( x_{0} \in S' \), there
+  exists \( \varepsilon(x_{0}) > 0 \) such that \( B(x_{0}, \varepsilon(x_{0}))
+  \subseteq  S'\). Then, the set \( S = \bigcup_{x \in S'} B(x, \varepsilon(x)) \)
+  is a (potentially infinite) union of sets, and because of the second
+  property of topological spaces, \( S \in \Sigma \). Now, for all \( x \in S' \),
+  \( x' \in B(x, \varepsilon(x)) \subseteq S \), then
+  \( S' \subseteq S \). Moreover, since \( B(x, \varepsilon(x)) \subset S' \), \(
+  S = \bigcup_{x \in S'} B(x, \varepsilon(x)) \subseteq  S' \). Hence, \( S = S'
+  \), and \( S \in \Sigma(X) \).
+
+  We have \( \Sigma'(X) \subseteq \Sigma(X) \). To prove equality, we relies on
+  the fact that \( \Sigma(X) \) is the minimal topological space that contains
+  \( \mathcal{B} \), which means that we only need to prove that \( (X,
+  \Sigma'(X)) \) is a topological space.
+
+  \begin{itemize}
+    \item The empty set is in \( \Sigma'(X) \) because of \textit{vaculous
+      truth}. \( X \) is in \( \Sigma'(X) \) because \( B(x_{0}, \varepsilon)
+      \subseteq  X \) for every \( x_{0} \in X, \varepsilon > 0 \).
+    \item If \( A = \bigcup_{S \in \mathcal{C} \subseteq \Sigma'(X)} S \), then
+      for every \( x \in A \), there exists some \( S \in \mathcal{C} \) such
+      that \( x \in S \). Then, since \( S \in \Sigma'(X) \), \( \exists
+      \varepsilon > 0 \) such that \( B(x, \varepsilon) \subseteq S \subset A \).
+      Hence, \( A \in \Sigma'(X) \).
+    \item If \( A = \bigcap_{{S \in \mathcal{C} \subseteq \Sigma'(X)}} S \) and \(
+      |\mathcal{C}| < +\infty\), then for every \( x \in A \), there exists some
+      \( \varepsilon(S) \) such that \( B(x, \varepsilon(S)) \subseteq A \) for
+      all \( S \in \mathcal{C} \). Then, pick \( \varepsilon = \frac{1}{2}\min
+      \varepsilon(\mathcal{C}) \), which always exists because the set \(
+      \varepsilon(\mathcal{C}) \) is a finite set. Then, \( B(x, \varepsilon)
+      \subseteq S \) for every \( S \in \mathcal{C} \), which means \( B(x,
+      \varepsilon) \subseteq  A \). Hence, \( A \in \Sigma'(X) \).
+  \end{itemize}
+
+Hence, \( (X, \Sigma'(X)) \) is a topological space, and because of \( \Sigma
+\)'s "minimalness", \( \Sigma(X) = \Sigma'(X) \), QED.
+
+The other statements can be trivially proven as such:
+
+\begin{itemize}
+  \item If \( \exists  x \in S \cap \partial S \), then every neighborhood
+    \( B(x, \varepsilon) \) of \( x \) intersects \( S \) and \( S^{c} \).
+    Because \( S \) is closed, \( B(x, \varepsilon) \subseteq  S \), which means
+    that the intersection of \( B(x, \varepsilon) \) with \( S^{c} \) must be a
+    nonempty subset of \( S \), which is a contradiction.
+  \item Because of the "symmetry" in the boundary's definition, we trivially
+    have \( \partial S = \partial (S^{c}) \). Consider a closed set \( S \),
+    then let \( x \in \partial S \).
+    Since \( S^{c} \) is open, \( \varnothing = S^{c} \cap \partial (S^{c}) =
+    S^{c} \cap \partial S \), which means \( x \notin S^{c} \) or \( x \in S \).
+    Hence, \( \partial S \subseteq S \). To prove the other direction, consider a
+    set \( S \) that contains its boundary \( \partial S \). Its complement, \(
+    S^{c}\) is open and does not intersect \( \partial S \). Take \( x \in
+    S^{c} \), then \( x \notin \partial S \) and since \( \{x\}  \subseteq B(x,
+    \varepsilon) \cap S   \), this intersection must not be empty. Since \( x
+    \notin \partial S \), \( B(x, \varepsilon) \cap S^{c} = \varnothing \),
+    which means that \( B(x, \varepsilon) \subseteq S
+    \) for all \( \varepsilon > 0 \)
+  \item Consider \( x \in \overline{S}^{c} \), then \( x \notin S, x \notin
+    \partial S \). We will prove that there exists \( \varepsilon > 0 \) such
+    that \( B(x, \varepsilon) \) does not intersect \( S \) and \( \partial S
+    \). Assuming the contrary, \( B(x, \varepsilon) \) intersect \( \overline{S}
+    \) for all \( \varepsilon > 0 \), then since \( x \notin \partial S \) and
+    \( B(x, \varepsilon) \) intersects \( \overline{S}^{c} \) at at least one
+    point \( x \), \( B(x, \varepsilon) \) must not intersect \( S \). Hence,
+    \( B(x, \varepsilon) \cap \partial S \neq  \varnothing \) for all \(
+    \varepsilon > 0 \).
+
+    Take \( y \in B(x, \varepsilon) \), then take an neighborhood \( B(y,
+    \varepsilon') \) of \( y \) inside \( B(x, \varepsilon) \). If \( y \in \partial
+    X\), then \( B(y, \varepsilon') \) must intersect \( S \), which could not
+    happen due to \( B(x, \varepsilon) \cap  S = \varnothing \). Hence, \( y
+    \notin \partial S, \forall y \in B(x, \varepsilon) \), or \( B(x,
+    \varepsilon) \cap  \partial S \), which is a contradiction. Therefore, \(
+    \overline{S} \) is a closed set.
+
+  \item Consider \( x \in \operatorname{Int} S = S \setminus \partial S \).
+    Then, \( B(x, \varepsilon) \) intersects \( S \) (at at least a point \( x
+    \)). If \( B(x, \varepsilon) \) intersects \( S^{c} \), then \( x \in
+    \partial S \) and we have a contradiction. Therefore, \( B(x, \varepsilon)
+    \) lies inside \( S \), which means that \( B(x, \varepsilon) \subseteq S \)
+    for all \( \varepsilon > 0 \). Therefore, \( \operatorname{Int} S \) is
+    open.
+\end{itemize}
+\end{proof}
+
+\begin{definition}
+  Let \( (X, \Sigma) \) be a topological space. A subset \( S \) of \( X \) is
+  \textbf{compact} if and only if for every collection \( \mathcal{C} \subseteq
+  \Sigma \) (open cover of \( S \)) s.t.\[
+    S \subseteq  \bigcup_{s \in \mathcal{C}} s
+  .\] , there exists a finite subcollection \( F
+  \subseteq \mathcal{C} \) s.t. \[
+    S \subseteq  \bigcup_{s \in F} s
+  .\] 
+\end{definition}
+
+\begin{theorem}
+  In topological spaces generated by metric spaces, if a set \( S \) is compact
+  then any sequence \( (x_n)_{n=1}^{\infty} \subset S \) has a convergent
+  subsequence, or \( S \) is \textbf{sequentially compact}.
+\end{theorem}
+
+\begin{proof}
+  If \( S \) is compact, then assuming \( (x_{n}) \) does not have a convergent
+  subsequence. Then for every \( x \in S \), there exists some neighborhood \(
+  U(x) \) s.t. \( (x_{n}) \cap  U(x) \) is finite.
+
+  Assuming the contrary, \( (x_{n}) \cap U(x) \) is infinite for all
+  neighborhood \( U(x) \) of \( x \). Then, for every \( \varepsilon > 0 \), one
+  let \( U(x) = B(x, \varepsilon) \) and therefore there are infinitely many
+  elements of the sequence \( x_{n} \) s.t. \( |x_{n} - x| < \varepsilon \).
+  Pick \( i_{1} = 1 \), then for every \( n \), because \( x_{1 .. i_{n}} \) is
+  finite, we can always pick some \( x_{i_{n+1}} \) from \( (x_{n}) \cap  B(x,
+  \varepsilon_{n}) \setminus x_{1 .. i_{n}} \). Pick an arbitrary \(
+  \varepsilon_{n} \to 0 \), for example \( \varepsilon_{n} = \frac{1}{n} \), we
+  can construct the infinite sequence \( x_{i_{n}} \) that converges to \( x \),
+  to the whole thing.
+
+  We have \( S \subseteq \bigcup_{x \in S} U(x) \), which means that there is a
+  finite set \( F \subseteq S \) such that \( S \subseteq \bigcup_{x \subseteq
+  F} U(x) \). Because \( S \) is infinite\footnote{If \( S \) is finite, then
+  the sequence \( x_{n} \) must have infinite repetitions, which is a free
+  source for a convergent subsequence.}, there will be some \( x \in S \) such
+  that \( U(x) \) contains infinitely many points in \( S \), which is a
+  contradiction to what we have just proven.
+\end{proof}
+
+\begin{theorem}
+  A set \( S \) is \textbf{totally bounded} if for any \( \varepsilon > 0 \), \( S \)
+  could be covered by finitely many open balls with radius \( \varepsilon \).
+  A set \( S \) is \textbf{complete} if every Cauchy sequence on \( S \)
+  converges to a point \( x \) on \( S \).
+  In topological spaces generated by metric spaces, if a set \( S \) is
+  sequentially compact, then \( S \) is complete and totally bounded.
+\end{theorem}
+
+\begin{proof}
+  Consider a sequence \( x_{n} \) in \( S \) with a convergent subsequence \(
+  x_{i_{n}} \) that converges to \( x \). Then, we have \( d(x_{i_{n}},x) <
+  \frac{\varepsilon}{2} \) and \( d(x_{i_{n}}, x_{m}) < \frac{\varepsilon}{2} \)
+  for large \( m, n \). Using the triangle inequality, \( d(x_{m}, x) <
+  \varepsilon \) for large \( m \), which means that \( x_{n} \) converges to \(
+  x\). Hence, \( S \) is complete.
+
+  If \( S \) is not totally bounded, then there exists some \( \varepsilon>0 \)
+  such that any finite collection of open balls \( B(x_{1}, \varepsilon),
+  B(x_{2}, \varepsilon), \ldots, B(x_{n}, \varepsilon)  \) could not cover \( S
+  \). Then, one can pick \( x_{n+1} \) as a point in \( S \) but lies outside of
+  all of the open balls. This process can continue indefinitely, yielding an
+  infinite sequence \( x_{1}, x_{2}, \ldots  \). Hence, we have
+  \( |x_{m} - x_{n}| > \varepsilon \) for
+  all \( m, n \), which means that \( x_{n} \) and its convergent subsequence is
+  not a Cauchy sequence. Because convergence implies Cauchy sequence, we arrive
+  at a contradiction.
+\end{proof}
+
+\begin{theorem}
+  In topological spaces generated by metric spaces, if a set \( S \) is complete
+  and totally bounded, then \( S \) is compact.
+\end{theorem}
+
+\begin{proof}
+  Assuming that \( S = S_{1} \) has an open cover \( U_{i} \) without any
+  finite subcover.
+
+  Consider the finite cover of \( S \) by open balls \( C_{i} = B(x_{i},
+  \varepsilon) \), with \( i \) ranging from \( 1 \) to \( N \). Then, since \(
+  N\) is finite, there must be some \( C_{i} \) that could not be covered by a
+  finite subcover of \( U_{i} \). Denote this set as \( S_{2} \)
+
+  Continuing on, we have a finite sequence of sets: \( S_{1}, S_{2}, \ldots  \)
+  with \( S_{n\ge 2} \) being open balls with radius \( \varepsilon(n) \). Note
+  that we can fine-tune and pick \( \varepsilon(n) \) as we want. Here, an
+  arbitrary sequence that converges to \( 0 \) would work, for example \(
+  \varepsilon_{n} = \frac{1}{n} \)
+
+  Pick arbitrary \( x_{n} \)  in \( S_{n} \), then the sequence \( x_{n} \) is a
+  Cauchy sequence, due to \( x_{m}, x_{n} \in S_{\min \{m,n\}  } \), which has
+  arbitrary small radius. Hence, \( x_{n} \) converges to some point \( x \),
+  which belongs to some \( U_{i} \). Since \( U_{i} \) is open, there must be
+  some neighborhood \( B(x, \varepsilon) \subseteq U \). But since the radius of
+  the open balls \( S_{n} \) converges to \( 0 \), at one point, \( S_{n} \)
+  will lie inside \( B(x, \varepsilon) \) and therefore, inside \( U_{i} \).
+  However, in the construction of \( S_{n} \), we have ensured that \( S_{n} \)
+  does not have a finite subcover of \( U_{i} \), which contradicts with the
+  fact that \( U_{i} \) alone can cover the whole \( S_{n} \) for large \( n \).
+\end{proof}
+
+Using the three theorems, one can see that in metric spaces, compact,
+sequentially compact and complete-and-totally-bounded are equivalent.
+
+Going back to \( \mathbb{R}^{n} \), we have the following theorem.
+
+\begin{theorem}[Heine-Borel Theorem]
+  Let \( S \) be a subset of \( \mathbb{R}^{n} \). Consider the Euclidean
+  topological space defined above. If there exists some \( M \) such that \(
+  d(x, 0) < M, \forall x \in S \), we say that \( S \) is \textbf{bounded}.
+
+  Equivalently, a set \( S \) is bounded if there exists an open ball \( B \)
+  s.t. \( S \subseteq B \).
+
+  Then, \( S \) is compact if and only if \( S \) is closed and bounded.
+\end{theorem}
+
+\begin{proof}
+  Since \( S \) is contained in the open ball \( B(0, M) \), we can just simply
+  prove that \( B(0, M) \) has a finite cover with \( B(x, \varepsilon) \) for
+  arbitrary \( \varepsilon > 0 \) and \( S \) is totally bounded. Such a cover
+  is trivial (but tedious) to construct. The other direction is trivial since
+  totally bounded implies bounded.
+
+  Assuming that Cauchy convergence and regular convergence is equivalent on \(
+  \mathbb{R}^{n} \)(a basic result in Calculus), let \( x_{n} \) be a
+  convergent sequence on \( S \), then \( S \) is complete iff \(  \lim_{n \to
+  \infty} x_{n} =x \in S \). Then, we need to prove that \( \lim_{n \to \infty}
+  x_{n} \in S\) for all convergent sequences \( x_{n} \) iff \( S \) is closed.
+
+  If \( S \) is closed, then assuming \( x \notin S \), then since \( S^{c} \)
+  is open, there is a neighborhood of \( x \), which contains infinitely many
+  elements in the \( x_{n} \) sequence, that lies completely outside of \( S \),
+  contradiction.
+
+  If every sequence \( x_{n} \in S \) converges to \( x \in S \), assuming \( S
+  \) is not closed, then take some \( x \in S^{c} \) s.t. every neighborhood \(
+  B(x, \varepsilon)\) of \( x \)  intersects with \( S \). Then let \( x_{n} \)
+  be the intersection of \( B(x, \varepsilon_{n}) \) with \( S \), for some
+  sequence \( \varepsilon_{n} \) that converges to \( 0 \), then \( 0 < d(x,
+  x_{n}) < \varepsilon_{n} \) and therefore \( x_{n} \to  x \) with \( x_{n} \in
+  S\) for all indices \( n \), which is a contradiction with the fact that \( S
+  \) is complete.
+
+  Therefore, closed-and-bounded is equivalent to complete-and-totally-bounded on
+  Euclidean spaces, and by the previous three theorems, we have what we needed.
+\end{proof}
+
+% subsection Basic topological concepts (end)
+
+\subsection{General condition for the existence of globally optimal solutions} % (fold)
+\label{sub:General condition for the existence of globally optimal solutions}
+
+\begin{theorem}
+  Consider the following optimization problem, denoted as \( P \)
+  \begin{align*}
+    \min\, &f(x)\\
+    \text{s.t.}\, &x \in D
+  .\end{align*}
+
+  Then \( \operatorname{Argmin}(P) \) is not empty if and only if the set \(
+  f(D)_{+} = \{t \in \mathbb{R}, t \ge f(x), \forall x \in D\}   \) is closed and
+  has a finite infimum.
+\end{theorem}
+
+\begin{proof}
+  If \( \exists x_{0} \in \operatorname{Argmin}(P) \), then \( f(D)_{+}
+  \) has \( f(x_{0}) \) as a lower bound. Consider the set \( L = \{t \in
+  \mathbb{R}, \exists x\in D, t < f(x)\}   \), which is the complement of
+  the set \( f(D)_{+} \) on \( \mathbb{R} \), then we will prove \( L \) is
+  open, and therefore \( f(D)_{+} \) is closed.
+
+  Let \( t \in L \), then there exists some \( x \in D \) such that \( t <
+  f(x) \). Take some \( \varepsilon > 0 \) such that \( t + \varepsilon <
+  f(x) \), for example \( \varepsilon = \frac{f(x) - t}{2} \), then 
+  \( \forall t' \in B(t, \varepsilon) \), \( t' < t + \varepsilon <
+  f(x) \), and therefore \( t' \in L \). Hence, \( B(t, \varepsilon) \subseteq
+  L\), which means that for all \( t \in L \), there is a neighborhood of \(
+  t\) which lies completely inside \( L \), or in other words, \( L \) is an
+  open set.
+\end{proof}
+
+\begin{theorem}
+\label{thr:LSC compact condition}
+  The function \( f(x) \) is \textbf{lower semi-continuous} at a point \( x_{0} \) if for
+  some \( \varepsilon > 0 \), there exists a neighborhood \( B(x_{0}, \delta) \) of
+  \( x_{0} \) s.t. \( f(x) - f(x_{0}) \ge  -\varepsilon, \forall x \in B(x_{0},
+  \delta)\).
+
+  If the objective function is lower semi-continuous (in a minimization problem)
+  on \( D \), and \( D \) is compact, then GOS(es) for the problem always exist.
+\end{theorem}
+
+\begin{quote}
+  The function \( f(x) \) is \textbf{upper semi-continuous} at a point \( x_{0} \) if for
+  some \( \varepsilon > 0 \), there exists a neighborhood \( B(x_{0}, \delta) \) of
+  \( x_{0} \) s.t. \( f(x) - f(x_{0}) \le  \varepsilon, \forall x \in B(x_{0},
+  \delta)\).
+
+  If a function is both lower semi-continuous and upper semi-continuous at \( x_{0} \),
+  then \(
+  -\varepsilon \le  f(x) - f(x_{0}) \le  \varepsilon\), or equivalently \( |f(x)
+  - f(x_{0})| \le  \epsilon\) for all \( x \) in some
+  neighborhood of \( x_{0} \). Then, \( f(x) \) is continuous at \( x_{0} \).
+\end{quote}
+
+\begin{proof}
+
+  If \( f(x) = -\infty \) for some \( x \in D \), then \( x \) is a GOS. Hence,
+  WLOG, assuming that \( f(x) \neq  -\infty \) for all \( x \in D \).
+
+  First, we consider the following alternative definition for lower
+  semi-continuity.
+
+\begin{lemma}
+  Denote \( \liminf_{x \to  x_{0}} f(x) = \lim_{\varepsilon \to 0^{+}} \inf f(D \cap
+  B(x_{0}, \varepsilon) \setminus \{x_{0}\})    \) as the limit inferior of \(
+  f(x) \) as \( x \) approaches \( x_{0} \) (\( D \) is the domain of \( f \)).
+  
+  Then, \( f \) is lower semi-continuous at point \( x_{0} \) iff \( \liminf_{x \to
+  x_{0}} f(x) \ge  f(x_{0}) \)
+\end{lemma}
+
+\begin{proof}[Proof of lemma]
+  WLOG assuming \( f(x_{0})=0 \), then \( f \) is lower semi-continuous at \(
+  x_{0} \) iff \( f(x)\ge -\varepsilon \) for \( x \) in some neighborhood \(
+  B(x_{0}, \varepsilon) \cap D \) of \( x_{0} \), or equivalently \( \inf
+  f(D \cap B(x_{0}, \varepsilon) \setminus \{x_{0}\}  ) \ge -\varepsilon \).
+  Letting \( \varepsilon \to  0^{+} \) and note that LHS is bounded (why?), we
+  have \( \lim_{\varepsilon\to  0^{+}} \inf f(D \cap  B(x_{0}, \varepsilon)
+  \setminus \{x_{0}\}  ) \ge  0 = f(x_{0}) \), QED.
+\end{proof}
+
+Consider the set \( L = f^{-1}((y, +\infty]) = \{x, f(x) > y)\}   \), we will prove
+that \( L \) is open.
+
+Consider \( x_{0} \in L \), i.e. \( f(x_{0}) > y \). Since \( \liminf_{x \to
+x_{0}} f(x) \ge f(x_{0}) > y \), we have \( \lim_{\varepsilon \to  0^{+}} f(D
+\cap B(x_{0}, \varepsilon) \setminus \{x_{0}\}) > y   \), then there exists some
+\( \varepsilon > 0 \) such that \( f(x) > y, \forall x \in D \cap B(x_{0},
+\varepsilon) \) (note that we already have\( f(x_{0}) > y \))
+
+Then, \( B(x_{0}, \varepsilon) \) is a subset of \( L \), and hence \( L \) is
+open. Because of this, its complement, the set \( f(D)_{+} \) is closed.
+
+Let \( t_{0} = \inf f(D)_{+} \), then \( f(D)_{+} \) is either \( (t_{0},
++\infty) \) (an open set, or closed if \( t_{0} = -\infty \)) or \( [t_{0},
++\infty] \)a closed one.
+
+To prove that \( t_{0} = -\infty \) could not happen, we will prove that \( f \)
+is bounded on \( D \).
+
+Consider the sequence \( x_{n} \) s.t. \( f(x_{n}) < t_{n} \) with an arbitrary
+sequence \( t_{n} \) that converges to \( -\infty \). Then, \( x_{n} \) must
+has a convergent subsequence \( x_{i_{n}} \) that converges to some \( x \in D \),
+however: \( -\infty = \lim_{n \to
+\infty} f(x_{n}) = \lim_{n \to \infty} f(x_{i_{n}}) = \liminf_{n \to \infty}
+f(x_{i_{n}}) \ge f(\lim_{n \to \infty} x_{i_{n}}) = f(x) \). This implies \(
+f(x) = -\infty \), which is a contradiction with \( f \) not yielding \( -\infty
+\).
+
+Hence, \( f(D)_{+} \) must be a set in the form of \( [a, +\infty] \) with \( a
+= \sup f(D)_{+}\). Then, \( a \in f(D) \) and \( \operatorname{Argmin}(P)
+= f^{-1}(a)\).
+\end{proof}
+A corollary of this theorem is the \textit{extreme value theorem}.
+
+\begin{corollary}
+  If \( f \) is continuous on compact \( D \subseteq \mathbb{R}^{n} \) and
+  yields no infinities, then both the minimization and the maximization problems
+  have GOS(es).
+\end{corollary}
+
+In problems with non-compact feasible sets, this theorem could prove the
+existence of GOS(es).
+
+\begin{theorem}
+\label{thr:coercive condition}
+  Let \( f \) be a lower semi-continuous function on nonempty closed \( D \subseteq
+  \mathbb{R}^{n} \).
+  Additionally, \( f \) is upper coercive on \( D \), i.e.
+  \[
+    f(x) \to +\infty \text{ as } |x| \to  +\infty
+  .\], then the problem has GOS(es).
+\end{theorem}
+
+\begin{proof}
+  Consider \( x_{0} \in D \) and a set \( D' = \{x \in D, f(x) \le f(x_{0})\}
+  \subseteq D \), then \( D' \) contains points that are at least as optimal as
+  \( x_{0} \). Hence, we just have to prove that \( f \) has a \( D' \)-optimal
+  solution, and that solution would be a GOS of the problem.
+
+  Using the previous theorem, one would need to prove that \( D' \) is compact.
+  
+  If \( D' \) is not bounded, then for any \( M > 0 \), there exists some \( x
+  \in D' \) such that \( |x| > M \). Letting \( M \to  +\infty \), then \( f(x)
+  \to  +\infty\), which means that \( +\infty \le f(x_{0}) \). Since \(
+  f(x_{0}) \neq  -\infty \), \( f(x_{0}) = +\infty \), which means that we have
+  a bad choice for \( x_{0} \). We can try again with another \( x_{0}' \) such
+  that \( f(x_{0}') \neq +\infty \), or if such \( x_{0}'\) does not exist, \(
+  f(x) = +\infty \) on \( D \), and therefore all \( x_{0} \in D \) is a trivial GOS of
+  the problem.
+
+  Consider the complement of \( D' \), \( L = \{x \in D, f(x) \ge  f(x_{0})\} =
+  f^{-1}((f(x_{0}), +\infty])  \), which has been proven to be open in the proof
+  of Theorem \ref{thr:LSC compact condition}. Hence, \( D' \) is closed.
+\end{proof}
+
+% subsection General condition for the existence of globally optimal solutions (end)
+
+\subsection{Convex optimization problem} % (fold)
+\label{sub:Convex optimization problem}
+
+Let \( v_{1}, v_{2}, \ldots , v_{m} \in \mathbb{R}^{n} \) and \( \lambda \in
+\mathbb{R}^{1\times m} \), then consider the matrix \( v \) s.t. \( v_{i} \) is
+the \( i \)-th column of \( v \).
+
+The matrix-vector multiplication \( v \lambda \) can be rewritten as \( v_{i}
+\lambda^{i} \) or more traditionally \( \lambda^{i}v_{i} \). This expression is
+a linear combination of vectors \( v_{1}, v_{2}, \ldots , v_{m} \) with respect
+to weight vector \( \lambda \).
+
+\begin{definition}
+  Let \( v_{1}, v_{2}, \ldots , v_{m} \in \mathbb{R}^{n} \) and \( \lambda \in
+  \mathbb{R}^{m} \). Arrange \( v_{1}, v_{2}, \ldots , v_{n} \) into a matrix \(
+  A\) such that \( A_{i} = v_{i} \).
+
+  Then, the \textbf{linear combination} (LC) of \( v_{1}, v_{2}, \ldots, v_{m}
+  \) with respect to weight \( \lambda \) is the matrix-vector multiplication \(
+  \lambda A\).
+
+  An operation \( \mathcal{S} \) on \( v_{1}, v_{2}, \ldots , v_{m}, \lambda \)
+  is called a \textbf{special linear combination operation} (SLCO) if it has a specific
+  condition for \( \lambda \) (if \( \lambda \) does not satisfy this condition,
+  the result is undefined) and it yields the exact same result as the LC of \(
+  v_{1}, v_{2}, \ldots , v_{m} \) wrt weight \( \lambda \).
+
+  Two SLCO are have the same kind if the conditions of the two operations are
+  exactly the same.
+\end{definition}
+
+SLCOs are basically a restricted linear combination operation, which restricts
+its \textbf{special linear span} of a set of vectors.
+
+Convex combination is a SLCO. But to define convex combination, one would need
+to define some other SLCOs.
+
+\begin{definition}
+  These following SLCOs are widely used in this section.
+\begin{itemize}
+  \item \textbf{Affine combination} is a SLCO with the condition of \( \sum_{i =
+    1}^{m} \lambda_{i} = 1 \). Denote the operation as \(
+    \mathcal{A}(A, \lambda) \)
+  \item \textbf{Conical combination} is a SLCO with the condition of \( \lambda
+    \ge  0\). Denote the operation as \( \mathfrak{C}(A, \lambda) \)
+  \item \textbf{Convex combination} is a SLCO with the combined combination of
+    affine combination and conical combination, the weight condition is \(
+    \lambda \ge 0 \) \textit{and} \( \sum_{i = 1}^{n} \lambda_{i} = 1 \). Denote
+    the operation as \( \mathcal{C}(A, \lambda) \). \textbf{Strictly convex
+    combination} is a stricter SLCO than convex combination, requiring
+    \( \lambda > 0 \) instead of \( \lambda \ge 0 \).
+\end{itemize}
+\end{definition}
+
+With SLCOs out of the way, we have these new definitions.
+
+\begin{definition}
+  Consider a SLCO \( \mathcal{S} \), then:
+  \begin{itemize}
+    \item A \( \mathcal{S} \)-special linear space is a set \( V \) such that \( V \) is
+      closed under \( \mathcal{S} \) of arbitrary weights. In other words, if \(
+      A \subseteq V \), then \( \mathcal{S}(A, w) \in V \) for every weight \( w
+      \) such that the combination is defined.
+
+      In the case of \( \mathcal{S} \) is the affine, conical and convex
+      combination operations, then \( V \) is called to be an \textbf{affine
+      space}, a \textbf{conic space} and a \textbf{convex set}, respectively.
+
+    \item Let \( V \) be a \( \mathcal{S} \)--special linear space, then column
+      vectors of the matrix \( A \) form a \( \mathcal{S} \)\textbf{-special
+      basis} of \( V \) if
+      and only if every vector \( v \in V \) has a unique weight vector \(
+      \lambda \) such that \( v = \mathcal{S}(A, \lambda) \). The respective
+      terminologies for affine, conic and convex SLCOs are \textbf{affine
+      basis}, \textbf{conic basis} and \textbf{convex basis}.
+
+    \item Let \( V \) be a \( \mathcal{S} \)-special linear space. Then, the
+      minimal linear space \( V' \) such that \( V \subseteq V' \) is called the
+      \textbf{linear subspace associated with} \( V \). The dimension of \( V \)
+      is defined to be the dimension of \( V' \).
+
+    \item The \( \mathcal{S} \)-special linear hull of a set \( V \) is the
+      minimal \( \mathcal{S} \)-special linear space containing \( V \). The
+      respective terminologies for affine, conic and convex SLCOs are
+      \textbf{affine hull}, \textbf{conic hull} and \textbf{convex hull}.
+\end{itemize}
+\end{definition}
+
+With the definitions out of the way, we have the following trivial properties.
+
+\begin{itemize}
+  \item Every linear space is a \( \mathcal{S} \)-special linear space.
+  \item Intersection of (potentially infinitely many) \( \mathcal{S} \)-special
+    linear spaces is another \( S \)-special linear space.
+  \item Conic spaces could be redefined as to be a set that is  closed under
+    non-negative uniform scaling (if \( x \in
+    V\) then \( kx \in V \) for some scalar \( k \ge 0 \)) and addition.
+  \item Affine space \( V \) could be written as a sum of a point \( x \in V \)
+    and a linear subspace \( L \): \( V = x + L = \{x + y, y \in L\}   \)
+\end{itemize}
+
+We will prove the last statement. Take \( x \in V \), we will prove that \( L = V -
+x = \{v - x, v \in V\}  \) is a linear space. This is true, since for every
+list  \( A \subseteq V \), \( A - x \subseteq V - x \) and \( \mathcal{L}(A   -
+x, \lambda) \), the linear combination of \( A-x \) wrt weight \( \lambda \),
+is equivalent to \( \mathcal{L}(A-x, \lambda)  = \mathcal{L}(A, \lambda) - x
+\sum_{i} \lambda_{i} = \mathcal{L}\left([x] + A, [1 - \sum_{i}
+  \lambda_{i}] + \lambda\right)\) - x. Note that the sum of all components of the
+  vector \(\lambda + [1 - \sum_{i} \lambda_{i}] \) is \( 1 \), then the linear
+  combination is an affine combination, which is in \( V \) because \( V \) is an
+  affine space. Hence, we proved \( \mathcal{L}(A-x, \lambda) \) is in \( L = V - x
+  \), which means that \( L \) is closed under linear combination.
+
+% subsection Convex optimization problem (end)
+
+Finally, we arrive at the definition of a convex function.
+
+\begin{definition}
+  A function \( f \) is convex on \( D \) if \( D \) is a convex space, and
+  \[
+    f(\mathcal{C}(A, \lambda)) \le \mathcal{C}(f(A), \lambda)
+  .\] , for all \( A \subseteq \operatorname{dom} f \) and \( \lambda \)
+  satisfying the convex weight conditions.
+
+  If equality only holds in the case \( \lambda = \mathbf{e_{i}} \) for some \(
+  i\) (\( \mathbf{e_{i}} \)) is the \( i \)-th standard basis vector, i.e. the
+  vector with all zeroes except the \( i \)-th entry being \( 1 \)), then \( f
+  \) is strictly convex on \( D \).
+\end{definition}
+
+Equivalently, \( f \) is (finitely) convex iff \( f(\lambda x + (1-\lambda)y) \le \lambda
+f(x) + (1 - \lambda)f(y) \) for all \( x, y \in A, \lambda \in [0, 1] \).
+There are a few problems with infinite sets, but we
+will ignore them for now.
+
+A basic property of convex function \( f \) is that its epigraph, \(
+\operatorname{epi}(f) = \{(x, y), f(x) \le  y\}   \) is a convex set. Moreover,
+let \( L_{\alpha}(f)= \{x, f(x) \ge  \alpha\}   \) be the lower level set of \(
+f\) wrt \( \alpha \), then \( f \) is convex iff \( L_{\alpha}(f) \) is convex
+for all \( \alpha \)
+
+Convexness is also "closed" under conical combination, i.e. \( A \) is a
+collection of convex functions then \( \mathfrak{C}(A, \lambda) \) is also a
+convex function. Additionally, the function \( f(x) = \max A(x) \) is also a
+convex function.
+
+\begin{theorem}
+  Let \( f \) be a convex function on convex \( D \) which yields no infinities.
+  If \( D \) is open, then \( f \) is continuous on \( D \).
+\end{theorem}
+
+\begin{proof}
+  Take \( x_{0} \in D \) and a neighborhood \( B(x_{0}, \varepsilon) \subseteq D
+  \). Consider a point \( x \in B(x_{0}, \varepsilon) \), let the line \(
+  \mathbf{x} = \lambda x + (1- \lambda) x_{0} \) intersects \( \partial
+  B(x_{0}, \varepsilon) \) at \( x_{1} \) and \( x_{2} \).
+
+  WLOG, assuming that the order of the points in the segment \( [x_{1}, x_{2}]
+  \) is \( x_{1}, x_{0}, x, x_{2} \).
+
+  \begin{tikzpicture}
+    \draw[gray, thick] (0, 5) .. controls (6, 6) and (7, 4) .. (10, 0);
+    \draw[red, very thick] (4, 2) circle(2.5);
+    \draw[green, ultra thick] (1.5, 2) -- (6.5, 2);
+    \filldraw[black] (4, 2) circle(2pt);
+    \node[above left=0pt of {(4, 2)}, outer sep=2pt, fill=white] {\( x_{0} \)};
+    \filldraw[black] (5, 2) circle(2pt);
+    \node[below =0pt of {(5, 2)}, outer sep=2pt, fill=white] {\(
+    x=x_{0}+\lambda u \)};
+    \filldraw[black] (1.5, 2) circle(2pt);
+    \node[above left=0pt of {(1.5, 2)}, outer sep=2pt, fill=white] {\( x_{1}=x-u \)};
+    \filldraw[black] (6.5, 2) circle(2pt);
+    \node[above right=0pt of {(6.5, 2)}, outer sep=2pt, fill=white] {\(
+    x_{2}=x+u \)};
+    \node[above right=5pt of {(9.5, 0.75)}, outer sep=2pt, fill=white] {\( 
+    \overline{D}^{c}\)};
+    \node[below left=5pt of {(9.5, 0.75)}, outer sep=2pt, fill=white] {\(
+    D\)};
+    \node[, outer sep=2pt, fill=white] at (9.5, 0.75) {\(
+    \partial D\)};
+  \end{tikzpicture}
+
+  Let \( u = x - x_{1} \), then \( x_{1} = x - u \), \( x_{2} = x+ u \) and
+  there exists some \( \lambda > 0 \) such that \( x = x_{0} + \lambda u \).
+
+  Then, we have
+  \begin{align*}
+    x = x_{0} + \lambda u = x_{0} + \lambda (x_{2} - x_{0}) = \lambda x_{2} + (1
+    - \lambda) x_{0}\\
+    \implies f(x) \le \lambda f(x_{2}) + (1- \lambda) f(x_{0})
+  .\end{align*}, and
+  \begin{align*}
+    x &= x_{0} + \lambda u = x_{0} + \lambda ( x_{0} - x_{1}) \\
+    &\implies x_{0} = \frac{1}{\lambda + 1} x + \frac{\lambda}{\lambda + 1}
+    x_{1}\\
+    &\implies f(x_{0}) \le  \frac{1}{\lambda + 1} f(x) + \frac{\lambda}{\lambda +
+    1} f(x_{1})
+  .\end{align*}
+
+  Let \( M = \sup_{x \in \partial B(x, \varepsilon)} f(x) \) , then \( M \ge
+  f(x_{1}), f(x_{2}) \) and \( f(x) \le  \lambda M + (1-\lambda)f(x_{0}) \) and
+  \( f(x_{0}) \le \frac{1}{\lambda+1} f(x) + \frac{\lambda}{\lambda+1} M \).
+  Another thing to note is that \( M \) is finite due to \( f \) not yielding
+  any infinities.
+
+  Hence, we have the following inequalities:
+
+  \begin{align*}
+    f(x) - f(x_{0}) &\le  \lambda(M - f(x_{0}))\\
+    f(x) + \lambda M &\ge (\lambda + 1) f(x_{0})\\
+    \implies f(x) - f(x_{0}) &\ge  \lambda (f(x_{0}) - M)
+  .\end{align*}
+
+  Hence, \( 0 \le  |f(x) - f(x_{0})| \le  \lambda (M-f(x_{0})) \), and let \( x \to
+  x_{0} \), then \( \lambda \to  0 \) and therefore by the squeeze theorem, \(
+  f(x) \to  f(x_{0}) \). Therefore \( f \) is continuous at \( x_{0} \).
+\end{proof}
+
+\begin{theorem}
+  Let \( f \) be a function on open convex set \( D \).
+
+  If \( f \) is convex, then for all directions \( d \neq  0 \),
+  \( \frac{\partial f}{\partial d}(x_{0})  \), the
+  \textbf{directional derivative} of \( f \) at \( x_{0} \in D \) wrt direction
+  \( d \) exists and satisfies \( \frac{\partial f}{\partial d} (x_{0}) \le f(x_{0} + d) -
+  f(x_{0}) \) if \( x_{0} + d \in D \).
+
+  If \( f \) is differentiable, \( \nabla f = f'^{T} \) is the \textbf{gradient}
+  of \( f \) exists. Then \( f \) is convex iff \( f(y)-f(x) \ge f'(x)(y-x)
+   = \langle \nabla f(x), y -x\rangle\) for all \( x,y\in D \). Moreover, \( f
+   \) is strictly convex on \( D \) iff equality only holds if \( x = y \).
+\end{theorem}
+
+\begin{proof}
+  Consider the scalar function \( g(t) = f(x_{0}+t d) \), then \( g \) is
+  defined on some neighborhood \( B(0, \varepsilon) \) of \( 0 \).
+
+  We will prove that \( g \) is convex. This is true since \( g(\mathcal{C}(T,
+  \lambda)) = f(x_{0} + \mathcal{C}(T, \lambda)d) = f(\mathcal{C}(x_{0} + Td,
+  \lambda) \), because of linearity. Since \( f \) is convex \( g(\mathcal{C}(T,
+  \lambda)) = f(\mathcal{C}(x_{0}+Td, \lambda)) \le \mathcal{C}(f(x_{0}+Td),
+  \lambda) = \mathcal{C}(g(T), \lambda) \), QED.
+
+  Then, we just need to prove that \( g \) has right derivative at \( 0 \). This
+  is indeed true, as for any \( 0 < u < v < \varepsilon \), if let \( \lambda =
+  \frac{u}{v}\), then \( u = \lambda v + (1 - \lambda) 0 \) and \( g(u) \le
+  \lambda g(v) + (1- \lambda)g(0) = \lambda g(v) + (1 - \lambda)g(0) \). Hence,
+  \( \frac{g(u) - g(0)}{u} \le  \frac{g(v) - g(0)}{v} \), and the function
+  \( h(x) = \frac{g(x) - g(0)}{x} \) is decreasing as \( x \to  0^{+} \). Hence,
+  there is a limit \( L = \lim_{x \to 0^{+}} h(x)  \), which is the right
+  derivative of \( g(x) \) at \( 0 \). Note that this derivative can be
+  (negative) infinity, for example if \( g(x) = -\sqrt[3]{x}  \).
+
+  In the case that \( x_{0} + d \in D \), \( h(1) \) is defined as \( h(1) =
+  g(x_{0}  + d) - g(x_{0}) \ge  L = \frac{\partial f}{\partial d}(x_{0})  \), QED.
+
+  Letting \( d = y - x \), then using the identity \( \frac{\partial f}{\partial
+  d} (x_{0}) = f'(x_{0})d \) for differentiable \( f \), we have \( f(y)-f(x)
+  \ge f'(x)(y-x) \) for all \( x, y \in D \) if \( f \) is convex.
+
+  To prove the reverse direction, let \( x = \mathcal{L}(y, z, w) \) such that \(
+  w \in [0, 1]\) (denoting \( \mathcal{L}(x, y, w) = wx + (1-w)y \) as the
+  \textbf{linear interpolation} (lerp) from \( x \) to \( y \) with weight \( w \)).
+  Then, \( f(z)-f(x) \ge f'(x)(z-x) \) and \( f(y)-f(x) \ge f'(x)(y-x) \).
+  Lerping the two inequality: \( \mathcal{L}(f(y)-f(x),f(z)-f(x),w) \ge
+  f'(x)\mathcal{L}(y-x, z-x, w) \), yields \( \mathcal{L}(f(y), f(z), w) - f(x)
+  \ge  f'(x)(\mathcal{L}(y,z,w)-x\). RHS is \( 0 \) since \( x =
+  \mathcal{L}(y,z,w) \), which means \( \mathcal{L}(f(y), f(z), w) \ge
+  f(\mathcal{L}(y,z,w) \), which implies that \( f \) is convex.
+
+  To prove the theorem in the strictly convex case, we can trivially use the
+  above proof with some obvious modifications.
+\end{proof}
+
+Now, consider \( f: D \subseteq \mathbb{R}^{n} \to  \mathbb{R} \), then \(
+\nabla f: D \subseteq \mathbb{R}^{n} \to  \mathbb{R}^{n} \), which is a vector
+function. Hence, one can define the Jacobian of this function \( (\nabla f)' \).
+This matrix, if it exists, is called the \textbf{Hessian} of \( f \). And in
+most cases, it's symmetric, hence it could be written as \( (\nabla f)'^{T} =
+\nabla ^2 f \). Then, one have the Taylor theorem: for a
+twice-continuously-differentiable function \( f \) and \( x_{0}, \Delta x \)
+such that \( x_{0}, x_{0} + \Delta x \in \operatorname{dom} f \), then there
+exists some \( \theta \in [0, 1] \) such that:
+
+\begin{align*}
+  f(x_{0}+\Delta x) &= f(x_{0}) + f'(x_{0})\Delta x + \frac{1}{2} \Delta x^{T}
+  \nabla ^2f(x_{0} + \theta \Delta x) \Delta x\\
+&= f(x_{0}) + f'(x_{0})\Delta x + \frac{1}{2} \Delta x^{T}
+  \nabla ^2f(x_{0}) \Delta x + o(\|\Delta x\|^2)
+.\end{align*}
+
+Using this theorem, one can prove the following important result.
+
+\begin{theorem}[Second derivative test for convex functions]
+  Let \( f \) be a twice-continuously-differentiable function on an open convex
+  domain \( D \). Then, \( f \) is convex iff \( \nabla ^2 f(x) \) is
+  positive semi-definite. Moreover, \( f \) is strictly convex if \( \nabla ^2
+  f(x) \) is positive definite.
+\end{theorem}
+
+\begin{proof}
+  Rewrite Taylor theorem as
+  \[
+    f(x_{0}+\lambda d)-f(x_{0})-\lambda f'(x_{0})d =\lambda^{2}
+    \frac{d^{T}\nabla^{2}f(x_{0} + t\lambda d)d}{2}
+  .\], then \( f \) is convex iff LHS is non-negative for all \( x_{0}, \lambda
+  \) and \( d \). Hence, if \( \nabla ^2 f \) is positive semi-definite, then
+  RHS is non-negative and we have QED.
+
+  If \( f \) is convex, then we use the other variant of the Taylor's theorem
+  and have RHS equals to \( \frac{1}{2}\lambda ^2 d^{T}\nabla ^2 f(x_{0})d +
+  o(\lambda ^2) \), which is dominated by the first term. Hence, \( \nabla ^2
+  f(x_{0}) \) needs to be positive semi-definite for all \( x_{0} \in D \).
+
+  The strictly convex case could be similarly proven.
+\end{proof}
+
+Utilizing all of this machinery, we have the following theorem.
+
+\begin{theorem}
+  Consider the minimization problem \( P: \min f(x), x \in D \), with \( D \) being
+  a convex set, \( f(x) \) convex on \( D \). Then, if \( P \) has a LOS \(
+  x_{0} \), then \( x_{0} \) is also a GOS. Moreover, if \( f \) is strictly
+  convex, then \( x_{0} \) is the SGOS of \( P \).
+\end{theorem}
+
+\begin{proof}
+  Let \( x_{0} \) be a \( B(x_{0}, \varepsilon) \)-optimal solution of \( P \).
+
+  Then for any \( x \in D \) that is more optimal than \( x_{0} \),
+  any convex combination of \( x_{0} \) and \( x \) would be more optimal than
+  \( x_{0} \). We will prove that there is one such combination \( x' =
+  \mathcal{L}(x_{0}, x, w) \in B(x_{0}, \varepsilon) \setminus \{x_{0}\}   \).
+
+  We can easily prove that \( d(x_{0}, x') = \|x'-x_{0}| = w|x-x_{0}| \), which
+  can be arbitrary small (but still positive)
+  s.t. \( w > 0 \), which means that one can always pick
+  some \( w \) such that \( x' \in B(x_{0}, \varepsilon) \) and \( x' \) is more
+  optimal than \( x_{0} \). Hence, there is no \( x \in D \) that is more
+  optimal than \( x_{0} \).
+
+  If \( f \) is strictly convex, then any convex combination of \( x_{0} \) with
+  an \( x \neq  x_{0}  \) that is at least as optimal as \( x_{0} \)
+  would be more optimal than both \( x \) and \( x_{0} \). Hence, such \( x \)
+  could not exist, and \( x_{0} \) is the SGOS of the problem.
+\end{proof}
+
+% subsection Convex optimization problem (end)
+
+% section General optimization problem (end)
+
+% chapter General optimization problem (end)
