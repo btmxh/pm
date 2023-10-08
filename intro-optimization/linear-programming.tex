@@ -1,6 +1,7 @@
+%! TEX root = intro-optimization/main.tex
 \chapter{Linear programming} % (fold)
 \label{sec:Linear programming}
-
+\includegraphics[scale=0.5]{figures/1696778670}
 \section{General, standard form and augmented form linear programs} % (fold)
 \label{sec:General, standard form and augmented form linear programs}
 
@@ -105,6 +106,71 @@ utilizing "prebounded" and "already-slack" variables in the problem.
 \section{Convex polyhedra} % (fold)
 \label{sec:Convex polyhedra}
 
+Let \( S \) be a subset of \( \mathbb{R}^{n} \). By convention, when we say "\(
+S\) is open/closed/etc.", or talking about the boundary, closure, etc. of \( S
+\), we refer to these topological concept with relative to the Euclidean
+topology \( \mathbb{R}^{n} \). However, when one adds the \textit{relatively}
+prefix, e.g. \( S \) is relatively open, without mentioning an explicit
+topological space, that topological space is implicitly considered to be
+generated from the metric space of \( \operatorname{aff} S  \), the
+\textit{affine hull} of \( S \), equipped with the standard Euclidean norm.
+
+For example, consider \( S = (-1, 1) \), then \( S \) is open (and not closed)
+wrt \( \mathbb{R}
+\), and both relatively open and closed wrt itself. However, since the affine
+hull of \( S \) is \( \mathbb{R} \), we can not say that \( S \) is relatively
+closed (without the "wrt" clause).
+
+Consider the \( \mathbb{R}^3  \) space. The disk \( D = \{(x, y, 0), x^2+y^2\le
+1\}   \), is closed wrt \( \mathbb{R}^3  \), but open in \( \mathbb{R}^2\times
+\{0\}   \). The latter is the affine hull of \( D \), therefore we say that \( D
+\) is relatively open.
+
+\begin{theorem}
+  If a set \( D \) is relatively closed, then \( D \) is closed.
+\end{theorem}
+
+For example, consider a hyperplane in higher dimensions. The hyperplane is
+trivially relatively closed, since it is its own affine hull.
+
+\begin{proof}
+  Let \( A = \operatorname{aff} D \), \( D_{1} = A \setminus D, D_{2} =
+  \mathbb{R}^{n} \setminus D \). We have \( D_{1} \subseteq D_{2} \) and \(
+  A^{c} \subseteq D_{2} \).
+
+  \includegraphics[scale=0.5]{figures/a}
+  
+
+  Then, \( D_{1} \) is relatively open. Let \( x \) be a point in \( D_{2} \).
+
+  If \( x \in A \) (denoted as \( x_{1} \) in the figure above),
+  then \( x \in A \). Then every neighborhood \( B_{A}(x,
+  \varepsilon) \) of \( x \) is in \( D_{1} \), since \( D_{1} \) is open. Now
+  consider \( y \in B(x, \varepsilon) \), then either \( y \in A \), implying \(
+  y \in B_{A}(x, \varepsilon) \subseteq D_{1} \subseteq D_{2}\) or \( y \in
+  A^{c} \subseteq D_{2} \). Hence, in all cases \( y \in D_{2} \), therefore \(
+  B(x, \varepsilon) \subseteq D_{2}\).
+
+  If \( x \in A^{c} \) (denoted as \( x_{2} \) in the figure above)
+  and assuming \( A = x_{0} + L \) for some linear space \(
+  L\). Then, we will prove that there exists \( \varepsilon > 0 \) such that \(
+  d(x, a) < \varepsilon\) for all \( a \in A \). Intuitively, the distance from
+  \( x \) to \( A \) is one such value for \( \varepsilon \).
+  Making thing rigorous,
+  let \( u = a - x_{0} \) and \( y = x - x_{0} \), then \( u \in L \). We will
+  project \( x \) to \( A \), or equivalently, \( y \) to \( L \). Denote this
+  projection as \( y_{0} \). Then, \( y \neq  y_{0} \) and \( d(y, y_{0}) > 0
+  \). Pick \( \varepsilon = \frac{1}{2} d(y, y_{0}) \), then \( d(x, a) >
+  \varepsilon \) , for every \( a \in A \), which means \( B(x, \varepsilon)
+  \cap A = \varnothing \) or \( B(x, \varepsilon) \subseteq A^{c} \subseteq
+  D_{2} \).
+
+  In all cases, there exists \( \varepsilon > 0 \) such that \( B(x,
+  \varepsilon) \in D_{2} \). Hence, \( D_{2} \) is open and \( D \) is closed.
+\end{proof}
+
+
+
 \subsection{Hyperplanes and related theorems} % (fold)
 \label{sub:Hyperplanes and related theorems}
 
@@ -118,9 +184,10 @@ Now, we will have some names for these sets.
   A \textbf{hyperplane} is a set \( H \) in the form of \( H = \{x, ax =
   \alpha\}   \). \( H \) splits the whole space into two open sets, which are
   called \textbf{open half-spaces}: \( H_{1} = \{x, ax > b\}   \) and \( H_{2}
-  = {x, ax < b} \). There are also closed half spaces \( H_{3} = H_{1} \cup H =
+  = {x, ax < b} \). There are also \textbf{closed half spaces} \( H_{3} = H_{1}
+  \cup H =
   \{x, ax \ge  b\}  \) and \( H_{4} = H_{2} \cup  H = \{x, ax \le  b\}   \). The
-  vector \( a^{T} \) is the \textbf{normal} of \( H \).
+  vector \( a^{T} \) is a \textbf{normal} of \( H \).
 
   Let \( S \subseteq \mathbb{R}^{n} \) and \( x_{0} \in S \). Then, a hyperplane
   \( H = \{x, ax = \alpha\}   \) is a \textbf{supporting hyperplane} of \( S \)
@@ -137,27 +204,32 @@ Now, we will have some names for these sets.
 Before going on proving the important hyperplane theorems, we start with a
 simple lemma.
 
-\begin{theorem}
-  Let \( S \) be a nonempty closed set in \( \mathbb{R}^{n} \). Then for every
-  \( x_{0} \in S^{c} \), there exists some \( x_{1} \in S \) such that \(
-  d(x_{0}, x_{1}) \le d(x_{0}, x), \forall x \in S \).
-\end{theorem}
+\begin{lemma}
+\label{lem:Existence of closest element}
+  Let \( S \) be a nonempty, closed set in \( \mathbb{R}^{n} \).
+  Then for every \( x_{0} \in S^{c} \), there exists some \( x_{1} \in S \)
+  such that \( d(x_{0}, x_{1}) \le d(x_{0}, x), \forall x \in S \).
+\end{lemma}
 
 \begin{proof}
   Note that this is basically a minimization problem: \( \min f(x) = d(x_{0}, x), x \in
   S\), then we can use the theorems in the last chapter to prove that a GOS
   exist. We will use Theorem \ref{thr:coercive condition}, which requires \(
-  f(x) \) to be (lower semi-)continuous and \( \lim_{x \to \infty} f(x) = +\infty \), which are both trivial to prove.
+  f(x) \) to be (lower semi-)continuous and \( \lim_{x \to \infty} f(x) =
+  +\infty \), which are both basic properties of the Euclidean norm.
 \end{proof}
 
 \begin{theorem}[Hyperplane Separation Theorem (Closed set-point variant)]
 \label{thr:hst-closed-pt}
-  Let \( S \) be a nonempty, convex, closed set. Then for every \( x_{0} \in S^{c}
-  \), there exists some hyperplane separating \( S \) and \( \{x_{0}\}   \).
+  Let \( S \) be a nonempty, convex set and denote \( S' \) be its relative
+  closure: \( S' = \operatorname{relclo} S = S \cup \operatorname{relbnd} S \).
+  Then for every \( x_{0} \in S'^{c} \),
+  there exists some hyperplane separating \( S' \) (and therefore \( S \))
+  and \( \{x_{0}\}   \).
 \end{theorem}
 
 \begin{proof}
-  Let \( x_{1} \) be the closest point on \( S \) to \( x_{0} \), denote \( d =
+  Let \( x_{1} \) be the closest point on \( \overline{S} \) to \( x_{0} \), denote \( d =
   (x_{1}-x_{0})^{T}\).
 
   Then, we will prove that the hyperplane \( H = \{x, dx = dx_{1}\}   \) is a
@@ -206,13 +278,13 @@ simple lemma.
   \( x \).
 
   If \( x \in S^{c} \), then there exists a supporting hyperplane separating \(
-  S\) and \( \{x\}   \), which means that \( x \) could not be in the close
+  S\) and \( \{x\}   \), which means that \( x \) could not be in the closed
   half-space that \( S \) is in.
 \end{proof}
 
 
 \begin{theorem}[Supporting Hyperplane Theorem]
-  \label{thr:sht-boundary}
+  \label{thr:Supporting Hyperplane Theorem}
   Let \( S \) be a nonempty convex set and a point \( x_{0} \in \partial S \).
   Then, there exists a supporting hyperplane of \( S \) at \( x_{0} \).
 \end{theorem}
@@ -246,7 +318,7 @@ simple lemma.
 
 \begin{proof}
   If \( x \in \partial S \), the supporting hyperplane exists due to Theorem
-  \ref{thr:sht-boundary}.
+  \ref{thr:Supporting Hyperplane Theorem}.
 
   If \( x \in \overline{S}^{c} \), then if \(\overline{S} \) is a convex set,
   there exists a supporting hyperplane of \( \overline{S} \) at \( x \), which
@@ -343,25 +415,97 @@ Finally, we can prove the \textbf{Hyperplane separation theorem}.
   \).
 \end{definition}
 
-Now, we will prove a very important result of extreme points and its compact
-convex set: the \textbf{Krein-Milman Theorem}. But before proving the whole
-theorem, we will look at a lemma about \textbf{faces}.
+Before going on proving the  \textbf{Krein-Milman Theorem}, we will look at
+\textbf{faces}.
+
+\begin{definition}
+  Let \( S \) be a nonempty closed convex set. Then nonempty \( F \subseteq S \)
+  is a \textbf{face} iff
+  \( \exists x \in F \) is a \textit{strict convex combination} of
+  finite \( A \subseteq S \), then \( A \subseteq F \).
+\end{definition}
+
+\begin{theorem}
+  If \( F \) is a face of \( S \), then
+  \begin{itemize}
+    \item Any face \( F' \) of \( F \) is a face of \( S \).
+    \item \( F \) is a closed convex set.
+  \end{itemize}
+\end{theorem}
+
+\begin{proof}
+  \begin{itemize}
+    \item Let \( A \subseteq S \) be a finite set such that \( x =
+      \mathcal{C}(A, \lambda) \in S \), then \( A \subseteq F \) because of the
+      definition of faces. Using the definition once more for \( F' \), we have
+      \( A \subseteq F' \), which means \( F' \) is a face of \( S \).
+    \item Pick \( x \in F \) (if \( F = \varnothing \) then \( F \) is easily
+      closed). Let \( L \) be the linear space corresponding to \(
+      \operatorname{relclo} F = F \cup \operatorname{relbnd} F \), the relative
+      closure of \( F \), since \( x, y \in F \) we have \( y - x \in F \).
+      Then, one can pick \( z = x + \lambda(x - y) \) for some \( \lambda \ge 0
+      \) such that \( z \in B(x, \varepsilon) \subseteq \operatorname{relint } F
+      \), which means \( x \) is now a strict convex combination of \( y \) and
+      \( z \). Since \( F \) is a face, \( y, z \in F \). Hence, \(
+      \operatorname{relclo} F = F \), which means that \( F \) is closed.
+
+      To make the proof more rigorous, we need to prove \( \operatorname{relclo}
+      F \subseteq S\), which comes from \( S \) being a closed convex set. This
+      is a rather trivial result, coming from the fact that the closure of a set
+      \( F \) is the minimal closed set containing \( F \).
+  \end{itemize}
+\end{proof}
+
+
+\begin{theorem}[Krein-Milman Theorem (Existence)]
+  Let \( S \) be a nonempty, compact and convex set. Then, \( S \) has at least
+  one extreme point.
+\end{theorem}
+
+\begin{proof}
+
+  First, consider the following stronger variant of Theorem \ref{thr:Supporting
+  Hyperplane Theorem}.
+
+  \begin{lemma}[Supporting Hyperplane Theorem (Stronger variant)]
+  \label{lem:Supporting Hyperplane Theorem (Stronger variant)}
+
+  Let \( C \subseteq \mathbb{R}^{n} \) and \( x_{0} \in \operatorname{relbnd} C \).
+  Then, there exists hyperplane \( H = \{x, ax = \alpha\}   \) that supports \(
+  C\) at \( x_{0} \) such that \( \exists y \in C, ay \neq  \alpha \).
+  \end{lemma}
+
+  Theorem \ref{thr:Supporting Hyperplane Theorem} showed that without the last
+  condition, \( H \) always exist. This last condition is the only difference
+  between the basic theorem and this stronger variant.
+
+  \begin{proof}[Proof of lemma]
+    Let \( A \) be the affine hull of \( S \). Then, since \( x_{0} \in
+    \operatorname{relbnd} C \), \( B(x_{0}, \varepsilon_{n}) \cap A  \) must
+    intersect \( C^{c} \) at some \( x_{n} \). Then, construct the separating
+    hyperplane \( H_{n} \) of \( C \) and \( x_{0} \).
+  \end{proof}
+  
+
+Consider \( x \in S \). Then either
+
+\begin{itemize}
+\item \( x \in \operatorname{relbnd} S \), then there exist 
+\end{itemize}
+
+First, we prove the following lemma.
 
 \begin{lemma}
-  Let \( S \) be convex compact set on \( \mathbb{R}^{n} \). Then a \textbf{face}
-  \( F \)
-  of \( S \) is a subset \( F \subseteq S \) such that if \( z =
-  \operatorname{lerp}(x, y, w) \in F \) for some \( x, y \in S, 0 < w < 1 \),
-  then \( x, y \in F\).
-
+\label{lem:xtreme-pt}
   Let \( c \) be a row vector, then the set \( F_{c}(S) = \operatorname{Argmax}
-  \{cx, x \in S\}     \) is a face.
+  \{cx, x \in S\}     \), is called an \textbf{exposed face} of \( S \). Then,
+  every exposed face is a face.
 
   An extreme point of a face \( F \) of \( S \) is also an extreme point of \( S
   \).
 \end{lemma}
 
-\begin{proof}
+\begin{proof}[Proof of lemma]
   If \( x = \operatorname{lerp}(y,z, w) \in F_{c} \) for some \( y,z \in S \),
   then \( cx = \operatorname{lerp}(cy, cz, w) \le \max \{cy, cz\}   \), which
   means that either \( y \) or \( z \) is a GOS of the problem. WLOG assuming \(
@@ -374,27 +518,34 @@ theorem, we will look at a lemma about \textbf{faces}.
   definition of faces, which leads to a contradiction.
 \end{proof}
 
-\begin{theorem}[Krein-Milman Theorem (Existence)]
-  Let \( S \) be a nonempty, compact and convex set. Then, \( S \) has at least
-  one extreme point.
-\end{theorem}
+Returning to the existence theorem, we will define a partial order on \(
+\mathcal{A} \), the set of all nonempty exposed faces of \( S \).
 
-\begin{proof}
-Denote \( S_{1} = S \). Then for every \( i \), assuming \( S_{i} \) is a
-nonempty face (induction hypothesis). There will be some cases
+If an exposed face \( F \) has one element, then it is the minimal element
+in \( \mathcal{A} \),
+which means that it could not be "greater" than any other exposed faces,
+including other one-element exposed faces.
+
+Otherwise, \( |F| \ge 2 \), we will construct another exposed face that is 
+Returning to the existence theorem, denote
+\( S_{1} = S \). Then for every \( i \), assuming \( S_{i} \) is a
+nonempty face (induction hypothesis) and construct an exposed face \( S_{i+1} \) until we
+have found an extreme point of \( S \):
 \begin{itemize}
   \item If \( |S_{i}| = 1 \) and \( S_{i} = \{ s\}   \), then \( s \) is an
     extreme point of \( S \).
   \item If \( |S_{i}| \ge  2 \), then pick \( x, y \in S_{i}, x \neq y \). Then,
     consider the hyperplane \( H: ax = \alpha \) separating \( x \) and \( y \),
-    i.e. \( ax < \alpha < ay \), which always exist. Then, let \( S_{i+1}
+    i.e. \( ax < \alpha < ay \), which always exists. Then, let \( S_{i+1}
     \coloneqq F_{a}(S_{i}) \subset S_{i} \), which is a nonempty face that is a
     proper subset of \( S_{i} \) (since \( x \notin F_{a} \)).
 \end{itemize}
 
 Consider the family \( \mathcal{A} \) of all nonempty faces of \( S \), with the partial
-order \( \subseteq \). Then, the above procedure will have to halt at some
-point (Zorn's lemma).
+order \( \subseteq \). Then, if there are only a finite amount of exposed
+faces, the above procedure will have to halt at some point (Zorn's lemma).
+
+To prove that a 
 \end{proof}
 
 \begin{theorem}[Krein-Milman Theorem]
@@ -417,6 +568,7 @@ point (Zorn's lemma).
 
 % subsection Extreme points and recession directions (end)
 
+
 \subsection{Convex polyhedra} % (fold)
 \label{sub:Convex polyhedra}
 
@@ -434,17 +586,22 @@ the half-spaces \( H_{i}: A^{i}x \ge  b^{i} \).
 Now, we will prove the following theorem.
 
 \begin{theorem}[Minkowski's Theorem for Polyhedra]
+\label{thr:Minkowski's Theorem for Polyhedra}
   Denote \( \operatorname{conv} V \) as the convex hull of \( V \) and \(
-  \operatorname{cone} R \) as the conic hull of \( R \).
+  \operatorname{cone} R \) as the convex cone generated by \( R \).
 
-  Let \( P \) be a convex polyhedron, then \( P \subseteq \operatorname{conv} E(P) +
+  Let \( P \) be a convex polyhedron, then \( P = \operatorname{conv} E(P) +
   \operatorname{cone} R(P)\), with \( E(P), R(P) \) denoting the set of all
   extreme points and extreme directions of \( P \), respectively.
 \end{theorem}
 
 \begin{proof}
 
-\( P \subseteq \operatorname{conv} E(P) + \operatorname{cone} R(P) \) is equivalent to
+If \( x \in \operatorname{conv} E(P) + \operatorname{cone} R(P) \), then it can
+be easily seen that \( x \in P \).
+
+Then, it suffices to show that \( P \subseteq \operatorname{conv} E(P)
++ \operatorname{cone} R(P) \), which is equivalent to
 the fact that \( \forall x\in P, x = e_{i}\lambda^{i} + r _{j}\mu ^{j} =
 e\lambda + r\mu \), with \( e \) and \( r \) being matrices with columns being
 extreme points and extreme directions of \( P \), respectively. The condition
@@ -504,13 +661,13 @@ Therefore, the proof would be completed if we have proven the theorem for the
 convex cone case:
 
 \begin{theorem}[Minkowski's Theorem for Cones]
-  Let \( C = \{x, Ax \ge  0\}   \) be a polyhedral cone, then \( C \) is
+  Let \( C = \{x, Ax \ge  0\}   \) be a convex polyhedral cone, then \( C \) is
   contained in the conic hull of \( R(C) \), the set of its extreme directions.
 \end{theorem}
 
 \begin{proof}
   First, we prove that the set \( C_{1} = \{ x, \exists \lambda \ge 0, x =
-  R\lambda\}   \) is a polyhedral cone, since one can use the
+  R\lambda\}   \) is a convex polyhedral cone, since one can use the
   \textbf{Fourier-Motzkin elimination algorithm} to turn from \( x = R\lambda,
   \lambda \ge 0 \) to \( Ax \le  0 \), which is the inequality for a polyhedral
   cone.
@@ -584,6 +741,62 @@ R\lambda = R'\lambda' \) with some \( \lambda, \lambda' \ge  0 \).
 
 % subsection Convex polyhedra (end)
 
+Now, we will consider the faces of a convex polyhedron \( P \).
+
+\begin{theorem}
+  Let \( P \) be a convex polyhedron defined by \( P = \{x, Ax \ge  b\}   \).
+  
+  Denote \( m \) as the number of rows in \( A \) (and \( b \)), then for
+  arbitrary \( J \subseteq 1..m \), the set \( F = \{x \in P, A^{J}x = b^{J}\}
+  \) is a face of \( P \).
+\end{theorem}
+
+\begin{proof}
+  Assuming one has \( x \in F \), \( x = \operatorname{lerp}(y, z, \lambda) \)
+  with \( \lambda \in (0, 1), y, z \in P \).
+
+  Then, \( b^{J} = A^{J}x = \operatorname{lerp}(A^{J}y, A^{J}z, \lambda) \ge
+  \operatorname{lerp}(b^{J}, b^{J}, \lambda) \). Equality only holds if \(
+  A^{J}y = A^{J}z = b^{J} \), which means that \( y, z \in F \).
+\end{proof}
+
+This result may pose a question: \textit{can all faces \( F \) of \( P \) be
+written in the form \( \{x, A^{J}x \ge  b\}  \) for some \( J \)?}
+
+To answer that question, first, we will have to prove the following theorem.
+
+\begin{theorem}
+\label{thr:Faces and exposed faces in convex polyhedra}
+  
+\end{theorem}
+
+The answer is yes, and it is the result of the following theorem.
+
+\begin{theorem}
+\label{thr:Face representation theorem}
+  Let \( F \) be a face of the convex polyhedron \( P = \{x, Ax \ge  b\}   \). Then,
+  there exists a multi-index \( J \) such that \( F = \{x, A^{J}x = b^{J}\}
+  \).
+\end{theorem}
+
+\begin{proof}
+  Before going on proving the theorem, we will 
+  Since \( F \) is a closed convex polyhedron by itself, by
+  Theorem \ref{thr:Minkowski's Theorem for Polyhedra}, \( F =
+  \operatorname{conv} E + \operatorname{cone} R \),
+  with \( E \) and \( R \) denoting the set of all
+  extreme points and extreme directions of \( F \), respectively.
+
+  Assuming that \( F \subseteq F(J) = \{ x \in P, A^{J}x = b^{J}\}   \), then if
+  \( i \in J \), we have \( A^{i}x = b^{i} \), which is equivalent to \( A^{i}e
+  = b^{i}, \forall e \in E\) and \( Ad = 0, \forall d \in R \). Let \( J \) be
+  the set of such indices \( i \), then the theorem is equivalent to proving \(
+  F = F(J)\).
+
+  Note that \( F \subseteq F(J) \) due to Theorem \ref{thr:Minkowski's Theorem
+  for Polyhedra}, we just need to prove that \( \nexists x \in F(J) \setminus
+  F\). Assuming such \( x \) exists, then
+\end{proof}
 % section Convex polyhedra (end)
 
 \section{Existence and properties of solutions of linear programs} % (fold)
@@ -596,6 +809,8 @@ every (S)LOS of the linear program is a (S)GOS.
 
 The set \( D \) is already closed (why?) and \( f(x) \) is continuous, and hence
 the problem will have a GOS if \( D \) is bounded.
+
+
 % section Existence and properties of solutions of linear programs (end)
 
 % chapter Linear programming (end)

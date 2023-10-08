@@ -1,3 +1,4 @@
+%! TEX root = intro-optimization/main.tex
 \chapter{Notations} % (fold)
 \label{chap:Notations}
 
@@ -109,6 +110,7 @@ Using the result of this theorem, one can prove the following theorem, which is
 very powerful in manipulating matrix identities:
 
 \begin{theorem}
+\label{thr:row-col-xtract}
   Let \( A_{1}, A_{2}, A_{3}, \ldots A_{n} \) be arbitrary matrices such that
   the product \( A_{1}A_{2}\ldots A_{n}  \) makes sense. Then, one has the
   following identities:
@@ -152,5 +154,59 @@ extraction of a product of matrices is that same product, with the first term
 replaced with its row extraction.
 
 % section Einstein summation convention (end)
+
+\section{Multi-index notation} % (fold)
+\label{sec:Multi-index notation}
+
+Consider \( I = (I_{1}, I_{2}, \ldots , I_{n}) \) be a \( n \)-tuple of
+indices, then one can expand the row and column extracting operations as
+follows:
+
+\begin{align*}
+  A^{I} &= \begin{bmatrix} A^{I_{1}} \\ A^{I_{2}} \\ \ldots \\ A^{I_{n}}
+  \end{bmatrix} \\
+  A_{I} &= \begin{bmatrix} A_{I_{1}} & A_{I_{2}} & \ldots & A_{I_{n}} \end{bmatrix} 
+.\end{align*}
+
+Such tuple \( I \) is then called a \textbf{multi-index}. A set \( I' \)
+(unordered) of indices can also act as a multi-index, by first converting it to
+a tuple \( I'' \) containing all \( i \in I' \), with ascending order.
+
+Then, one can trivially verify that Theorem \ref{thr:row-col-xtract} holds true
+for multi-indices.
+
+\begin{theorem}
+  Let \( A_{1}, A_{2}, A_{3}, \ldots A_{n} \) be arbitrary matrices such that
+  the product \( A_{1}A_{2}\ldots A_{n}  \) makes sense. Then, one has the
+  following identities:
+
+  \begin{itemize}
+    \item \( (A_{1}A_{2}\ldots A_{n})^{I} = A_{1}^{I}A_{2}\ldots A_{n} \)
+    \item \( (A_{1}A_{2}\ldots A_{n})_{J} = A_{1}A_{2}\ldots (A_{n})_{J} \)
+  \end{itemize}, for arbitrarily in-bound multi-indices \( I, J \).
+\end{theorem}
+
+For indices \( i < j \), one can also write \( i .. j \) to denote the
+multi-index \( i .. j = (i, i + 1, \ldots , j) \). By convention, if \( i > j
+\), one let \( i .. j \) be the empty tuple.
+
+Then, \( A = A^{1..n} = A_{1..m} \), with \( m,n  \) being the number of columns
+and rows of \( A \), respectively. These multi-indices are called
+\textbf{trivial multi-indices}.
+
+To conclude, we will prove the following theorem, which will be used extensively
+in manipulating matrix identities.
+
+\begin{theorem}
+  Let \( A \) and \( B \) be matrices and \( I \) be a multi-index.
+
+  If \( I \) can be partitioned into pairwise disjoint sets \( I_{1}, I_{2}, \ldots,
+  I_{n} \). 
+\end{theorem}
+
+
+
+
+% section Multi-index notation (end)
 
 % chapter Notations (end)
