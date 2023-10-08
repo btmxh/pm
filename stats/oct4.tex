@@ -1,0 +1,186 @@
+%! TEX root = stats/main.tex
+\chapter{Probability} % (fold)
+\label{chap:Probability}
+
+\section{Counting problem} % (fold)
+\label{sec:Counting problem}
+
+% section Counting problem (end)
+
+\section{Random trials, outcomes and events} % (fold)
+\label{sec:Random trials, outcomes and events}
+
+% section Random trials, outcomes and events (end)
+
+\section{Definition of probability} % (fold)
+\label{sec:Definition of probability}
+
+% section Definition of probability (end)
+
+\section{Conditional probability} % (fold)
+\label{sec:Conditional probability}
+
+By definition of conditional probability, we have the following theorem.
+
+\begin{theorem}
+  Let \( A_{1}, A_{2}, \ldots , A_{n} \) be events of a random trial. Then, the
+  probability of all events \( A_{i} \) happens could be calculated as the
+  product of many conditional probabilities as follows:
+  \[
+    P(A_{1}A_{2}\ldots A_{n}) = P(A_{1})P(A_{2} | A_{1})P(A_{3} | A_{1}A_{2})
+    \ldots  P(A_{n} | A_{1}A_{2}\ldots A_{n-1})
+  .\] 
+\end{theorem}
+
+Using conditional probability, one can define \textbf{independence} between
+events as follows.
+
+\begin{definition}[Independence between events]
+\label{def:Independence between events}
+Let \( A, B \) be events. Then, if \( P(A | B) = P(A) \), i.e. whether \( B \)
+happens or not does not change the odds of \( A \) happening, we says that the
+two events \( A \) and \( B \) are \textbf{independent} of each other.
+\end{definition}
+
+By the definition of conditional probabilities, we see that the independence
+relationship is an equivalence relation, i.e. if \( A \) and \( B \) are
+independent then \( B \) and \( A \) are independent.
+
+Equivalently, \( A \) and \( B \) are independent iff \( P(AB)=P(A)P(B) \).
+
+\begin{theorem}
+\label{thr:Independence between negations}
+  Events \( A \) and \( B \) are independent iff either
+  \begin{enumerate}
+  \item \( \overline{A} \) and \( \overline{B} \) are independent.
+  \item \( A \) and \( \overline{B} \) are independent.
+  \item \( A \) and \( \overline{B} \) are independent.
+  \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+  \begin{align*}
+    P(A|B) = P(A) &\iff 1 - P(\overline{A}|B) = 1 - P(\overline{A})\\
+                  &\iff P(\overline{A}|B) = P(\overline{A}) &\text{(1)}\\
+                  &\iff P(B|\overline{A}) = P(B)\\
+                  &\iff 1 - P(\overline{B}|\overline{A}) = P(\overline{B})\\
+                  &\iff P(\overline{B}|\overline{A}) = P(\overline{B})
+                  &\text{(3)}\\
+                  &\iff P(\overline{A}|\overline{B}) = P(\overline{A})\\
+                  &\iff 1 - P(A|\overline{B}) = 1 - P(A)\\
+                  &\iff P(A|\overline{B}) = P(A). &\text{(2)}
+  \end{align*}
+\end{proof}
+
+We can generalize the notion of independence to more than \( 2 \) events.
+
+\begin{definition}
+\label{def:Independence of multiple events}
+  Events \( A_{1}, A_{2}, \ldots , A_{n} \) are independent iff
+  \[
+    P\left(\prod_{i \in I} A_{i} \right) = \prod_{i \in I} P(A_{i})
+  .\], for all \( I \subseteq 1..n \).
+  
+  Equivalently, the class \( \mathcal{A} \) of events is an independent class of
+  events iff the probability of the event product of a subset \( S \) of \(
+  \mathcal{A} \) is the product of the probability of every event in \( S \),
+  i.e. every subset of \( \mathcal{A} \) is another independent class of events.
+\end{definition}
+
+\textbf{Remark.} An independent class of events is pairwise independent. But a
+pairwise independent class of events is not necessarily independent.
+
+% section Conditional probability (end)
+
+\section{Bayes' rule} % (fold)
+\label{sec:Bayes' rule}
+
+\begin{theorem}[Complete probability formula]
+\label{thr:Complete probability formula}
+  
+Let \( \mathbb{H}  \) be a complete group of events and \( A \) be an arbitrary
+event. Then,
+\[
+  P(A) = \sum_{H \in \mathbb{H}} P(H)P(A|H)
+.\] 
+\end{theorem}
+
+\begin{proof}
+  \begin{align*}
+    \sum_{H \in \mathbb{H}} P(H)P(A|H) &= \sum_{H \in \mathbb{H}} P(A)P(H | A)\\
+                                       &= P(A) \sum_{H \in \mathbb{H}} P(H|A)\\
+                                       &= P(A) P(\Omega A)\\
+                                       &= P(A)
+  .\end{align*}
+\end{proof}
+
+\begin{theorem}[Bayes' Rule]
+\label{thr:Bayes' Rule}
+  Let \( \mathbb{H} \) be a complete group of events and \( A \) be an arbitrary
+  event. Then, for every \( H \in \mathbb{H} \)
+  \[ P(H | A) = \frac{P(H)P(A | H)}{P(A)}.\]
+\end{theorem}
+
+\begin{proof}
+  Trivial via the definition of conditional probability.
+\end{proof}
+
+% section Bayes' rule (end)
+
+\section{Bernoulli trials and related distributions} % (fold)
+\label{sec:Bernoulli trials and related distributions}
+
+\begin{definition}
+\label{def:Independent trials}
+  Random trials \( R_{1}, R_{2}, \ldots, R_{n}  \) are \textbf{independent} if the
+  probability of an event \( E \) in \( R_{i} \) does not rely on whether \(
+  E\) happens or not in other trials \( R_{j}, j \neq i \).
+\end{definition}
+
+For example, roll a dice \( 3 \) times, yielding \( 3 \) random trials \( R_{1},
+R_{2}, R_{3}\). Then, assuming fairness, the event \( E: \text{"The dice yields
+2 dots"} \) happening or not in dice \( 1 \) will not interfere with the odds of
+it happening in other dices.
+
+\begin{definition}[Bernoulli trials]
+\label{def:Bernoulli trials}
+  A Bernoulli trial is a random trial with only two outcomes.
+\end{definition}
+
+For every random trial with an event \( A \), there is a corresponding Bernoulli
+trial with two outcomes: \( A \) happens and \( \overline{A} \) happens. That
+Bernoulli trial is called the \textbf{Bernoulli trial wrt event \( A \)}.
+
+\begin{definition}[Sequence of Bernoulli trials]
+\label{def:Sequence of Bernoulli trials}
+  A sequence of \( n \) trials is a \textbf{sequence of \( n \) Bernoulli trials
+  wrt event \( A \)} iff
+  \begin{itemize}
+  \item The trials are independent.
+  \item In every trial, we only care about whether \( A \) or \(
+    \overline{A} \) happened.
+  \item The probabilities of \( A \) happening in all trials are the same.
+  \end{itemize}
+\end{definition}
+
+\begin{theorem}[Binomial Distribution Theorem]
+\label{thr:Binomial Distribution Theorem}
+Consider the Bernoulli trial with \( n \) trials relative to event \( A \).
+Let \( p = P(A) \) be the probability of event \( A \) in all trials and \( q =
+1 - p = P(\overline{A})\), the probability of the event \( \overline{A} \) in
+all trials.
+Then, the probability of \( A \) happening \( k \) times can be calculated as
+\[
+  P_{n}(k; p) = C_{n}^{k}p^{k}q^{n-k}
+.\]
+
+Using the above formula, one can calculated the probability of \( A \) happening
+from \( k_{1} \) to \( k_{2} \) times as
+\[
+  P(k_{1} \le k \le  k_{2}; p) = \sum_{k = k_{1}}^{k_{2}} P(k; p)
+.\] 
+\end{theorem}
+
+% section Bernoulli trials and related distributions (end)
+
+% chapter Probability (end)
