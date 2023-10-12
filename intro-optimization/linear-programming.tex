@@ -1,7 +1,6 @@
 %! TEX root = intro-optimization/main.tex
 \chapter{Linear programming} % (fold)
 \label{sec:Linear programming}
-\includegraphics[scale=0.5]{figures/1696778670}
 \section{General, standard form and augmented form linear programs} % (fold)
 \label{sec:General, standard form and augmented form linear programs}
 
@@ -126,8 +125,14 @@ Consider the \( \mathbb{R}^3  \) space. The disk \( D = \{(x, y, 0), x^2+y^2\le
 \{0\}   \). The latter is the affine hull of \( D \), therefore we say that \( D
 \) is relatively open.
 
+It is trivial to see that relatively open/closed implies
+open/closed, and the converse is not generally true. However, for closed
+sets, this theorem holds.
+
 \begin{theorem}
+\label{thr:Relatively closed implies closed}
   If a set \( D \) is relatively closed, then \( D \) is closed.
+  Hence, relatively closed and closed is the same thing.
 \end{theorem}
 
 For example, consider a hyperplane in higher dimensions. The hyperplane is
@@ -222,15 +227,18 @@ simple lemma.
 \begin{theorem}[Hyperplane Separation Theorem (Closed set-point variant)]
 \label{thr:hst-closed-pt}
   Let \( S \) be a nonempty, convex set and denote \( S' \) be its relative
-  closure: \( S' = \operatorname{relclo} S = S \cup \operatorname{relbnd} S \).
+  closure: \( S' = \operatorname{relclo} S = S \cup \operatorname{relbd} S \).
   Then for every \( x_{0} \in S'^{c} \),
   there exists some hyperplane separating \( S' \) (and therefore \( S \))
-  and \( \{x_{0}\}   \).
+  and \( \{x_{0}\}   \). Moreover, we can construct a hyperplane that strictly
+  separates \( S' \) and \( \{x_{0}\}   \).
 \end{theorem}
 
 \begin{proof}
-  Let \( x_{1} \) be the closest point on \( \overline{S} \) to \( x_{0} \), denote \( d =
-  (x_{1}-x_{0})^{T}\).
+  Let \( x_{1} \) be the closest point on \( \overline{S} \) to \( x_{0} \),
+  denote \( d = (x_{1}-x_{0})^{T}\).
+
+  \includegraphics[scale=1.5]{figures/1696779691}
 
   Then, we will prove that the hyperplane \( H = \{x, dx = dx_{1}\}   \) is a
   supporting hyperplane of \( S \). If this is true, then it's trivial that \( H
@@ -263,10 +271,16 @@ simple lemma.
   small \( \lambda > 0 \), which means that \( \lambda g(\lambda) < 0 \) and
   therefore \( x(\lambda) \) is closer to \( x_{0} \) than \( x_{1} \), which is
   a contradiction.
+
+  To achieve strict separation, one take \( m = \frac{1}{2}(x_{0} + x_{1}) \),
+  the midpoint of the \( [x_{0}, x_{1}] \) segment and construct a hyperplane \(
+  H' \) parallel to \( H \), i.e. \( H': dx = \frac{1}{2}d(x_{0} + x_{1}) \),
+  then we have \( dx_{0} > dm > dx, \forall  x \in A \), and therefore \( H' \)
+  strictly separates \( S' \) and \( \{ x_{0}\}   \).
 \end{proof}
 
-\textbf{Remark. } The hyperplane constructed above is a supporting hyperplane of
-\( S \) at \( x_{1} \).
+\textbf{Remark. } The hyperplane \( H \) constructed above is a supporting
+  hyperplane of \( S \) at \( x_{1} \).
 
 \begin{corollary}
   A closed convex set \( S \) is the intersection of the closed half-spaces that
@@ -309,6 +323,10 @@ simple lemma.
   H=\{x, d(x-x_{0})\ge 0\}   \) is a supporting hyperplane of \( S \).
 \end{proof}
 
+\textbf{Remark. } This result also holds for all \( x_{0} \in
+\operatorname{relbd} S
+\), since \( \operatorname{relbd} S \subseteq \partial S \).
+
 \begin{corollary}[Hyperplane Separation Theorem (Set-point variant)]
 \label{cor:hst-set-pt}
   Let \( S \) be a nonempty convex set, then for every \( x \in
@@ -326,41 +344,27 @@ simple lemma.
   \ref{thr:hst-closed-pt}.
 
   To conclude, one would need to prove that \( \overline{S} \) is convex, using
-  the following lemma.
-  \begin{lemma}
-    Let \( S \) be a convex set. Then \( \overline{S} \) is also a convex set.
-  \end{lemma}
+  the following argument:
 
-  \begin{proof}[Proof of lemma]
-    Consider \( x \in \overline{S} \). If \( x \in S \), then there is a trivial
-    sequence \( x_{n} = x \) that converges to \( x \). Otherwise, if \( x \in
-    \partial S \), then every neighborhood \( B(x, \varepsilon_{n}) \) of \( x
-    \) has at least some point in \( S \), which will be denoted as \( x_{n} \).
-    Then, the sequence \( x_{n} \) converges to \( x \) if one let \(
-    \varepsilon_{n} \to  0 \) as \( n \to  \infty \), for example \(
-    \varepsilon_{n} = \frac{1}{n} \). Hence, for every \( x \in \overline{S} \),
-    there is always a sequence \( x_{n} \in S \) that converges to \( x \).
+    \( \overline{S} \) is the set of all \( x \) such that there exists a
+    sequence \( (x_{n})_{n \in \mathbb{N}} \), \( x_{n} \in S, \forall n \in
+    \mathbb{N} \) converges to \( x \).
 
-    Consider a subset \( A \subseteq \overline{S} \), then there exists a
-    sequence of sets \( A_{n} \) that converges to \( A \).
+    Consider a point tuple \( A = (A^{1}, A^{2}, \ldots , A^{m}), A^{i} \in
+    \overline{S}, \forall i \in 1..m \). To prove \( \overline{S}
+    \) is convex, we need to prove that \( x = \mathcal{C}(A, \lambda) \in
+    \overline{S} \), for
+    all \( \lambda \in \mathbb{R}^{m} \) satisfying the convex conditions.
 
-    Then, \( x_{n} = \mathcal{C}(A_{n}, \lambda) \to  \mathcal{C}(A, \lambda) =
+    Let \( (A_{n})_{n \in \mathbb{N}} \) be the sequence that converges to \( A
+    \). Then, \( x_{n} = \mathcal{C}(A_{n}, \lambda) \to  \mathcal{C}(A, \lambda) =
     x\) because of linearity, as \( n \to  \infty \). Note that \( x_{n} \in S
-    \) and we need to prove that \( x \in \overline{S} \), which is the reverse
-    direction of what we've just proven above.
-
-    If \( x \notin \overline{S} \), then there exists a neighborhood \( B(x,
-    \varepsilon) \) of \( x \) that does not intersect \( \overline{S} \).
-    However, that neighborhood must contain infinitely many points in the
-    sequence \( x_{n} \), which is a contradiction.
-
-    Hence, \( x \in \overline{S} \), and therefore \( \overline{S} \) closed
-    under convex combination.
-  \end{proof}
+    \) and therefore \( x \in \overline{S} \).
 \end{proof}
 
 Finally, we can prove the \textbf{Hyperplane separation theorem}.
 \begin{theorem}[Hyperplane Separation Theorem]
+\label{thr:Hyperplane Separation Theorem}
   Let \( A, B \) be nonempty disjoint convex sets, then there exists a
   hyperplane that separates the sets.
 \end{theorem}
@@ -375,7 +379,7 @@ Finally, we can prove the \textbf{Hyperplane separation theorem}.
   \operatorname{lerp}(x_{1}-x_{2},y_{1}-y_{2},\lambda) =
   \operatorname{lerp}(x_{1},y_{1},\lambda) -
   \operatorname{lerp}(x_{2},y_{2},\lambda) \in S_{1}-S_{2} \) due to the fact
-  that \( operatorname{lerp}(x_{i},y_{i}, \lambda) \in S_{i} \).
+  that \( \operatorname{lerp}(x_{i},y_{i}, \lambda) \in S_{i} \).
 
   Then, using Corollary \ref{cor:hst-set-pt}, there is a hyperplane separating
   \( S_{1}-S_{2} \) and \( \{0\}   \). Moreover, there is one such hyperplane
@@ -419,32 +423,161 @@ Before going on proving the  \textbf{Krein-Milman Theorem}, we will look at
 \textbf{faces}.
 
 \begin{definition}
-  Let \( S \) be a nonempty closed convex set. Then nonempty \( F \subseteq S \)
-  is a \textbf{face} iff
+  Let \( S \) be a closed convex set. Then a convex \( F \subseteq S \)
+  is a \textbf{face} iff \( \forall A \subseteq S \),
   \( \exists x \in F \) is a \textit{strict convex combination} of
-  finite \( A \subseteq S \), then \( A \subseteq F \).
+  finite \( A \), then \( A \subseteq F \).
+
+  If \( F \neq S \), then \( F \) is called a \textbf{proper face} of \( S \).
 \end{definition}
 
+By this definition, any closed, convex set \( S \) is its own face.
+Additionally, the empty set \( \varnothing \) is also a face of every closed,
+convex set \( S \). These are called as improper faces. The remaining faces,
+i.e. faces of \( S \) that is not \( \varnothing \) or \( S \), are
+\textbf{proper faces} of \( S \).
+
 \begin{theorem}
-  If \( F \) is a face of \( S \), then
-  \begin{itemize}
-    \item Any face \( F' \) of \( F \) is a face of \( S \).
-    \item \( F \) is a closed convex set.
-  \end{itemize}
+\label{thr:No proper faces with full dimensions}
+  Let \( S \) be a nonempty closed convex set with \( n = \dim S
+  \). Then, if \( F \) is a face with \( n = \dim F \), \( F = S
+  \).
 \end{theorem}
 
 \begin{proof}
+  The idea of the proof goes as follows.
+  Assuming \( F \neq  S \), \( F \) is a face of \( S \) and \(
+  \dim F = \operatorname{dim} S = n \). Then, take \( x \in S
+  \setminus F \) and let \( X \) be a maximum set of affinely independent points
+  in \( F \),
+  then \( n = \dim F = |X| \).
+  If \( X' = X \cup \{x\} \subseteq S   \) is affinely independent, then \( |X'|
+  = |X| + 1 = \dim S = n \). This means that \( n = n + 1 \),
+  which is a contradiction.
+
+  Hence, \( X' \) could not be affinely independent, which means that \( x \) is
+  in the affine hull of \( X \), which will be denoted as \( A \). Note that \(
+  F \subseteq \operatorname{aff} X\), hence \( F \subseteq A \).
+
+  Pick a point \( x' \in \operatorname{ri} F \) (we will prove that \(
+  \operatorname{ri} F \) is nonempty later), then for small enough \( \lambda
+  \), \( x_{0} = \operatorname{lerp}(x', x, \lambda) \) will reside in the open ball \(
+  B_{A}(x', \varepsilon) \subseteq F\). Hence, the segment \( [x', x] \)
+  intersects \( F \) at \( x_{0} \in F \), which means \( x', x \in F \), which
+  contradicts with the face that \( x \in S \setminus F \).
+
+  Finally, we need to prove that \( \operatorname{ri} F \) is nonempty. This
+  follows from the following lemma.
+
+  \begin{lemma}
+  \label{lem:Nonempty convex set has nonempty interior}
+    Every nonempty convex set \( C \) has nonempty interior \( \operatorname{ri}
+    C \neq  \varnothing \)
+  \end{lemma}
+
+  \begin{proof}[Proof of lemma]
+  WLOG, translate \( C \) such that \( 0 \in C \). Then, pick \( n \)
+  affinely independent vectors in \( C \) (this is possible since \( n =
+  \dim S \)), denoted as \( b_{1}, b_{2}, \ldots , b_{n} \). This
+  can be collected into a matrix \( b \), and the representing linear map \(
+  f(x) = bx \) will map \( \mathcal{S} = \operatorname{conv} \{0, \mathbf{e_{1}},
+  \mathbf{e_{2}}, \ldots, \mathbf{e_{n}} \}   \) to \( \operatorname{conv} \{0,
+  b_{1}, b_{2}, \ldots , b_{n}\} \subseteq C   \). This map preserves (relatively)
+  interior points, and the set \( \mathcal{S} \) trivially have a nonempty interior,
+  therefore \( C \) must have at least an interior point.
+  \end{proof}
+\end{proof}
+
+Aside from the nonproper faces, there is also a class of faces that is very
+special.
+
+\begin{theorem}
+\label{thr:Every extreme point forms a face}
+  Let \( S \) be a convex set. Then, for \( x_{0} \in S \) is an extreme point
+  if and only if \( F = \{x_{0}\}   \) is a face of \( S \).
+\end{theorem}
+
+\begin{proof}
+  This trivially follows from the definition of extreme points and faces.
+
+  \( x_{0} \) is an extreme point of \( S \) iff it could not be written as a
+  strictly convex combination of points in \( S \ \{ x_{0} \} = S \setminus F
+  \). Since \( F \) only contains \( x_{0} \), this is equivalent to the fact
+  that \( F \) is a face of \( S \).
+\end{proof}
+
+
+\begin{theorem}
+  If \( F \) is a face of a closed, convex set \( S \), then \( F \) is also
+  closed. Moreover, all faces of \( F \) are faces of \( S \).
+\end{theorem}
+
+\begin{proof}
+  For nonproper faces \( F \), the theorem is trivial. We will only consider
+  proper faces \( F \).
+
+  \centerline{
+    \includegraphics[scale=0.5]{figures/1696828548}
+  }
+
+  Since relatively closed and closed are the same thing, the relative closure of
+  a set is simply its closure. Hence, there is no need to differentiate between
+  the relative closure of \( F \) and \( \overline{F} \). Another important
+  thing to note is that \( \overline{F} \subseteq S \), because of the
+  minimality of closures.
+
+  Using Lemma \ref{lem:Nonempty convex set has nonempty interior}, we have proven
+  that every nonempty convex set has a nonempty interior. Pick \( x \in
+  \operatorname{ri} F \), then for all \( y \in \overline{F}
+  \setminus \{ x\}   \), and consider the ray \( R = \{x + \lambda (y - x),
+  \lambda \ge  0\}   \).
+
+  Consider the intersection \( I \) of the ray with \( \overline{F} \). Since \(
+  \overline{F}\) and \( R \) are closed, \( I \) must be closed and convex, \( I
+  \) is also a closed and convex set.
+
+  Consider the set \( L = \{ \lambda \ge 0, x + \lambda(y - x) \in
+  \overline{F}\}   \). This set is nonempty (\( 0 \in L \)), and therefore has
+  a supremum \( \lambda_{0} = \sup L \ge 0 \). Then, there exists a
+  diffeomorphism between \( L \) and \( I \): \( f(\lambda) = x + \lambda(y - x)
+  \), and therefore \( L \) is convex and closed. Hence, it is trivial to prove
+  that \( L \) contains the segment \( [0, \lambda_{0}] \) and because of the
+  maximality of \( \lambda_{0} \), \( L = [0, \lambda_{0}] \).
+
+  We have two cases.
+  \begin{itemize}
+  \item If \( \lambda_{0} = 0 \), then \( L = \{0\}   \). Then every point \(
+    z_{\lambda}
+    = x + \lambda(y - x) \notin \overline{F}\). For every neighborhood \( B(x,
+    \varepsilon) \)
+    of \( x_{0} \) with relative to \( A = \operatorname{aff} F \), there exists
+    \( z_{\varepsilon} \in B(x, \varepsilon) \) not in \( \overline{F} \) and \(
+    z_{-\varepsilon} \in [x, y] \subseteq \overline{F} \), for arbitrarily small
+    \( \varepsilon > 0 \). Then, \( x \in \operatorname{relbd} F \), which is a
+    contradiction with \( x \in \operatorname{ri} F \).
+  \item If \( s > 0 \), then \( x \) is a strictly convex combination of \( y \)
+    and \( z = x + s(y - x) \). Then, \( y, z \in F \) due to the definition of
+    faces.
+  \end{itemize}
+
+  Hence, \( y \in F \) for every \( y \in \overline{F} \), which means \(
+  \overline{F} \subseteq F \), or \( F = \overline{F} \) is a closed set.
+
+  \iffalse
   \begin{itemize}
     \item Let \( A \subseteq S \) be a finite set such that \( x =
       \mathcal{C}(A, \lambda) \in S \), then \( A \subseteq F \) because of the
       definition of faces. Using the definition once more for \( F' \), we have
       \( A \subseteq F' \), which means \( F' \) is a face of \( S \).
+
+
+    \item 
     \item Pick \( x \in F \) (if \( F = \varnothing \) then \( F \) is easily
-      closed). Let \( L \) be the linear space corresponding to \(
-      \operatorname{relclo} F = F \cup \operatorname{relbnd} F \), the relative
-      closure of \( F \), since \( x, y \in F \) we have \( y - x \in F \).
+      closed). Let \( L \) be the linear space that is parallel to \(
+      \operatorname{relclo} F = F \cup \operatorname{relbd} F \), the relative
+      closure of \( F \), since \( x, y \in F \) we have \( y - x \in L \).
       Then, one can pick \( z = x + \lambda(x - y) \) for some \( \lambda \ge 0
-      \) such that \( z \in B(x, \varepsilon) \subseteq \operatorname{relint } F
+      \) such that \( z \in B(x, \varepsilon) \subseteq \operatorname{^{i} } F
       \), which means \( x \) is now a strict convex combination of \( y \) and
       \( z \). Since \( F \) is a face, \( y, z \in F \). Hence, \(
       \operatorname{relclo} F = F \), which means that \( F \) is closed.
@@ -454,46 +587,145 @@ Before going on proving the  \textbf{Krein-Milman Theorem}, we will look at
       is a rather trivial result, coming from the fact that the closure of a set
       \( F \) is the minimal closed set containing \( F \).
   \end{itemize}
+  \fi
 \end{proof}
 
+\textbf{Remark.} The condition \( F \) convex in the definition of a face is very
+important, without it the above theorem fails to hold.
 
-\begin{theorem}[Krein-Milman Theorem (Existence)]
-  Let \( S \) be a nonempty, compact and convex set. Then, \( S \) has at least
-  one extreme point.
+For example, take \( S = \{(x, y), x^2 + y^2 \le  1\}   \), the closed unit
+circle. This set is convex, closed and bounded. The upper-half circle, denoted
+as \( U = \{(x, y) \in S, x^2 + y^2 = 1, y > 0\}     \) is a "face" of \( S \)
+(if convexity is not needed for faces), but it is not closed. This is due to \(
+\operatorname{ri} F = \varnothing\), breaking down the whole proof above.
+
+Consider a face \( F' \) of a face \( F \) of \( S \). If \( x \in F' \), then
+every strictly convex combination \( x = \mathcal{C}(A, \lambda), A \subseteq
+F\), implies that \( A \subseteq F' \). Moreover, since \( x \in F \), the
+condition \( x = \mathcal{C}(A, \lambda), A \subseteq S \) implies \( A
+\subseteq F \). Hence, for every strictly convex combination \( x =
+\mathcal{C}(A, \lambda), A \subseteq S \), we can deduce that \( A \subseteq F'
+\). In other words, \textbf{faces of faces are also faces of the set}.
+
+Since extreme points form a special class of faces, we also have a corollary of
+this fact: \textbf{extreme points of faces are also extreme points of the set}.
+
+Hence, we have the following theorem.
+
+\begin{theorem}[Faces and extreme points of faces]
+\label{thr:Faces and extreme points of faces}
+  Let \( F \) be a face of a convex set \( S \). Then:
+  \begin{itemize}
+  \item Every face \( F' \) of \( F \) is a face of \( S \).
+  \item Every extreme point \( x_{0} \) of \( F \) is an extreme point of \( S
+    \).
+  \end{itemize}
+\end{theorem}
+
+Now, we will look at a class of faces that will be very important for our
+purposes.
+
+\begin{theorem}[Exposed faces]
+\label{thr:Exposed faces}
+  Let \( C \) be a convex set that lies on one closed half-space of the
+  hyperplane \( H: ax = \alpha \). Then, the intersection of \( C \) and \( H
+  \), \( F = C \cap H = \{x \in C, ax = \alpha\}   \), called an \textbf{exposed
+  face induced by} \( H \), is a face.
 \end{theorem}
 
 \begin{proof}
+  Assuming \( C \subseteq H' = \{x \in \mathbb{R}^{n}, ax \le  \alpha\}   \).
+  Then assuming \( \exists y, z \in C \) such that \( \operatorname{lerp}(y, z,
+  \lambda) \in F \) for some \( \lambda \in (0, 1) \) and \( y \neq  z \).
 
-  First, consider the following stronger variant of Theorem \ref{thr:Supporting
-  Hyperplane Theorem}.
+  Now,
+  \begin{align*}
+    \operatorname{lerp}(y, z, \lambda) \in F &\iff a\operatorname{lerp}(y, z,
+    \lambda)\\
+                                             &\iff \operatorname{lerp}(ay, az,
+                                             \lambda) = \alpha
+  .\end{align*}
+  
+  Since \( y, z \in C \), \( ay, az \le \alpha \). Then, \(
+  \operatorname{lerp}(ay, az, \lambda) \le \alpha \) for some \( \lambda \in (0,
+  1) \). Equality occurs if and only if \( ay = az = \alpha \), which means \(
+  y, z \in F \). Hence, \( F \) is a face.
+\end{proof}
+
+This theorem gives us a way to find a whole class of faces of an arbitrary
+(most optimally compact) convex set in an intuitive sense. Simply move a
+hyperplane along its normal until it hit the set, and then the intersection
+would be a face of the convex set.
+\newpage
+
+\includegraphics[scale=0.5]{figures/1696891724}
+
+Now, if we let \( H \) be a supporting hyperplane of \( S \) at some point
+\( x_{0} \in \operatorname{relbd} S \). Then, \( F = S \cap H \) is an exposed
+face, and furthermore, by Lemma \ref{lem:Supporting Hyperplane Theorem (Stronger
+variant)}, there exists \( y \in S \) such that \( y \notin H \). Then, \( F
+\neq  S \) and therefore \( F \) is a proper face of \( S \).
+
+The other direction, \( x_{0} \in F \) is a proper face of \( S \) implies \(
+x_{0} \in \operatorname{relbd} S \), also holds. Let \( A = \operatorname{aff} S
+\), then assuming there exists \( x_{0} \in \operatorname{ri } S \cap F \). This
+implies that \( B_{A}(x_{0}, \varepsilon) \in S \) for some \( \varepsilon > 0
+\), and in this ball we can pick two points \( y \) and \( z \) such that \( x =
+\frac{1}{2}(y + z) \). In fact, for every \( y \in B_{A}(x_{0}, \varepsilon) \),
+there exists \( z = 2x_{0} - y \) satisfying this property and since \( F \) is a
+face, \( y, z \in F \). Hence, \( B_{A}(x_{0}, \varepsilon) \subseteq F \).
+Note that \( \dim B_{A}(x_{0}, \varepsilon) = n \), and by Theorem
+\ref{thr:No proper faces with full dimensions}, we have a contradiction.
+
+Hence, we have the following lemma.
+
+\begin{lemma}
+\label{lem:Points on relative boundary lies on a proper face}
+  Let \( S \) be a closed, convex set. Then \( x_{0} \in \operatorname{relbd}
+ S \) iff \( x_{0} \) lies on a proper face of \( S \).
+\end{lemma}
+
+Now, we will consider some lemmas that will greatly help us in proving the
+\textbf{Krein-Milman theorem}.
 
   \begin{lemma}[Supporting Hyperplane Theorem (Stronger variant)]
   \label{lem:Supporting Hyperplane Theorem (Stronger variant)}
 
-  Let \( C \subseteq \mathbb{R}^{n} \) and \( x_{0} \in \operatorname{relbnd} C \).
+  Let \( C \subseteq \mathbb{R}^{n} \) and \( x_{0} \in \operatorname{relbd} C \).
   Then, there exists hyperplane \( H = \{x, ax = \alpha\}   \) that supports \(
   C\) at \( x_{0} \) such that \( \exists y \in C, ay \neq  \alpha \).
   \end{lemma}
 
   Theorem \ref{thr:Supporting Hyperplane Theorem} showed that without the last
   condition, \( H \) always exist. This last condition is the only difference
-  between the basic theorem and this stronger variant.
+  between the hyperplanes from the basic theorem and this stronger variant.
+
+  Note that this theorem is no longer true for every \( x_{0} \in \partial C \),
+  for example considering the segment \( [v_{1}, v_{2}] \) in \( \mathbb{R}^2
+  \), its boundary is the whole segment, but one could not construct such a
+  supporting hyperplane from a point \( v \) relatively inside the segment, for
+  example \( v = \frac{1}{2}(v_{1} + v_{2}) \).
 
   \begin{proof}[Proof of lemma]
-    Let \( A \) be the affine hull of \( S \). Then, since \( x_{0} \in
-    \operatorname{relbnd} C \), \( B(x_{0}, \varepsilon_{n}) \cap A  \) must
-    intersect \( C^{c} \) at some \( x_{n} \). Then, construct the separating
-    hyperplane \( H_{n} \) of \( C \) and \( x_{0} \).
+    Let \( A = \operatorname{aff} C, n = \dim_A \). \( n = 0 \) is
+    the trivial case, which we will not get into. Consider \( n \ge  1 \).
+    
+    \includegraphics[scale=0.5]{figures/1696827875}
+
+    Then, in the topological space \( (A, \Sigma') \) generated by \( (A, d) \),
+    using Theorem \ref{thr:Supporting Hyperplane Theorem}, there exists a
+    \( A \)-hyperplane \( H \subseteq A \) that supports \( C \). Then, assuming
+    that \( \forall y \in C, y \in H \), which means \( C \subseteq H \). Since
+    \( H \) is an affine set and the fact that \( A \) is the minimal affine set
+    that contains \( C \), we must have \( A \subseteq H \). Note that \( H
+    \subseteq A \), therefore \( A = H \), which means that \(
+    \dim A = \operatorname{dim} H \), which could not happen.
+
+    Hence, \( \exists y \in C, y \in H \). Construct a \( \mathbb{R}^{n}
+    \)-hyperplane that contains \( H \) and only intersect \( A \) at \( H \),
+    we can see that \( H' \) is the hyperplane that satisfies all of the
+    conditions we need.
   \end{proof}
-  
-
-Consider \( x \in S \). Then either
-
-\begin{itemize}
-\item \( x \in \operatorname{relbnd} S \), then there exist 
-\end{itemize}
-
-First, we prove the following lemma.
 
 \begin{lemma}
 \label{lem:xtreme-pt}
@@ -541,29 +773,38 @@ have found an extreme point of \( S \):
     proper subset of \( S_{i} \) (since \( x \notin F_{a} \)).
 \end{itemize}
 
-Consider the family \( \mathcal{A} \) of all nonempty faces of \( S \), with the partial
-order \( \subseteq \). Then, if there are only a finite amount of exposed
-faces, the above procedure will have to halt at some point (Zorn's lemma).
-
-To prove that a 
-\end{proof}
-
 \begin{theorem}[Krein-Milman Theorem]
-  Let \( S \) be a nonempty, compact and convex set. Then, \( S \) is the convex
-  hull of \( E(S) \), the set of its extreme points.
+\label{thr:Krein-Milman Theorem}
+  A compact and convex set \( S \) is the convex hull of the set of its extreme
+  points.
 \end{theorem}
 
 \begin{proof}
-  Using the previous theorem, one can see that \( E(S) \) is nonempty.
-  Let \( T \) be the convex hull of \( E(S) \), then one can trivially
-  see that \( T \subseteq S \). Assuming there exists \( x \in T \setminus S \),
-  then by the Hyperplane Separation Theorem, there is a row vector \( a \) such
-  that \( \sup aT < ax \).
+  We will use induction on \( n = \dim S \). This is easy to
+  verify for \( n = -\infty \) (\( S = \varnothing \)) and \( n = 0 \) (\( S =
+  \{x_{0}\}   \)).
 
-  Consider the face \( F_{a} = \operatorname{Argmax} \{ ax, x \in S \}   \),
-  then \( T \cap  F_{a} = \varnothing \). Then, the face \( F_{a} \) would have
-  an extreme point \( e' \), which means that \( e'  \notin E(S)\), which is a
-  contradiction.
+  For \( x \in S \), we have two cases:
+
+  \begin{itemize}
+  \item If \( x \in \operatorname{relbd} S \), then \( x \) lies on some proper
+    face \( F \) of \( S \) with \( \dim F < \operatorname{dim} S
+    = n\). Since \( F \) is also compact due to Theorem \ref{thr:Faces and
+    extreme points of faces}, \( x \) is a convex combination of the
+    extreme points of \( F \), which are also extreme points of \( S \).
+
+  \item If \( x \in \operatorname{ri} S \), consider a line \( L \) passing
+    through \( x \) that is contained in \( \operatorname{aff} S \). This line
+    intersect \( S \) at some set \( S' \), which is a nonempty (\( x \in S'
+    \)), convex (since \( S \) is convex), one-dimensional (since a line is
+    one-dimensional). Intuitively (or rigorously using infimums and supremums),
+    we can deduce that \( S' \) is a line segment, with the endpoints of \( S'
+    \), \( y \) and \( z \) must reside on \( \operatorname{relbd} S \). Then,
+    \( y \) and \( z \) are convex combinations of extreme points of \( S \),
+    and since \( x \in [y, z] \), \( x \) is a convex combination of \( y \) and
+    \( z \), we can see that \( x \), in fact, is a convex combination of the
+    extreme points of \( S \).
+  \end{itemize}
 \end{proof}
 
 % subsection Extreme points and recession directions (end)
@@ -583,108 +824,341 @@ Then, one can write \( P \) as \( P = \{x, Ax \ge  b\}   \) for some matrix \( A
 \) and row vector \( b \), with the closed half-spaces defining \( P \) being
 the half-spaces \( H_{i}: A^{i}x \ge  b^{i} \).
 
-Now, we will prove the following theorem.
+\subsubsection{Extreme points and extreme directions of convex polyhedra} % (fold)
+\label{sec:Extreme points and extreme directions of convex polyhedra}
 
-\begin{theorem}[Minkowski's Theorem for Polyhedra]
-\label{thr:Minkowski's Theorem for Polyhedra}
-  Denote \( \operatorname{conv} V \) as the convex hull of \( V \) and \(
-  \operatorname{cone} R \) as the convex cone generated by \( R \).
-
-  Let \( P \) be a convex polyhedron, then \( P = \operatorname{conv} E(P) +
-  \operatorname{cone} R(P)\), with \( E(P), R(P) \) denoting the set of all
-  extreme points and extreme directions of \( P \), respectively.
-\end{theorem}
-
-\begin{proof}
-
-If \( x \in \operatorname{conv} E(P) + \operatorname{cone} R(P) \), then it can
-be easily seen that \( x \in P \).
-
-Then, it suffices to show that \( P \subseteq \operatorname{conv} E(P)
-+ \operatorname{cone} R(P) \), which is equivalent to
-the fact that \( \forall x\in P, x = e_{i}\lambda^{i} + r _{j}\mu ^{j} =
-e\lambda + r\mu \), with \( e \) and \( r \) being matrices with columns being
-extreme points and extreme directions of \( P \), respectively. The condition
-for the vectors \( \mu  \) and \( \lambda \) are \( \mu  \ge 0 \) and \(
-\sum_{i} \lambda_{i} = 1 \)
-
-Now, let
-\begin{align*}
-  x' &= \begin{bmatrix} x \\ 1 \end{bmatrix} \\
-  A' &= \begin{bmatrix} A & -b \end{bmatrix} 
-.\end{align*},
-then \( Ax \ge b \) only if \( A'x' \ge  0 \).
-
-Consider the convex cone \( C = \{x', A'x' \ge  0\}   \). If one can
-prove the theorem for \( C \), which has no non-zero extreme points, then \(
-\forall x' \in C, x' = r'\mu' \).
-
-Observes that there are two types of extreme direction in \( D \), one with the
-\( (n+1) \)-th component being \( 0 \) and one with that component being a
-positive value, which could be normalized to \( 1 \) without loss of generality. Then, split \( r' \) according to this categorization, \( v \) is the matrix
-that contains all extreme directions of the first type and \( u \) containing
-extreme directions of the second type.
-
-Then, there exists \( \lambda, \nu \ge 0 \) such that \( x' = u\lambda + v\nu \).
-Moreover, \( 1 = x'^{n+1} = u^{n+1}\lambda= \sum_{i} \lambda^{i} \) since \(
-u^{n+1}_{i} = 1 \) for all \( i \), since the extreme directions of the second
-type is already normalized (wrt its last component).
-
-Now, denote \( U = u^{1..n}, V = v^{1..n} \), we have \( x = x'^{1..n} =
-U\lambda+V\nu \). This suggests that \( U \) and \( V \)'s columns are
-extreme points and extreme directions of \( P\), respectively. This can be
-trivially proven as follows
-\begin{align*}
-  0 \le  A'u_{i} = \begin{bmatrix} A & -b \end{bmatrix}  \begin{bmatrix} U_{i}
-\\ 1 \end{bmatrix}  = AU - b
-.\end{align*}
-Hence, \( U \in P \). If \( U \) is a strict convex combination of two other \(
-X_{1}, X_{2} \in P\), then \( u \) is a strict convex combination (wrt the same
-weight) of the two extreme directions of \( C \) \( x_{1}, x_{2} \) given by:
-\begin{align*}
-  x_{i} = \begin{bmatrix} X_{i} \\ 1 \end{bmatrix}, i \in \{1, 2\}  
-.\end{align*}, which is a contradiction to the fact that \( u \) is an extreme
-direction of \( C \).
-\begin{align*}
-  0 \le  A'v_{i} = \begin{bmatrix} A & -b \end{bmatrix} \begin{bmatrix} V_{i} 0
-\end{bmatrix}  = AV_{i}
-.\end{align*}
-
-Hence, \( V_{i} \) is a recession direction of \( P \) due to the fact that \(
-\forall x \in P, t \ge  0, A(x+tV_{i}) = Ax + tAV_{i} = Ax \ge  b \). Using the
-same logic as above, we can prove that \( V_{i} \) is an extreme direction of \(
+Now, we will take a closer look at the extreme points of a convex polyhedron \(
 P\).
 
-\end{proof}
+\begin{definition}[Tight constraints]
+\label{def:Tight constraints}
+Let \( P: Ax \le  b \) be a convex polyhedron and \( x \in P \). Then, the set
+\[
+  \mathbb{I}(x) = \{i \in 1..m, A^{i}x = b^{i}\}  
+.\] is called the \textbf{set of tight constraints indices at \( x \)}
 
-Therefore, the proof would be completed if we have proven the theorem for the
-convex cone case:
+In other words, \( \mathbb{I}(x) \) is the maximal multi-index such that \(
+A^{I}x = b^{I} \).
+\end{definition}
 
-\begin{theorem}[Minkowski's Theorem for Cones]
-  Let \( C = \{x, Ax \ge  0\}   \) be a convex polyhedral cone, then \( C \) is
-  contained in the conic hull of \( R(C) \), the set of its extreme directions.
+We also denote \( \mathbb{I}(F) \) as the intersection of all \( \mathbb{I}(x), x \in F
+\). This will be useful when we look at the tight constraints of faces.
+
+\begin{theorem}
+\label{thr:Extreme point of convex polyhedra and matrix rank}
+  Let \( P: Ax \le  b, x \in \mathbb{R}^{n} \) be a convex polyhedron.
+  Then, \( x \) is an extreme
+  point of \( P \) if \( \operatorname{rank} A^{\mathbb{I}(x)} = n \)
 \end{theorem}
 
 \begin{proof}
-  First, we prove that the set \( C_{1} = \{ x, \exists \lambda \ge 0, x =
-  R\lambda\}   \) is a convex polyhedral cone, since one can use the
-  \textbf{Fourier-Motzkin elimination algorithm} to turn from \( x = R\lambda,
-  \lambda \ge 0 \) to \( Ax \le  0 \), which is the inequality for a polyhedral
-  cone.
+  Denote \( I = \mathbb{I}(x), I^{c} = 1..m \setminus I \).
+  Then we can rewrite the conditions of \( x \) into \( A^{I}x = B^{I} \) and \(
+  A^{I'}x < B^{I'}\).
 
-  Then, we say that \( (A, R) \) is a \textit{double description pair} (DDP) if
+  Now, if \( x \) is a convex combination of \( y \) and \( z \) with weight \(
+  0 < \lambda < 1\), then 
+  \begin{align*}
+    b &= A^{I}x\\
+      &= A^{I} \operatorname{lerp}(y, z, \lambda)\\
+      &= \operatorname{lerp}(A^{I}y, A^{I}z, \lambda)\\
+      &\le \operatorname{lerp}(A^{I}x, A^{I}x, \lambda) = A^{I}x = b
+  .\end{align*}
+
+  Since \( 0 < \lambda < 1 \), equality only happen when \( A^{I}y = A^{I}z =
+  A^{I}x = b \). Hence, if \( \operatorname{rank} A^{I} = n \), the matrix \(
+  A^{I} \) is invertible, thus leading to \( y = z = x =(A^{I})^{-1} b \),
+  therefore \( x \) is an extreme point of \( P \).
+
+  In the other case, \( \operatorname{rank} A < n \), then there exists \( u \)
+  such that \( A^{I}u = 0 \). Consider \( y(\lambda) = x +\lambda u \), then 
+  we need to find \( \lambda_{1} > 0 > \lambda_{2} \) such that \(
+  y(\lambda_{1}), y(\lambda_{2}) \in P \) and since \( x \) is a strictly convex
+  combination of \( y(\lambda_{1}) \) and \( y_{\lambda_{2}} \), \( x \) could
+  not be an extreme point.
+
+  Since \( A^{I}y(\lambda) = b^{I} \), we just need \( A^{I^{c}}y(\lambda) \le
+  b^{I^{c}} \) to make \( y(\lambda) \in P \). This is trivial since the mapping
+  \( f(\lambda) = A^{I^{c}}y(\lambda) \) is linear (and therefore continuous),
+  and \( f(0) = A^{I^{c}} x < b^{I^{c}} \).
+
+  Specifically, any \( \lambda \) satisfying \( |\lambda| < \varepsilon \), with
+  \( \varepsilon > 0 \) defined as
+  \[
+    \varepsilon = \min_{\substack{j \in 1..m\\ A^{j}u \neq 0}} \left\{   \frac{b^{j} - A^{j}x}{|A^{j}u|}
+  \right\}  
+  .\] 
+\end{proof}
+
+\begin{corollary}
+\label{cor:Finiteness of extreme points in convex polyhedra}
+  All convex polyhedra \( P \subseteq \mathbb{R}^{n} \) has finitely many
+  extreme points.
+\end{corollary}
+
+This is due to the fact that every extreme point of \( P \) corresponds to a set
+of tight constraints indices \( \mathbb{I}(x) \), and since there can only be
+finitely many such sets (not mentioning the full rank condition), there could
+be only finitely many extreme points. An important thing to note is that, the
+correspondence between \( x \) and \( \mathbb{I}(x) \) is one-to-one, with \( x
+= \left(  A^{\mathbb{I}(x)} \right)^{-1}b\).
+
+Similarly, we also have these analogous results for extreme directions.
+
+\begin{definition}
+\label{def:Polyhedral cone}
+  A \textbf{polyhedral cone} is a cone that is also a convex polyhedra.
+\end{definition}
+
+\begin{theorem}
+\label{thr:Recession cone of a convex polyhedra is polyhedral}
+  The recession cone of a convex polyhedra \( P: Ax \le  b \) is a polyhedral
+  cone \( C: Ax \le 0 \).
+\end{theorem}
+
+\begin{theorem}
+\label{thr:Extreme directions of convex polyhedra and matrix rank}
+  Let \( P: Ax \le  b, d \in \mathbb{R}^{n} \) be a convex polyhedron.
+  Then, \( d \) is an extreme
+  ray of \( P \) if \( \operatorname{rank} A^{\mathbb{I}(d)} = n - 1 \)
+\end{theorem}
+
+\begin{proof}
+  By the rank-nullity theorem, \( A^{\mathbb{I}(d)} \) has rank \( n - 1 \) is
+  analogous with the fact that the kernel of \( A^{\mathbb{I}(d)} \) is
+  one-dimensional. Then, if \( d \) is a convex conical combination of \( d_{1}
+  \) and \( d_{2} \), then \( d_{1} \) and \( d_{2} \) are both in this kernel,
+  thus making the three vectors \( d_{1} \), \( d_{2} \) and \( d \) lies on the
+  same line, which means that \( d \) is an extreme direction.
+
+  The other direction could also be proven similarly to the proof of Theorem
+  \ref{thr:Extreme point of convex polyhedra and matrix rank}, by considering
+  some vector \(
+  u\) linearly independent from \( d \) such that \( A^{\mathbb{I}(d)} = 0 \)
+  and consider the function \( d(\lambda) = d + \lambda u \).
+\end{proof}
+
+% subsubsection Extreme points and extreme directions of convex polyhedra (end)
+\iffalse
+\subsubsection{Polar and the Minkowski-Weyl's Theorem} % (fold)
+\label{sec:Polar and the Minkowski-Weyl's Theorem}
+
+\begin{definition}[Polar]
+\label{def:Polar}
+  Let \( V \) be a vector space and \( X \subseteq V \). Then,
+  \( X^{\circ} \), called the \textbf{transposed polar} of \( X \), is defined as:
+  \[
+    X^{\ostar} = \{y \in V^{\star}, yx \le 1, \forall x \in X \}  
+  .\], with \( V^{\star} \) denoting the \textbf{dual space} of \( V \).
+
+  If \( V = \mathbb{R}^{n} \) then\footnote{This is an abuse of notation, \(
+  V^{\star} \) is supposed to be a set of linear functionals, not matrices.
+Also, we will abuse the notation even more, by considering the double dual of a
+vector space the same thing as the original vector space (the two spaces are
+naturally isomorphic.)}
+  \( V^{\star} = \mathbb{R}^{1\times n} \) and
+  vice versa, then the \textbf{transpose} operation can be used to convert
+  between \( V \) and \( V^{\star} \). Then,
+  the transpose of \( X^{\ostar} \) is called the \textbf{polar} of \( X \):
+  \[
+    X^{\circ} = (X^{\ostar})^{T} = \{x^{T}, x \in X^{\ostar}\}   
+  .\] 
+\end{definition}
+
+Then, one can see that the polar of a linear space is its orthogonal complement,
+For convex cones, the transposed polar can be redefined to \( X^{\circ} = \{y \in
+\mathcal{L}(X), yx \le  0, x \in X\}   \).
+
+The polar of an arbitrary (Euclidean) set is a closed and convex set.
+since it could be written as intersection of (infinitely many) closed and convex
+half-spaces:
+\[
+  X^{\circ} = \bigcap_{x \in X} \{y \in \mathbb{R}^{n}, y^{T}x \le  1\}  
+.\] 
+
+The polar operation can also be applied twice to a set \( X \), resulting in the
+set \( (X^{\circ})^{\circ} \), which is not necessarily to be \( X \). In
+particular, we have
+\[
+  (X^{\circ})^{\circ} = \overline{\operatorname{conv} (X \cup  \{0\}  )} 
+.\] 
+
+\begin{proof}
+  Denote \( X' = (X^{\circ})^{\circ} \), then it is trivial that \( 0 \in X' \)
+  and \( X \subseteq X' \). Since \( X' \) is closed and convex, the set \( X''
+  = \overline{\operatorname{conv} \{X \cup \{0\}  \}  } \subseteq X' \). Now, we
+  just need to prove equality.
+
+  Take \( y \in X''^{c} \), we will prove \( y \in X'^{c} \), which will be what
+  we needed. This is equivalent to finding \( z \in X^{\circ} \) such that \( yz
+  > 1\). Using Theorem \ref{thr:Hyperplane Separation Theorem}, we find \( H: ax
+  = \alpha\) that separates \( \{y\}   \) and \( X'' \), i.e. \( ay > \alpha
+  \ge ax, \forall x \in X'' \). Since \( 0 \in X'' \), we have \( \alpha \ge  0
+  \).
+
+  If \( \alpha > 0 \), then let \( z = \frac{1}{\alpha} a \), we have \( zx \le 1,
+  \forall x \in X\), which means \( z \in X^{\ostar} \). Then, \( zy > 1 \),
+  which is a contradiction.
+
+  If \( \alpha = 0 \), then let \( \varepsilon = ay > 0 \), then \( z =
+  \frac{2}{\varepsilon}a \) satisfies \( zx \le  1 < 2 = zy, \forall x \in X \),
+  which is another contradiction.
+
+  Hence, \( y \) does not exist, and \( X' = X'' \).
+\end{proof}
+\fi
+
+\subsubsection{Minkowski-Weyl's Theorem} % (fold)
+\label{sec:Minkowski-Weyl's Theorem}
+Minkowski-Weyl's TheoremAn important property of convex polyhedra is the following theorem.
+
+\begin{theorem}[Minkowski-Weyl's Theorem]
+\label{thr:Minkowski-Weyl's Theorem}
+  Denote \( \operatorname{conv} V \) as the \textbf{convex hull} of \( V \), \(
+  \operatorname{cone} R\) as the convex cone generated by \( R \), \( E(P) \)
+  and \( R(P) \) as the set of all extreme points and extreme directions of \( P
+  \), respectively. Then
+  \begin{itemize}
+  \item \textbf{Minkowski's Theorem:}
+  \( P \) is a convex polyhedron then
+  \( P = \operatorname{conv} E(P) + \operatorname{cone} R(P) \),
+  with \( E(P) \) and \( R(P) \) denoting the set of all extreme points and
+  extreme directions of \( P \), respectively.
+\item \textbf{Weyl's Theorem:}
+  If there exists finite sets \( E(P), R(P)  \) such that \( P = \operatorname{conv}
+  E(P) + \operatorname{cone} R(P)\), then \( P \) is a convex polyhedron.
+  \end{itemize}
+\end{theorem}
+
+\begin{proof}
+  To prove this theorem, we will try to reduce this problem to the \( b = 0 \)
+  case. This case would be proven separately in Theorem
+  \ref{thr:Minkowski-Weyl's
+  Theorem for Convex Cones}.
+
+  \begin{itemize}
+  \item \textbf{Minkowski's Theorem}: Let \( P: Ax \le  b, x \in \mathbb{R}^{n}
+    \) Consider the following matrices and
+    vectors:
+\begin{align*}
+  x' &= \begin{bmatrix} x \\ 1 \end{bmatrix} \in \mathbb{R}^{n+1} \\
+  A' &= \begin{bmatrix} A & -b \\ -\mathbf{e_{n+1}}^{T} & 0 \end{bmatrix}
+  \in \mathbb{R}^{(n + 1) \times  (m + 1)}
+\end{align*} (\( \mathbf{e_{n+1}} \) is the \( (n+1) \)-th standard basis
+(column) vector).
+
+Then \( Ax \ge b \) if and only if \( A'x' \ge  0 \).
+
+Hence, we will consider the \( (n+1) \)-dimensional polyhedral cone \( C: A'x'
+\le  0, x' \in \mathbb{R}^{n+1} \). By Theorem \ref{thr:Minkowski-Weyl's Theorem
+for Convex Cones}, \( C = \operatorname{cone} R(C)
+\).
+
+    Now take an arbitrary extreme direction \( d' \) of \( C \)
+    \[
+      d' = \begin{bmatrix} d & z \end{bmatrix} \in \mathbb{R}^{n+1}, \text{ for
+      some } d \in \mathbb{R}^{n}, z \in \mathbb{R}
+    .\] 
+
+    We have \( A'd' \ge  0 \), which is equivalent to \( Ad - bz \le  0 \) and
+    \( z \ge  0 \)
+
+    If \( z = 0 \), then \( Ad \le  b \), which means that \( d \) is an
+    recession direction of \( P \). If \( d = \operatorname{lerp}(d_{1}, d_{2},
+    \lambda) \) for some \( \lambda \in (0, 1) \) and recession direction \(
+    d_{1} \) and \( d_{2} \), we can see that \( d' =
+    \operatorname{lerp}(d_{1}', d_{2}', \lambda) \), with \( d'_{i} =
+        \begin{bmatrix} d_{i} & 0 \end{bmatrix}^{T}  \), which is a
+        contradiction to the fact that \( d' \) is an extreme direction.
+    
+    If \( z > 0 \), then let \( v = \frac{1}{z} d \), then \( Av \le  b \),
+    following a similar logic, we deduce that \( v \) is an extreme point of \(
+    P\).
+
+    Denote \( d_{i}' = \begin{bmatrix} d_{i} & z_{i} \end{bmatrix}  \) as
+    the \( i \)-th extreme direction of \( C \). Let \( I = \{i, z_{i} > 0\}
+    \) and \( I^{c} = \{i, z_{i}  = 0\}   \),
+    then \( x' = \begin{bmatrix} x
+    & 1\end{bmatrix}  \in C =
+    \operatorname{cone} R(C) \) iff there exists \( \lambda \ge 0 \) such that:
+    \begin{align*}
+      x' &= d_{i}'\lambda^{i}\\
+      &= d'_{I}\lambda^{I} + d'_{I^{c}}\lambda^{I^{c}}
+    .\end{align*}
+
+    Separating the first \( n \) coordinates and the \( (n+1) \)-th one, we have
+    \begin{align*}
+      x &= d_{I}\lambda^{I} + d_{I^{c}}\lambda^{I^{c}} \\
+      1 &= z_{I}\lambda^{I}
+    .\end{align*}
+
+    Substituting \( v_{i} = \frac{1}{z_{i}}d_{i} \in E(P) \), we have
+    \begin{align*}
+      x &= v_{I}z_{I}\lambda^{I} + d_{I^{c}}\lambda^{I^{c}}\\
+      1 &= z_{I}\lambda^{I}
+    .\end{align*}
+
+    Finally, denoting \( w_{i} = z_{i}\lambda^{i} \), from the second identity,
+    we have the sum of all components of \( w \) is 1, and therefore, we can
+    write the above
+    expression as \( x = \mathcal{C}(v_{I}, w_{I}) + \mathfrak{C}(d_{I^{c}},
+    \lambda^{I^{c}}) \), we have written \( x \) as the sum of a convex
+    combination of extreme points \( v_{I} \) and a convex conical combination
+    of extreme directions \( d_{I^{c}} \). To prove the other direction, one
+    can simply repeat the above logic, but in reverse.
+
+  \item \textbf{Weyl's Theorem:}
+    Following the intuition of the above proof, we will consider the set
+    \( C = \operatorname{cone} R(C) \), with finite \( R(C) \) given by:
+    \begin{align*}
+      R(C) &= \left\{ \begin{bmatrix} v \\ 1 \end{bmatrix} , v \in E(P) \right\}
+      \cup \left\{ \begin{bmatrix} d \\ 0 \end{bmatrix} , d \in R(P) \right\}  \\
+    .\end{align*}
+    Then, \( C \) is a polyhedral cone with constraints \( A'x' \le  0 \).
+    Assuming
+    \begin{align*}
+      A' = \begin{bmatrix} A & -b \end{bmatrix}, A \in \mathbb{R}^{(n + 1)
+      \times  m}
+    ,\end{align*}we have \( P = \{x \in \mathbb{R}^{n}, Ax \le  b\}   \)
+  \end{itemize}
+\end{proof}
+
+Now, all that's left is to prove Minkowski-Weyl's Theorem for convex cones.
+
+\begin{theorem}[Minkowski-Weyl's Theorem for Convex Cones]
+\label{thr:Minkowski-Weyl's Theorem for Convex Cones}
+  Let \( P \subseteq \mathbb{R}^{n} \), then the following statements are
+  equivalent:
+
+  \begin{enumerate}
+  \item \( P \) is a polyhedral cone, i.e. there exists \( A \in \mathbb{R}^{m
+    \times  n} \) such that \( P = \{x \in \mathbb{R}^{n}, Ax \le  0\}   \)
+  \item \( P \) is a \textit{finitely generated cone}, i.e. there is some matrix
+    \( R \) such that \( P = \{x, x = R\lambda, \lambda \ge  0\}   \)
+  \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+  The "\( (2) \implies (1) \)" direction is trivial. One can apply
+  Fourier-Motzkin elimination to the linear system of inequalities \( x =
+  R\lambda, \lambda \ge 0 \) to eliminate the variables \( \lambda^{1},
+  \lambda^{2}, \ldots , \lambda^{k} \) from the system, leaving a system of
+  inequalities in the form of \( Ax \le 0 \). Note that no constants were
+  generated in the process, hence the \( 0 \) on the RHS.
+
+  Before proceeding, we will introduce a new concept:
+
+  We say that \( (A, R) \) is a \textit{double description pair} (DDP) if
   \( Ax \le  0 \iff \exists \lambda \ge 0, x = R\lambda  \). Then, we will
   proceed to prove that \( (R^{T}, A^{T}) \) is also a DDP.
-
   \begin{align*}
     &R^{T}y \le 0\\
     &\iff \lambda^{T} R^{T} y \ge 0, \forall  \lambda \ge 0\\
-    &\iff (R\lambda)^{T} y \ge 0, \forall  \lambda \ge 0\\
+    &\iff (R\lambda)^{T} y \ge 0, \forall  \lambda \ge 0
   .\end{align*}
-
   Let \( x = R\lambda \), then \( R^{T}y \le 0 \) iff \( x^{T}y \ge 0, \forall
   \lambda \ge 0, x = R\lambda \), or equivalently \( Ax \le  0 \). Then, the
-  last statement is equivalent to \( Ax \le  0 \implies x^{T}y \le  0 \)
+  last statement is equivalent to the statement: \( Ax \le  0 \implies x^{T}y \le  0 \)
 
   To conclude this proof, we need to use \textbf{Farkas' Lemma}.
 
@@ -739,7 +1213,114 @@ to every recession direction \( d \) of \( C \) can be written as \( d =
 R\lambda = R'\lambda' \) with some \( \lambda, \lambda' \ge  0 \).
 \end{proof}
 
-% subsection Convex polyhedra (end)
+% subsubsection Minkowski-Weyl's Theorem (end)
+\subsubsection{Faces of convex polyhedra} % (fold)
+\label{sec:Faces of convex polyhedra}
+
+\begin{theorem}
+\label{thr:Basic properties of faces}
+  A convex polyhedron only has a finite number of faces. Moreover, all of these
+  faces are convex polyhedra.
+\end{theorem}
+
+\begin{proof}
+  First we will prove the theorem for compact polyhedra.
+
+  Let \( F \) be a face of the compact convex polyhedron \( P \). Then, \( E(F)
+  \subseteq E(P) \) and \( F \) is compact. By Theorem \ref{thr:Krein-Milman
+  Theorem}, \( F = \operatorname{conv} E(F) \), and by Theorem
+  \ref{thr:Minkowski-Weyl's Theorem}, \( F \) is a convex polyhedron. Since
+  there are only a finite number of \( E(F) \subseteq E(P) \), there are only
+  a finite number of \( F \).
+
+  Back to the general case??????????
+\end{proof}
+
+Using this seemingly trivial properties of polyhedral faces, we have the
+following theorem.
+
+\begin{theorem}[Face Representation Theorem]
+\label{thr:Face Representation Theorem}
+  Let \( P \subseteq \mathbb{R}^{n} \) be a convex polyhedron and \( F \subseteq
+  P \), then, the following statements are equivalent:
+
+  \begin{enumerate}
+    \item \( F \) is a face of \( P \).
+    \item \( F \) is an exposed face of \( P \).
+    \item There exists multi-index \( I \subseteq 1..m \) such that \( F = \{x
+      \in P, A^{I}x = b^{I}\}   \).
+  \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+  \( (3) \implies (1) \) is trivial.
+
+  To prove \( (1) \implies (2) \), let \( x_{0} \in \operatorname{ri} F \). By
+  Lemma \ref{lem:Points on relative boundary lies on a proper face}, \( x_{0} \in
+  \operatorname{relbd} P \). Let \( H \) be the supporting hyperplane of \( P \)
+  at \( x_{0} \), and denote \( G = P \cap H \).
+
+  Then we can see that \( F \subseteq H \) and therefore \( F \subseteq G \).
+  Let \( G' \) be the minimal exposed face of \( P \) that contains \( F \),
+  induced by the hyperplane \( H: ax = \alpha \). WLOG, assuming \( 
+  P\subseteq H^{-}: ax \le  \alpha \).
+
+  We will prove that \( F = G' \). Assuming that this
+  is not the case, \( F \) is a proper face of \( G' \) and \( x \in
+  \operatorname{relbd} G' \). Therefore, there exists \( H': bx = \beta \),
+  the supporting hyperplane of \( G' \) at \( x \). WLOG, assuming \( G'
+  \subseteq H'^{-}: bx \le \beta \). Furthermore, using Lemma
+  \ref{lem:Supporting Hyperplane Theorem (Stronger variant)}, we can find an \(
+  y \in G'\) such that \( by < \beta \).
+
+  Then, \( \forall x \in G', ax \le \alpha, bx \le \beta \). Consider the set \(
+  X_{\lambda} = \{x \in P, (\lambda a + b)x = \lambda \alpha + \beta\}  \) for
+  some \(  \lambda > 0 \). Then, one can see that \( X_{\lambda} \) is an
+  exposed face of \( G' \), and since \( y \notin X_{\lambda} \), it is a proper
+  face. To arrive at a contradiction, we will prove that \( X_{\lambda} \)
+  contains \( F \) for some \( \lambda > 0 \).
+
+  Rewriting the inequalities of \( X_{\lambda} \), we have \( \lambda(ax
+  -\alpha) + (bx - \beta) \le  0 \). For points \( x \in P \) with \( ax -
+  \alpha < 0
+  \), no matter what \( bx - \beta \) is, the inequality will hold for
+  arbitrarily large \( \lambda \). For \( x \in P \) with \( ax - \alpha =0 \),
+  we see that \( x \in G' \) and therefore \( bx - \beta \le  0 \), and the
+  inequality still holds. Hence, there exists some large \( \lambda > 0 \) such
+  that this inequality holds for every \( x \in P \). In particular, here is a
+  value for \( \lambda \):
+  \[
+    \lambda > \max \left\{ 0, \max_{\substack{x\in E(P)\\ax<\alpha}} -\frac{bx
+    - \beta}{\alpha - ax}, \max_{\substack{d \in R(P)\\ ad < 0}}  \frac{bd}{-ad}\right\}
+  .\] 
+
+  Hence, \( X_{\lambda} \) is an exposed face of \( P \), \( X_{\lambda}
+  \subsetneq G' \). Since \( F \subseteq G' \subseteq H: ax = \alpha \) and k
+
+\end{proof}
+
+
+To conclude, we will take a closer look at the faces of a convex polyhedron \( P
+\).
+
+Combining the two finiteness properties, we arrive at the finiteness of faces.
+
+\begin{corollary}
+\label{cor:Finiteness of faces in convex polyhedra}
+  All convex polyhedra \( P \subseteq \mathbb{R}^{n} \) has finitely many faces.
+\end{corollary}
+
+\begin{proof}
+Every face, which is a convex polyhedron, corresponds\footnote{This is a
+one-to-one correspondence, by Theorem \ref{thr:Minkowski-Weyl's Theorem}, but
+since we have left Weyl's theorem unproven, we could not rely on it. Luckily,
+relying on Minkowski's theorem alone, we could still establish an injection from
+the set of faces to the face's sets of extreme points and extreme directions,
+which is sufficient for our purposes.} to
+a set of extreme points and extreme directions, which are both finite. Hence,
+there could only be finitely many faces for a given convex polyhedron.
+\end{proof}
+
 
 Now, we will consider the faces of a convex polyhedron \( P \).
 
@@ -763,12 +1344,42 @@ Now, we will consider the faces of a convex polyhedron \( P \).
 This result may pose a question: \textit{can all faces \( F \) of \( P \) be
 written in the form \( \{x, A^{J}x \ge  b\}  \) for some \( J \)?}
 
-To answer that question, first, we will have to prove the following theorem.
+To answer that question, first, we will have to prove the following theorems.
+
+\begin{theorem}[Finiteness of faces in convex polyhedra]
+\label{thr:Finiteness of faces in convex polyhedra}
+  A convex polyhedron \( P \) has finitely many extreme points and faces.
+\end{theorem}
+
+\begin{proof}
+  
+\end{proof}
 
 \begin{theorem}
 \label{thr:Faces and exposed faces in convex polyhedra}
-  
+  Every face of a convex polyhedron is an exposed face.
 \end{theorem}
+
+\begin{proof}
+  Let \( F \) be a face of the convex polyhedron \( P \). Then, if assuming \( F
+  \) is a proper face, let \( x \in \operatorname{ri} F \), which is nonempty
+  due to Lemma \ref{lem:Nonempty convex set has nonempty interior}. Then,
+  consider the supporting hyperplane at \( x \), and the exposed face \( F' \)
+  generated by this hyperplane.
+
+  Let \( H: ax = \alpha \) be the supporting hyperplane at \( x \). WLOG
+  assuming \( P \subseteq \{x, ax \le  \alpha\}   \), then since \( x \in
+  \operatorname{ri} F \), we can write \( x \) as a strictly convex combination
+  of an arbitrary \( y \in F \) and some \( z \in F \). Since \( x =
+  \operatorname{lerp}(y, z, \lambda) \) and \( ax = \alpha \ge  ay, az \), we
+  must have \( ay = az = \alpha \), which means that \( F \subseteq H \) and \(
+  F \subseteq F'\).
+
+  Let \( F'' \) be the minimal exposed face that contains \( F \).
+
+
+
+\end{proof}
 
 The answer is yes, and it is the result of the following theorem.
 
@@ -782,7 +1393,7 @@ The answer is yes, and it is the result of the following theorem.
 \begin{proof}
   Before going on proving the theorem, we will 
   Since \( F \) is a closed convex polyhedron by itself, by
-  Theorem \ref{thr:Minkowski's Theorem for Polyhedra}, \( F =
+  Theorem \ref{thr:Minkowski-Weyl's Theorem}, \( F =
   \operatorname{conv} E + \operatorname{cone} R \),
   with \( E \) and \( R \) denoting the set of all
   extreme points and extreme directions of \( F \), respectively.
@@ -793,10 +1404,15 @@ The answer is yes, and it is the result of the following theorem.
   the set of such indices \( i \), then the theorem is equivalent to proving \(
   F = F(J)\).
 
-  Note that \( F \subseteq F(J) \) due to Theorem \ref{thr:Minkowski's Theorem
-  for Polyhedra}, we just need to prove that \( \nexists x \in F(J) \setminus
+  Note that \( F \subseteq F(J) \) due to Theorem \ref{thr:Minkowski-Weyl's
+  Theorem}, we just need to prove that \( \nexists x \in F(J) \setminus
   F\). Assuming such \( x \) exists, then
 \end{proof}
+
+% subsubsection Faces of convex polyhedra (end)
+
+% subsection Convex polyhedra (end)
+
 % section Convex polyhedra (end)
 
 \section{Existence and properties of solutions of linear programs} % (fold)
