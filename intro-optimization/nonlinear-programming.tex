@@ -1,0 +1,940 @@
+\chapter{Unconstrained Nonlinear Programming} % (fold)
+\label{chap:Unconstrained Nonlinear Programming}
+
+\section{A fresher on Multivariable Calculus} % (fold)
+\label{sec:A fresher on Multivariable Calculus}
+
+\subsection{Derivative and related concepts} % (fold)
+\label{sub:Derivative and related concepts}
+
+Here is the definition of the derivative of a single variable function:
+\begin{definition}[Derivative of single variable functions]
+\label{def:Derivative of single variable functions}
+  Let \( f: D \to  \mathbb{R} \), \( D \subseteq \mathbb{R} \). Then, if the
+  limit
+  \[
+    L = \lim_{x \to x_{0}} \frac{f(x) - f(x_{0})}{x - x_{0}} = \lim_{h \to 0}
+    \frac{f(x_{0} + h) - f(x_{0})}{h}
+  \] exists, then \( L \) is called the derivative of \( f \) at \( x_{0} \).
+  Then, we say that \( f \) is differentiable at \( x_{0} \).
+
+  The derivative of a single variable function \( f \) is the function \( f' \)
+  such that \( f'(x_{0}) \) is the derivative of \( f \) at \( x_{0} \), for all
+  \( x_{0} \in D \) that \( f \) is differentiable at.
+\end{definition}
+
+Now, we will try to generalize this concept to multi variable functions, \( f:
+\mathbb{R}^{n} \to  \mathbb{R}^{m} \). The problem here is the fact that when
+one let \( x \) to be a vector, then \( x - x_{0} \) or \( h \) has became a
+vector. and we can't divide by vectors. If one simply replace \( h \) by its
+norm, the definition would no longer be compatible with the single variable
+derivative, since the direction of \( d \) is disregarded in the limit.
+
+An approach to resolving this problem is to consider the following:
+\[
+  L = \lim_{h \to 0} \frac{f(x_{0} + h) - f(x_{0})}{h} \iff \lim_{h \to 0}
+  \left| \frac{f(x_{0} + h) - f(x_{0}) - Lh}{h} \right|  = 0
+.\] 
+
+Here, we can freely replace \( h \) in the denominator by \( \|h\| \), resulting
+in the following definition of the derivative:
+\begin{definition}[Fréchet derivative]
+\label{def:Fréchet derivative}
+  Let \( V \) and \( W \) be normed linear spaces (with norms \( \|\cdot\|_{V} \)
+  and \( \|\cdot\|_{W} \) respectively) and \( f: U \to W \), \( U \subseteq V
+  \). Then for \( x_{0} \in \operatorname{Int} U \), the derivative of \( f \)
+  at \( x_{0} \) is the linear map \( L(x) \) such that:
+  \[
+    \lim_{\|h\|_{W} \to 0} \frac{\|f(x_{0} + h) - f(x_{0}) -
+    L(h)\|_{W}}{\|h\|_{V}}  = 0
+  .\] 
+
+  If such linear map does not exist, then we say \( f \) is not differentiable
+  at \( x_{0} \).
+\end{definition}
+
+Because of the generalized nature of the Fréchet derivative, we will simply call
+it the multivariable derivative or the derivative.
+
+\textbf{Example:} Prove that the derivative of \( x^{T}Ax \) at \( x_{0} \) is
+the \( L(h) = x_{0}^{T}(A+ A^{T})h \) (\( x \in \mathbb{R}^{n}, A \in
+\mathbb{R}^{n\times n} \))
+\begin{proof} 
+  We simply take this limit:
+  \begin{align*}
+    &\lim_{\|h\| \to 0} \frac{|(x_{0}+h)^{T}A(x_{0}+h) - x_{0}^{T}Ax_{0} -
+    (x_{0}^{T}A + x_{0}A^{T})h|}{\|h\|}\\
+    &= \lim_{\|h\| \to 0} \frac{|h^{T}Ah + (x_{0}^{T}Ah + h^{T}Ax_{0}) -
+    (x_{0}^{T}Ah + x_{0}^{T}A^{T}h)|}{\|h\|}   \\
+    &= \lim_{h \to  0} \frac{|h^{T}Ah|}{\|h\|} \\
+  .\end{align*}
+Note that here, \( x_{0}^{T}A^{T}h = \langle x_{0}, A^{T}h \rangle = (A^{T}h)^{T}x_{0} =
+h^{T}Ax_{0} \). It suffices to show that the final limit, which is independent
+of \( x_{0} \), converges to \( 0 \).
+
+We have \( 0 \le  |h^{T}Ah| = |\langle h, Ah \rangle| \le \|h\| \|Ah\| \)
+(Cauchy-Schwarz inequality). Hence, we simply need to prove \( \|Ah\| \to 0 \)
+as \( \|h\| \to 0 \). In fact, we have the following stronger statement:
+
+\begin{lemma}[Every linear map between Euclidean spaces are bounded]
+\label{lem:Every linear map between Euclidean spaces are bounded}
+  Every linear map \( L: \mathbb{R}^{n} \to  \mathbb{R}^{m} \) is bounded, i.e.
+  there exists some \( M \) such that \( \|Lx\| \ge M\|x\| \).
+\end{lemma}
+
+\begin{proof}
+  Let \( A \) be the matrix of the linear map (wrt standard basis), then \( L(x)
+  = Ax\). Let \( X = \max \{|A^{i}_{j}|, i \in 1..m, j \in 1..n\}   \), then, \( (Ax)^{i}
+  = A^{i}x = A^{i}_{j}x^{j} \) and \( |(Ax)^{i}| \le |A^{i}_{j}x^{j}| \le
+  |A^{i}_{j}| |x^{j}| \le nX\|x\| \).
+
+  Then, we have \( \|Ax\| \le m(nX\|x\|) = n^2X \|x\| \) and hence \( \|Ax\| \ge
+  mnX \|x\|\).
+\end{proof}
+
+To finalize our proof of the example, note that since \( \frac{\|Ah\|}{\|h\|} \)
+is bounded, as \( h \to 0 \), \( Ah \to 0 \).
+\end{proof}
+
+Much like the usual derivative, the multivariable derivative have many familiar
+properties. One of them is uniqueness.
+
+\begin{theorem}[Uniqueness of multivariable derivative]
+\label{thr:Uniqueness of multivariable derivative}
+  Let \( f: \mathbb{R}^{n} \to  \mathbb{R}^{m} \) be a function that is
+  differentiable at \( x_{0} \). Moreover, let \( L_{1} \) and \( L_{2} \) be
+  the multivariable derivative of \( f \) at \( x_{0} \). Then, \( L_{1} = L_{2}
+  \).
+\end{theorem}
+\begin{proof}
+  Fix some vector \( d \neq 0 \) and let \( h = t d \). WLOG, assuming \( \|d\|
+  = 1\).
+
+  Since \( L_{1} \) and \( L_{2} \) are both the derivative of \( f \) at \(
+  x_{0} \), we have the following limits:
+  \begin{align*}
+    \lim_{t \to  0} \frac{\|f(x_{0} + t d) - f(x_{0}) - tL_{1}(d) \|}{|t|} &= 0\\
+    \lim_{t \to  0} \frac{\|f(x_{0} + t d) - f(x_{0}) - tL_{2}(d) \|}{|t|} &= 0\\
+  .\end{align*}
+
+  Then, using the squeeze theorem for:
+  \begin{gather*}
+    0 \le \|L_{1}(d) - L_{2}(d)\| = \frac{\left\| (f(x_{0}+t d) -
+    f(x_{0})-tL_{1}(d)) - (f(x_{0} + t d) - f(x_{0}) - tL_{2}(d) \right\|
+  }{|t|}\\
+  \le 
+    \frac{\|f(x_{0} + t d) - f(x_{0}) - tL_{1}(d) \|}{|t|} +
+    \frac{\|f(x_{0} + t d) - f(x_{0}) - tL_{2}(d) \|}{|t|} \to  0
+  \end{gather*} as \( t \to 0 \), we have \( L_{1}(d) = L_{2}(d) \). Since this
+  is true for all \( d \), we must have \( L_{1} = L_{2} \).
+\end{proof}
+
+Another instrumental property of multivariable derivative is the fact that
+differentiability implies continuity.
+
+\begin{theorem}[Differentiability implies continuity]
+\label{thr:Differentiability implies continuity}
+  If \( f \) is differentiable at \( x_{0} \), then \( f \) is continuous at \(
+  x_{0}\).
+\end{theorem}
+
+\begin{proof}
+  We have \( 0 = \lim_{h \to 0} \|f(x_{0} + h) - f(x_{0}) - L(h)\| \) or
+  equivalently \( 0 = \lim_{h \to 0} (f(x_{0} + h) - f(x_{0}) - L(h)) \). Since
+  \( L(h) \to 0 \) as \( h \to 0 \), we can factor out \( L(h) \) from the limit
+  and we are left with \( \lim_{h\to 0} f(x_{0} + h) = f(x_{0}) \).
+\end{proof}
+
+
+Next, we will look at the multivariable chain rule.
+
+\begin{theorem}[Multivariable chain rule]
+\label{thr:Multivariable chain rule}
+  Let \( f: X \subseteq \mathbb{R}^{n} \to  \mathbb{R}^{k}, g: Y \subseteq
+  \mathbb{R}^{k} \to \mathbb{R}^{m} \) and some \( x_{0} \in \operatorname{Int}
+  X\) such that there exists some neighborhood \( B(x_{0}, \varepsilon)
+  \subseteq X \) that is mapped to a subset of \( Y \) by \( f \) (i.e. \(
+  f(B(x_{0}, \varepsilon)) \subseteq Y \)).
+
+  Then, denote \( g \circ f \) as the composition of two functions \( g \) and
+  \( f \), i.e. the function \( (g \circ f)(x) = g(f(x)) \), \( Df(x_{0}) \) as
+  the multivariable derivative of \( f \) at \( x_{0} \) (\( Df(x_{0})(h) \) is
+  the value of that linear map for the direction \( h \)), if \( f \) is
+  differentiable at \( x_{0} \) and \( g \) is differentiable at \( f(x_{0}) \),
+  one can calculate the derivative of \( g \circ f \) as:
+  \[
+    D(g \circ f)(x_{0}) = Dg(f(x_{0})) \circ Df(x_{0})
+  .\] 
+\end{theorem}
+
+\begin{proof}
+  Denote \( u = g \circ f \), \( L_{f} = Df(x_{0}) \) and \( L_{g} = Dg(f(x_{0})
+  \). Basically, we want to prove that \( Du(x_{0}) = L_{g} \circ  L_{f} \).
+
+  Back to the definition, we have:
+  \begin{align*}
+    &0 \le  \frac{\|u(x_{0} + h) - u(x_{0}) - L_{g}(L_{f}(h))\|}{\|h\|}\\
+    &\le  \frac{\left\| \left( g(f(x_{0} + h)) - g(f(x_{0})) -
+    L_{g}(f(x_{0} + h) - f(x_{0})\right)  \right\| }{\|h\|} +
+    \frac{\left\| L_{g}\left( f(x_{0} + h) - f(x_{0}) -
+        L_{f}(h)
+    \right)  \right\| }{\|h\|}
+  .\end{align*}
+  We will prove that both of these terms converges to \( 0 \) as \( \|h\| \to 0
+  \).
+
+  The second term trivially converges by the definition of the derivative:
+  \[
+    \lim_{h \to  0} \frac{\|f(x_{0} + h) - f(x_{0}) - L_{f}(h)\|}{\|h\|} = 0
+  .\] 
+
+  For the first term, denote \( x_{1} = f(x_{0}) \) and \( h_{1} = f(x_{0} + h)
+  - f(x_{0})\). Then, the first term can be written in the form:
+  \[
+    \frac{\|g(x_{1} + h_{1}) - g(x_{1}) - L_{g}(h_{1})\|}{\|h_{1}\|} \cdot
+    \frac{\|h_{1}\|}{\|h\|}
+  .\]
+
+  Since \( f \) is differentiable at \( x_{0} \), by Theorem
+  \ref{thr:Differentiability implies continuity}, \( f \) is continuous at \( x_{0}
+  \), and as \( h \to 0 \), \( h_{1} = f(x_{0} + h) - f(x_{0}) \to 0 \).
+
+  Hence, the first factor converges to \( 0 \), by the definition of the
+  derivative. Now, we will prove that \( \frac{\|h_{1}\|}{\|h\|} \) is bounded.
+
+  We have:
+  \[
+    0 \le  \frac{\|h_{1}\|}{\|h\|} \le  \frac{\|f(x_{0}+h) - f(x_{0}) -
+    L_{f}(h)\|}{\|h\|} + \frac{\|L_{f}(h)\|}{\|h\|}
+  .\] 
+
+  The first term converges to \( 0 \), and same for the second one by Lemma
+  \ref{lem:Every linear map between Euclidean spaces are bounded}, we have what
+  we needed.
+\end{proof}
+
+Now, since linear maps can be represented as matrices (in a specific basis, we
+will only care about the standard basis here), we will look at the matrix
+representing the multivariable derivative. That matrix is called the
+\textbf{Jacobian matrix}.
+
+We will be interested in calculating the Jacobian matrix. Denote the
+multivariable derivative and the Jacobian
+matrix of the function \( f \) at \( x_{0} \) as \( L \) and \(
+f'(x_{0}) \), respectively, we have:
+\[
+  L(h) = f'(x_{0})h = f'(x_{0})_{i}h^{i}
+.\] 
+
+The idea now is to substitute \( h^{i} \) with special vectors in order to find
+every column of \( f'(x_{0}) \). In particular, let \( h = \mathbf{e_{j}} \) for
+some fixed \( j \), we have \( L(\mathbf{e_{j}}) =
+f'(x_{0})_{i}\mathbf{e_{j}}^{i} = f'(x_{0})_{j} \).
+
+Hence, one can write \( f'(x_{0}) \) as the following:
+\[
+  f'(x_{0}) = \begin{bmatrix} L(\mathbf{e_{1}}) & L(\mathbf{e_{2}}) & \ldots  &
+  L(\mathbf{e_{n}})\end{bmatrix} 
+.\] 
+
+As one can see, the value of \( L \) at \( \mathbf{e_{j}} \) serves as some kind
+of basis in some "derivative" space. Motivated by this, we have the following
+definitions.
+
+\begin{definition}[Directional and Partial derivative]
+\label{def:Directional and Partial derivative}
+  Let \( f: X \subseteq \mathbb{R}^{n} \to  \mathbb{R}^{m} \) and \( x_{0} \in
+  X \). For a direction vector \( d \neq 0 \) satisfying \( [x_{0}-d,
+  x_{0}+\varepsilon d]  \subseteq X  \), the \textbf{directional
+  derivative} of \( f \) at \( x_{0} \) wrt directiion \( d \), denoted as
+  \(\frac{\partial f}{\partial d}(x_{0})\), is defined as:
+  \[
+    \frac{\partial f}{\partial d}(x_{0}) = \lim_{t \to 0^{+}} \frac{f(x_{0}+t d)
+    - f(x_{0})}{t } \text{ (if the limit exists)}
+  .\]
+
+  In particular, if \( d = \mathbf{e_{i}} \) is the \( i \)-th standard basis
+  vector, this partial derivative is called the \textbf{partial derivative} of
+  \( f \) at \( x_{0} \) wrt \( x^{i} \), denoted alternatively as \(
+  \frac{\partial f}{\partial x^{i}} \).
+\end{definition}
+
+By this definition, we see that if the multivariable derivative \( L \) exists
+at some \( x_{0} \) of the function \( f \), then:
+\[
+  \lim_{t \to 0^{+}} \frac{f(x_{0} + t d) - f(x_{0}) - tL(d)}{t \|d\|} = 0 
+,\] which implies
+\[
+  L(d) = \lim_{t \to  0^{+}} \frac{f(x_{0} + t d) - f(x_{0})}{t} =
+\frac{\partial f}{\partial d}(x_{0}) = f'(x_{0})d.\] 
+
+Therefore, both directional derivatives and partial derivatives can be derived
+from the multivariable derivative (or the Jacobian matrix), if it exists. Do
+note that if the multivariable derivative does not exist, these quantities may
+still exist, and one might have to compute them directly.
+
+We still can now solve the problem of computing multivariable derivative (and
+related quantities) by computing the Jacobian matrix, which depends on the \(
+L(\mathbf{e_{i}}) \) vectors, which are the partial derivative wrt \( x^{i} \).
+Note that we have \( f'(x_{0})_{i} = L(\mathbf{e_{i}}) \), so one can denote \(
+f'_{i}(x_{0})\) or \( f'_{x^{i}}(x_{0}) \) as the partial derivative wrt \( x_{i} \) (this is simply a
+notation, and it doesn't depend on whether the multivariable derivative exist or
+not).
+
+To calculate partial derivatives, note that all variables \( x^{j} \) with \( j
+\neq  i\) seems to stay constant in the limit. Hence, one can simply treat them
+as constants, and calculate the derivative of \( f(x) \) with only one variable.
+If \( m \) is greater than \( 1 \), we simply calculate the derivative of each
+component of \( f \) separately, and then put them all in a vector.
+\[
+  f'_{i}(x_{0})^{j} = (f^{j})_{i}'(x_{0})
+.\] 
+
+Here is an example to illustrate this:
+
+\textbf{Example:} Find the mutlivariable derivative of \( f(x, y, z) =
+\begin{bmatrix} xyz \\ e^{y} + x^2 \end{bmatrix}  \).
+
+Calculating the partial derivatives yields:
+\begin{align*}
+  f'^{1}_{x}(x, y, z) &= \frac{d}{dx}(xyz) &= yz\\
+  f'^{1}_{y}(x, y, z) &= \frac{d}{dx}(xyz) &= xz\\
+  f'^{1}_{z}(x, y, z) &= \frac{d}{dx}(xyz) &= xy\\
+  f'^{2}_{x}(x, y, z) &= \frac{d}{dx}(e^{y}+x^2) &= 2x\\
+  f'^{2}_{y}(x, y, z) &= \frac{d}{dy}(e^{y}+x^2) &= e^{y}\\
+  f'^{2}_{x}(x, y, z) &= \frac{d}{dz}(e^{y}+x^2) &= 0\\
+.\end{align*}
+
+Putting this all in the Jacobian matrix, we have:
+\[
+  f'(x, y, z) = \begin{bmatrix} yz & xz & xy \\ 2x & e^{y} & 0 \end{bmatrix} 
+.\] 
+
+Hence, one can write the mutlivariable derivative as:
+\[
+  L(x, y, z)(h) = \begin{bmatrix} yz & xz & xy \\ 2x & e^{y} & 0 \end{bmatrix} h
+.\] 
+
+We still have a problem, however. All of our results above relies on the fact
+that \( f \) is differentiable, but there is no way to check that without having
+to find the multivariable derivative. Of course, oone could always assume that
+such derivative exists, and find it using partial derivatives and Jacobian
+matrices, then substitute it into the definition and thus proving such
+derivative exists, which is not convenient, to say the least. This theorem helps
+with improving things up:
+
+\begin{theorem}[Continuous partials implies differentiability]
+\label{thr:Continuous partials implies differentiability}
+  Let \( f: X \subseteq \mathbb{R}^{n} \to  \mathbb{R}^{m} \). If every partial
+  derivatives
+  of \( f \) is continuous in a neighborhood of \( x_{0} \in \operatorname{Int}
+  X\), then \( f \) is
+  differentiable at \( x_{0} \).
+\end{theorem}
+
+This theorem essentially were the "substitute the multivariable derivative back
+to the definition to show such derivative exists" step above.
+
+\begin{proof}
+  First, since the components of \( f \) are independent, we may assume \( m = 1
+  \). And since partial derivatives of \( f \) exists (and is continuous), we
+  can construct the Jacobian matrix \( f'(x_{0}) \) of \( f \). Note that this
+  is simply a notation, not proving \( f \) is differentiable at \( x_{0} \).
+
+  Consider \( l(x_{0}, d) = f(x_{0} + d) - f(x_{0}) - f'(x_{0})d \). The idea
+  here is to replace this by the sum of \( n \) expressions like \( l(x_{k},
+  t\mathbf{e_{i}}) \), which "aligns" with partial derivatives.
+
+  Define \( u_{k} = d^{k}\mathbf{e_{k}} \), then \( d = d^{k}\mathbf{e_{k}} =
+  \sum_{k} u_{k} \). Denote \( x_{n} = x_{0} + d \), we have \( x_{n} = x_{0} +
+  \sum_{k=1}^{n} u_{k}\). Recursively defining \( x_{i} = x_{i - 1} + u^{i} \)
+  for \( i \in 1..n \), we have \( x_{n} = x_{0} + d \), and we have:
+
+  \begin{align*}
+    l(x_{0}, d) &= f(x_{n}) - f(x_{0}) - f'(x_{0})d \\
+    &= \sum_{k = 1}^{n} (f(x_{k}) - f(x_{k-1}) - f'(x_{0})u_{k}) \\
+    &= \sum_{k = 1}^{n} (f(x_{k-1} + u_{k}) - f(x_{k-1}) - f'(x_{0})u_{k}) \\
+    &= \sum_{k = 1}^{n} l(x_{k-1}, u_{k})
+  .\end{align*}
+
+  Finally, we need to prove \( \lim_{d \to 0} \frac{\|l(x_{k-1},
+  u_{k}\|)}{\|d\|} = 0  \) for every \( k \) (with \( x_{k-1} \) and \( u_{k} \)
+  are both dependent on \( d \)). Since \( d \to 0 \), at some point \( x_{k-1}
+  \) is in \( B(x_{0}, \varepsilon) \), the neighborhood of \( x_{0} \) such
+  that partial derivatives of \( f \) are continuous. We have:
+  \begin{align*}
+    0 \le \frac{\|l(x_{k-1}, u_{k}\|)}{\|d\|} &= \frac{\|f(x_{k-1}+u_{k}\|)-f(x_{k-1})
+    -f'(x_{k-1})u_{k}\|}{\|d\|} + \frac{\|f'(x_{k-1}) - f'(x_{0})\|
+  \|u_{k}\|}{\|d\|} \\
+&\le \frac{\|f(x_{k-1}+u_{k}\|)-f(x_{k-1})
+    -f'(x_{k-1})u_{k}\|}{\|u_{k}\|} + \frac{\|f'(x_{k-1}) - f'(x_{0})\|
+  \|u_{k}\|}{\|u_{k}\|} \to 0
+,\end{align*} as \( u_{k} \to 0, x_{k-1} \to x_{0} \) when \( d \to 0 \). Using
+the squeeze theorem, we have exactly what we needed. Here, the fact that partial
+derivatives are continuous is used to show that \( f' \) is continuous.
+\end{proof}
+
+% subsection Derivative and related concepts (end)
+
+\subsection{Definite matrices} % (fold)
+\label{sub:Definite matrices}
+
+\begin{definition}[Definiteness of matrices]
+\label{def:Definiteness of matrices}
+  A square matrix \( A \in \mathbb{R}^{n\times n} \) is:
+  \begin{itemize}
+  \item \textbf{Positive-definite}, if \( x^{T}Ax > 0 \) for every \( x \in
+    \mathbb{R}^{n\times n}, x \neq 0 \).
+  \item \textbf{Positive-definite}, if \( x^{T}Ax < 0 \) for every \( x \in
+    \mathbb{R}^{n\times n}, x \neq 0 \).
+  \item \textbf{Positive semi-definite}, if \( x^{T}Ax \ge 0 \) for every \( x \in
+    \mathbb{R}^{n\times n} \).
+  \item \textbf{Negative semi-definite}, if \( x^{T}Ax \le 0 \) for every \( x \in
+    \mathbb{R}^{n\times n} \).
+  \end{itemize}
+\end{definition}
+
+Since \( \mathbf{e_{i}}^{T}A\mathbf{e_{i}} = A^{i}_{i} \), one can simply look
+at the diagonal to determine whether a matrix is *-definite or not. For
+example, consider the following matrix:
+\[
+  A = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & -9 \end{bmatrix} 
+.\] This matrix is neither in the four classes, since it has both negative and
+positive entries on the diagonal.
+
+\begin{theorem}[Skew-symmetric part does not affect definiteness]
+\label{thr:Skew-symmetric part does not affect definiteness}
+  For any square matrix \( A \), denote \( A' = \frac{A + A^{T}}{2} \) as the
+  symmetric part of \( A \). Then, \( A \) is *-definite iff \( A' \) is
+  definiteness, since:
+  \[
+    x^{T}Ax = x^{T}A'x
+  ,\] for every vector \( x \in \mathbb{R}^{n} \).
+\end{theorem}
+
+\begin{proof}
+  Since \( x^{T}Ax \) is a scalar, we have:
+  \[
+    x^{T}Ax = (x^{T}Ax)^{T} = x^{T}A^{T}x
+  .\]
+
+  Then, we have:
+  \[
+    x^{T}Ax = \frac{1}{2}(x^{T}Ax + x^{T}A'x) = x^{T}A'x
+  .\] 
+\end{proof}
+
+Hence, if one want to check whether a non-symmetric part is *-definite or not,
+one can use the criterions for symmetric matrix for the symmetric part of the
+original matrix. Do note that, these criterions for symmetric matrices does not
+work for non-symmetric ones.
+
+In this part, we will introduce many results related to definite matrices and
+especially checking if a given symmetric matrix \( A \) belongs to which type among the
+four classes of matrices mentioned above (or whether it does not belong to any
+of them). First, we have this important result:
+
+\begin{theorem}[Eigenvalues of a definite matrix]
+\label{thr:Eigenvalues of a definite matrix}
+  Let \( A \in \mathbb{R}^{n\times n} \) be a symmetric matrix with \(
+  \operatorname{Spec} A \) being the set of its eigenvalues. Then:
+  \begin{itemize}
+  \item \( A \) is positive-definite iff \( \operatorname{Spec} A \subseteq (0,
+    +\infty) \).
+  \item \( A \) is positive semi-definite iff \( \operatorname{Spec} A \subseteq [0,
+    +\infty) \).
+  \item \( A \) is negative-definite iff \( \operatorname{Spec} A \subseteq
+    (-\infty, 0)\).
+  \item \( A \) is negative semi-definite iff \( \operatorname{Spec} A \subseteq
+    (-\infty, 0]\).
+  \end{itemize}
+\end{theorem}
+
+\begin{proof}
+  We will only prove this theorem for the first two cases. Since \( A \) is
+  symmetric, there exists an eigendecomposition of \( A \), i.e. there exists an
+  orthogonal matrix \( Q \) and a diagonal matrix \( D \) such that \( Q^{T} =
+  Q^{-1} \) and \( A = QDQ^{-1} \).
+
+  Then, \( x^{T}Ax = x^{T}QDQ^{T}x = \sum_{i} D^{i}_{i}((Q^{T}x)^{i})^2 \) (note
+  that \( (\cdot)^2 \) here is the squaring operation, not a superscript). The
+  values \( D_{i}^{i} \) here are the eigenvalues of \( A \), so if one of them
+  is negative, i.e. \( D^{i}_{i} < 0 \) for some i, one can let \( Q^{T}x =
+  \mathbf{e_{i}} \) and we have a negative result. Hence, if \( A \) is
+  positive semi-definite, then \( D^{i}_{i} \ge 0 \) for all \( i \). For
+  positive-definite, we have a similar result: \( D^{i}_{i} > 0 \) for all \( i
+  \).
+
+  In the reverse direction, we can see that if \( D^{i}_{i} > 0 \) (or \(
+  D^{i}_{i} \ge 0 \)) for all \( i
+  \), then the product is trivially positive (or non-negative).
+\end{proof}
+
+\begin{corollary}[Determinant and Trace of a definite matrix]
+\label{cor:Determinant and Trace of a definite matrix}
+  If \( A \) is a positive-definite, positive semi-definite, negative-definite
+  or negative semi-definite matrix, then \( \det A \) and \( \operatorname{tr} A
+  \) are both \( > 0 \), \( \ge 0 \),
+  \( < 0 \) or \( \le 0 \) respectively.
+
+  In the case \( n = 2 \), the signs of \( \det A \) and \( \operatorname{tr} A
+  \) are sufficient to determine which type of definiteness a symmetric matrix
+  \( A \) is.
+\end{corollary}
+
+\begin{proof}
+  This trivially follows from the results:
+  \begin{align*}
+    \det A &= \sum_{\lambda \in \operatorname{Spec} A} \lambda\\
+    \operatorname{tr} A &= \prod_{\lambda \in \operatorname{Spec} A} \lambda\\
+  .\end{align*}
+
+  When \( n = 2 \), we have \( \det A = \lambda_{1} + \lambda_{2} \) and \(
+  \operatorname{tr} A = \lambda_{1}\lambda_{2} \). By considering multiple
+  cases, one can trivially prove the latter part of the statement.
+\end{proof}
+
+To conclude, here is a very nice theorem about positive-definiteness.
+
+\begin{theorem}[Sylvester's criterion]
+\label{thr:Sylvester's criterion}
+  Let \( A \in \mathbb{R}^{n\times n} \) be a symmetric matrix. Then, \( A \) is
+  positive-definite if and only if \( \det A^{1..k}_{1..k} > 0 \) for all \( k
+  \in 1..n \).
+\end{theorem}
+
+Despite its niceness, the proof of it involves many weird matrix decompositions
+and is generally very long, complicated and most importantly, out of the scope
+of what we are trying to learn here.
+
+Note that this theorem only work for positive-definiteness (and
+negative-definiteness if one negates the matrix). If one want to use
+a similar result to check for positive semi-definite, one must consider the
+determinants of all submatrices of \( A \), which is probably not worth it.
+
+% subsection Definite matrices (end)
+
+\subsection{Gradient and the Hessian matrix} % (fold)
+\label{sub:Gradient and the Hessian matrix}
+
+\begin{definition}[Gradient]
+\label{def:Gradient}
+  The gradient of a function \( f: X \subseteq R^{n} \to  \mathbb{R} \) at
+  \( x_{0} \) is the transpose of the Jacobian matrix of \( f \) at \( x_{0} \),
+  denoted as \( \nabla f(x_{0}) \).
+\end{definition}
+
+This definition suggests that Jacobian matrices are more "fundamental" than
+gradients. Moreover, Jacobian matrices are more "general", in the sense that
+they exist for functions \( f \) with \( m > 1 \), while the gradient (by
+definition) does not.
+
+However, \( \nabla f: \mathbb{R}^{n} \to  \mathbb{R}^{n} \), and this is
+precisely a function that may have a derivative. Hence, to define the second
+derivative, we have to rely on the gradient map. Here is the definition of the
+second derivative:
+
+\begin{definition}[Second derivative and the Hessian matrix]
+\label{def:Second derivative and the Hessian matrix}
+  Let \( f: X \subseteq \mathbb{R}^{n} \to \mathbb{R} \) and \( \nabla f \) be
+  its gradient function. Then, if \( \nabla f \) is differentiable at some point
+  \( x_{0} \in X \), then this derivative is called the \textbf{second
+  derivative} of \( f \) at \( x_{0} \).
+
+  The matrix of this second derivative linear map wrt the standard basis is
+  called the \textbf{Hessian matrix} (or simply, the Hessian). This matrix is
+  denoted as \( f''(x_{0}) = (\nabla f)'(x_{0}) \), or \( \nabla ^2f(x_{0}) \).
+\end{definition}
+
+To calculate the Hessian matrix, one simply calculate the (second-order) partial
+derivatives:
+\[
+  f''(x_{0})^{i}_{j} = \frac{\partial}{\partial x_{j}} \left(
+  \frac{\partial f}{\partial x_{i}} \right) = \frac{\partial ^2 f}{\partial
+x_{j}\partial x_{i}}
+.\] 
+
+A very important properties of second-order partial derivatives:
+
+\begin{theorem}[Symmetry of Second Derivatives]
+\label{thr:Symmetry of Second Derivatives}
+  (Also known as Schwarz's theorem, Clairaut's theorem or Young's theorem) Let
+  \( f: X \subseteq \mathbb{R}^{n} \to  \mathbb{R} \), if \( x_{0} \in X \) and
+  \( f''(x) \) exists and is continuous on some neighborhood of \( x_{0} \),
+  then \( f''(x_{0}) \) is a symmetric matrix, i.e.
+  \[
+    \frac{\partial ^2 f}{\partial x_{i} \partial x_{j}}(x_{0})=
+    \frac{\partial ^2 f}{\partial x_{j} \partial x_{i}}(x_{0})
+  .\] 
+\end{theorem}
+
+\begin{proof}
+  Here, since the components \( x_{k}, k\neq i, k\neq j \) stays constant, we
+  will only care about the \( n = 2 \) case. Here, for the sake of
+  readability, we will denote \( x_{1} \) and \( x_{2} \) as \( x \) and \( y
+  \), respectively, and we will replace the point \( x_{0} \) by the vector \(
+  z_{0} = (x_{0}, y_{0})^{T} \).
+
+  Using the idea from Theorem \ref{thr:Continuous partials implies
+  differentiability}, we will "split" the offset vector \( (x-x_{0},y-y_{0})^{T}
+  \) in order to "align" with the partial derivatives. First, let the offset
+  vector be \( d \), and define:
+  \begin{align*}
+    u(d^{1}, d^{2}) &= f(x_{0} + d^{1}, y_{0} + d^{2}) - f(x_{0} + d^{1}, y_{0})\\
+    v(d^{1}, d^{2}) &= f(x_{0} + d^{1}, y_{0} + d^{2}) - f(x_{0}, y_{0} + d^{2}) \\
+    w(d) = w(d^{1}, d^{2}) &= f(x_{0}+d^{1}, y_{0} + d^{2}) - f(x_{0} + d^{1}, y_{0}) -f(x_{0},
+    y_{0} + d^{2}) +f(x_{0}, y_{0})
+  .\end{align*}
+
+  Then, using the \textbf{Mean value theorem}, there exists \( \alpha_{1},
+  \alpha_{2}, \beta_{1}, \beta_{2} \in (0, 1) \) such that:
+  \begin{align*}
+    w(d) &= u(d^{1}, d^{2}) - u(0, d^{2}) \\
+    &= d^{1} \frac{\partial u}{\partial d^{1}}(\alpha_{1}d^{1}, d^{2}) \\
+    &= d^{1} \left( \frac{\partial f}{\partial x}(x_{0} + \alpha_{1}d^{1}, y_{0}
+    + d^{2}) - \frac{\partial f}{\partial x}(x_{0} + \alpha_{1}d^{1}, y_{0})
+  \right)\\
+    &= d_{1}d_{2} \frac{\partial ^2 f}{\partial x \partial y}(x_{0} +
+    \alpha_{1}d^{1}, y_{0}+\alpha_{2}d^{2})
+  ,\end{align*} and similarly \( w(d) = d^{1}d^{2} \frac{\partial ^2 f}{\partial
+  y\partial x}(x_{0}+\beta_{1}d^{1}, y_{0}+\beta_{2}d^{2}) \).
+
+  We will let \( d \to 0 \) such that \( d^{1} \neq 0, d^{2} \neq 0 \) (e.g. \(
+  d = (t, t)^{T} \to 0\) as \( t \to 0 \)), and thus:
+  \[
+    \frac{\partial ^2 f}{\partial x \partial y}(x_{0}, y_{0})=
+    \frac{\partial ^2 f}{\partial y \partial x}(x_{0}, y_{0})
+  .\] 
+\end{proof}
+
+With this, we are ready to state the \textbf{Multivariable Taylor's theorem} (up
+to second-order).
+
+\begin{theorem}[Multivariable Taylor's theorem]
+\label{thr:Multivariable Taylor's theorem}
+  Let \( f: X \subseteq \mathbb{R}^{n} \to  \mathbb{R} \) be a
+  twice-differentiable function at \( x_{0} \in \operatorname{Int} X \).
+  \begin{itemize}
+  \item (Peano's remainder form) We have:
+    \[
+      f(x) = f(x_{0}) + f'(x_{0})(x - x_{0}) +
+      \frac{1}{2}(x-x_{0})^{T}f''(x_{0})(x-x_{0}) + o(\|x-x_{0}\|^2)
+    ,\] with \( o(g(x)) \) denoting some function \( h(x) \) satisfying \( \lim_{x
+    \to  0} \frac{h(x)}{g(x)} = 0 \).
+  \item (Lagrange's remainder form) For every \( x \in B(x_{0}, \varepsilon)
+    \subseteq X \), there exists some \( \xi_{x} \) that is a convex combination
+    of \( x_{0} \) and \( x \) such that:
+
+    \[
+      f(x) = f(x_{0}) + f'(x_{0})(x - x_{0}) +
+      \frac{1}{2}(x-x_{0})^{T}f''(\xi_{x})(x-x_{0})
+    .\] 
+  \end{itemize}
+\end{theorem}
+
+\begin{proof}
+  Consider \( g(x) = f(x_{0}) + f'(x_{0})x \), then proving the theorem for \( f
+  \) is equivalent to proving the theorem to \( g \), which has \( g(0) = g'(0)
+  = 0\) and \( x_{0} = 0 \). Hence, we will only consider the special case with
+  \( x_{0} = 0 \), \( f(0) = f'(0) = 0 \).
+
+  \begin{itemize}
+  \item Furthermore, in the Peano's remainder form's proof, we will further assume \(
+    f''(0) = 0 \) (this is trivial by taking \( h(x_{0} + x) = g(x) -
+    \frac{1}{2}(x-x_{0})^{T}f''(x_{0})(x-x_{0}) \)). Now, from the definition of
+    the derivative, we have:
+    \[
+      0 = \lim_{x \to 0} \frac{\|\nabla f(x) - \nabla f(0) - (\nabla
+      f)'(0)x\|}{\|x\|} = \lim_{x \to  0} \frac{\|\nabla f(x)\|}{\|x\|}
+    .\], which suggests that \( \|\nabla f(x)\| = o(\|x\|) \).
+
+    To use the \textbf{Mean value theorem}, let \( \varphi(t) = f(tx) \)
+    (to have a single-variable function), then there exists some \( t_{0} \) such
+    that:
+\[
+  \varphi'(t_{0}) = \frac{\varphi(1) - \varphi(0)}{1 - 0} = f(x)
+,\] and by Theorem \ref{thr:Multivariable chain rule}, we evaluate the LHS to
+be:
+\[
+  \varphi'(t_{0}) = f'(t_{0}x)x = f(x)
+.\] 
+
+Then, using the Cauchy-Schwarz inequality, we have:
+\[
+  0 \le  |f(x)| = |f'(t_{0}x)x| = |\langle \nabla f(t_{0}x), x \rangle| \le
+  \|\nabla f(t_{0}x)\| \| x\|
+.\] 
+Let \( x \to 0 \), then \( t_{0}x \to x \to 0 \) and we have \( f(x) \le
+o(\|x\|)\|x\| = o(\|x\|^2) \).
+
+\item Here, we only assume \( x_{0} = 0 \) and \( f(0) = f'(0) = 0 \). Let \(
+  g(t) = f(tx) \), then one has:
+  \begin{align*}
+    g'(t) &= f'(tx)x = \langle \nabla f(tx), x \rangle = x^{T} \nabla f(tx) \\
+    g''(t) &=  x^{T}(\nabla f(tx))'_{t} = x^{T}\nabla f(tx)x
+  .\end{align*}
+  \end{itemize}
+
+  Here, we will apply Taylor's theorem in single-variable calculus, i.e. there
+  exists some \( t_{0} \in [0, 1] \) such that:
+  \( g(t) = g(0) + g'(0)t + \frac{1}{2}g''(t_{0})t^2 \).
+
+  Substitute \( g(0) = g'(0) = 0 \), we have \( f(tx) = \frac{1}{2} x^{T}\nabla
+  f(t_{0}x)x t^2\), i.e. \( f(y) = \frac{1}{2}y^{T}\nabla f(y_{0})y \) for \( y
+  = tx, y_{0} \) is a convex combination of \( x_{0} = 0 \) and \( y \).
+\end{proof}
+
+Now that we have the multivariable Taylor's theorem, we can look at local
+extrema of a multivariable function. A local minimum (or local maximum) is simply a most
+locally optimal solution of the respective minimization or maximization problem.
+
+\begin{theorem}[Critical point theorem]
+\label{thr:Critical point theorem}
+  If the function \( f \) is differentiable at \( x_{0} \) such that \(
+  f'(x_{0}) = 0 \), then \( x_{0} \) is called a \textbf{critical point} of \( f
+  \).
+
+  A local extremum (local minimum or maximum) \( x_{0} \) such that \( f \) is
+  differentiable at \( x_{0} \) is always a critical point.
+\end{theorem}
+
+\begin{proof}
+  First, note that Theorem \ref{thr:Multivariable Taylor's theorem} implies (one
+  can use Lemma \ref{lem:Every linear map between Euclidean spaces are bounded}
+  here):
+  \[
+    f(x) = f(x_{0}) + f'(x_{0})(x - x_{0}) + o(\|x - x_{0}\|)
+  ,\] or:
+  \[
+    f(y) - f(x) = f'(x)(y - x) + o(\|y - x\|)
+  .\]
+
+  If \( x \) is a local extremum, then LHS of the above expression does not
+  change sign as \( y \in B(x, \varepsilon) \) for some \( \varepsilon > 0 \).
+  However, the RHS is a linear function (plus a neglectible amount), so this
+  only happens if \( f'(x) = 0 \), i.e. \( x \) is an extreme point of \( f \).
+\end{proof}
+
+If one want to differentiate between local minima and local maxima, one would
+need to look at the second derivative.
+
+\begin{theorem}[Second derivative test]
+\label{thr:Second derivative test}
+Let \( x_{0} \) be a nondegenerate critical point (\( f'(x_{0}) = 0 \) and \(
+f''(x_{0}) \) is invertible) of \( f \) being a twice-differentiable function
+with continuous second partial derivatives. Then,
+\begin{itemize}
+\item If \( f''(x_{0}) \) is positive-definite, then \( x_{0} \) is a local
+  minimum.
+\item If \( f''(x_{0}) \) is negative-definite, then \( x_{0} \) is a local
+  maximum.
+\item Otherwise, \( x_{0} \) is a saddle point (neither a local minimum nor a
+  local maximum).
+\end{itemize}
+\end{theorem}
+
+\begin{proof}
+  This follows from Taylor's theorem:
+  \[
+    f(x) - f(x_{0}) = \frac{1}{2} (x-x_{0})^{T}f''(x_{0})(x-x_{0}) +
+    o(\|x-x_{0}\|^2)
+  .\] 
+
+  If \( f''(x_{0}) \) is positive-definite, then RHS is positive for every \( x
+  \neq x_{0}\) with sufficiently small \( \|x-x_{0}\| \), i.e. \( x_{0} \) is a
+  local minimum of \( f \).
+
+  Similarly, if \( f''(x_{0}) \) is negative-definite, then \( x_{0} \) is a
+  local maximum of \( f \).
+
+  Otherwise, since \( f''(x_{0}) \) is invertible, it must have no zero
+  eigenvalues. Then, there must be some positive eigenvalues and negative
+  eigenvalues, i.e. there exists vectors \( u, v \) such that \( u^{T}f''(x_{0})u <  0
+  < v^{T}f''(x_{0})v\). Using the identity above, we can find some \( y = x_{0}
+  + \varepsilon u\) and \( z = x_{0} + \varepsilon' v \) such that \( f(z) <
+  f(x_{0}) < f(y) \).
+\end{proof}
+
+% subsection Gradient and the Hessian matrix (end)
+
+% section A fresher on Multivariable Calculus (end)
+
+\section{Differentiable convex functions} % (fold)
+\label{sec:Differentiable convex functions}
+
+
+\begin{theorem}
+  Let \( f \) be a convex function on convex \( D \) which yields no infinities.
+  If \( D \) is open, then \( f \) is continuous on \( D \).
+\end{theorem}
+
+\begin{proof}
+  Take \( x_{0} \in D \) and a neighborhood \( B(x_{0}, \varepsilon) \subseteq D
+  \). Consider a point \( x \in B(x_{0}, \varepsilon) \), let the line \(
+  \mathbf{x} = \lambda x + (1- \lambda) x_{0} \) intersects \( \partial
+  B(x_{0}, \varepsilon) \) at \( x_{1} \) and \( x_{2} \).
+
+  WLOG, assuming that the order of the points in the segment \( [x_{1}, x_{2}]
+  \) is \( x_{1}, x_{0}, x, x_{2} \).
+
+  \begin{tikzpicture}
+    \draw[gray, thick] (0, 5) .. controls (6, 6) and (7, 4) .. (10, 0);
+    \draw[red, very thick] (4, 2) circle(2.5);
+    \draw[green, ultra thick] (1.5, 2) -- (6.5, 2);
+    \filldraw[black] (4, 2) circle(2pt);
+    \node[above left=0pt of {(4, 2)}, outer sep=2pt, fill=white] {\( x_{0} \)};
+    \filldraw[black] (5, 2) circle(2pt);
+    \node[below =0pt of {(5, 2)}, outer sep=2pt, fill=white] {\(
+    x=x_{0}+\lambda u \)};
+    \filldraw[black] (1.5, 2) circle(2pt);
+    \node[above left=0pt of {(1.5, 2)}, outer sep=2pt, fill=white] {\( x_{1}=x-u \)};
+    \filldraw[black] (6.5, 2) circle(2pt);
+    \node[above right=0pt of {(6.5, 2)}, outer sep=2pt, fill=white] {\(
+    x_{2}=x+u \)};
+    \node[above right=5pt of {(9.5, 0.75)}, outer sep=2pt, fill=white] {\( 
+    \overline{D}^{c}\)};
+    \node[below left=5pt of {(9.5, 0.75)}, outer sep=2pt, fill=white] {\(
+    D\)};
+    \node[, outer sep=2pt, fill=white] at (9.5, 0.75) {\(
+    \partial D\)};
+  \end{tikzpicture}
+
+  Let \( u = x - x_{1} \), then \( x_{1} = x - u \), \( x_{2} = x+ u \) and
+  there exists some \( \lambda > 0 \) such that \( x = x_{0} + \lambda u \).
+
+  Then, we have
+  \begin{align*}
+    x = x_{0} + \lambda u = x_{0} + \lambda (x_{2} - x_{0}) = \lambda x_{2} + (1
+    - \lambda) x_{0}\\
+    \implies f(x) \le \lambda f(x_{2}) + (1- \lambda) f(x_{0})
+  .\end{align*}, and
+  \begin{align*}
+    x &= x_{0} + \lambda u = x_{0} + \lambda ( x_{0} - x_{1}) \\
+    &\implies x_{0} = \frac{1}{\lambda + 1} x + \frac{\lambda}{\lambda + 1}
+    x_{1}\\
+    &\implies f(x_{0}) \le  \frac{1}{\lambda + 1} f(x) + \frac{\lambda}{\lambda +
+    1} f(x_{1})
+  .\end{align*}
+
+  Let \( M = \sup_{x \in \partial B(x, \varepsilon)} f(x) \) , then \( M \ge
+  f(x_{1}), f(x_{2}) \) and \( f(x) \le  \lambda M + (1-\lambda)f(x_{0}) \) and
+  \( f(x_{0}) \le \frac{1}{\lambda+1} f(x) + \frac{\lambda}{\lambda+1} M \).
+  Another thing to note is that \( M \) is finite due to \( f \) not yielding
+  any infinities.
+
+  Hence, we have the following inequalities:
+
+  \begin{align*}
+    f(x) - f(x_{0}) &\le  \lambda(M - f(x_{0}))\\
+    f(x) + \lambda M &\ge (\lambda + 1) f(x_{0})\\
+    \implies f(x) - f(x_{0}) &\ge  \lambda (f(x_{0}) - M)
+  .\end{align*}
+
+  Hence, \( 0 \le  |f(x) - f(x_{0})| \le  \lambda (M-f(x_{0})) \), and let \( x \to
+  x_{0} \), then \( \lambda \to  0 \) and therefore by the squeeze theorem, \(
+  f(x) \to  f(x_{0}) \). Therefore \( f \) is continuous at \( x_{0} \).
+\end{proof}
+
+\begin{theorem}
+  Let \( f \) be a function on open convex set \( D \).
+
+  If \( f \) is convex, then for all directions \( d \neq  0 \),
+  \( \frac{\partial f}{\partial d}(x_{0})  \), the
+  \textbf{directional derivative} of \( f \) at \( x_{0} \in D \) wrt direction
+  \( d \) exists and satisfies \( \frac{\partial f}{\partial d} (x_{0}) \le f(x_{0} + d) -
+  f(x_{0}) \) if \( x_{0} + d \in D \).
+
+  If \( f \) is differentiable, \( \nabla f = f'^{T} \) is the \textbf{gradient}
+  of \( f \) exists. Then \( f \) is convex iff \( f(y)-f(x) \ge f'(x)(y-x)
+   = \langle \nabla f(x), y -x\rangle\) for all \( x,y\in D \). Moreover, \( f
+   \) is strictly convex on \( D \) iff equality only holds if \( x = y \).
+\end{theorem}
+
+\begin{proof}
+  Consider the scalar function \( g(t) = f(x_{0}+t d) \), then \( g \) is
+  defined on some neighborhood \( B(0, \varepsilon) \) of \( 0 \).
+
+  We will prove that \( g \) is convex. This is true since \( g(\mathcal{C}(T,
+  \lambda)) = f(x_{0} + \mathcal{C}(T, \lambda)d) = f(\mathcal{C}(x_{0} + Td,
+  \lambda) \), because of linearity. Since \( f \) is convex \( g(\mathcal{C}(T,
+  \lambda)) = f(\mathcal{C}(x_{0}+Td, \lambda)) \le \mathcal{C}(f(x_{0}+Td),
+  \lambda) = \mathcal{C}(g(T), \lambda) \), QED.
+
+  Then, we just need to prove that \( g \) has right derivative at \( 0 \). This
+  is indeed true, as for any \( 0 < u < v < \varepsilon \), if let \( \lambda =
+  \frac{u}{v}\), then \( u = \lambda v + (1 - \lambda) 0 \) and \( g(u) \le
+  \lambda g(v) + (1- \lambda)g(0) = \lambda g(v) + (1 - \lambda)g(0) \). Hence,
+  \( \frac{g(u) - g(0)}{u} \le  \frac{g(v) - g(0)}{v} \), and the function
+  \( h(x) = \frac{g(x) - g(0)}{x} \) is decreasing as \( x \to  0^{+} \). Hence,
+  there is a limit \( L = \lim_{x \to 0^{+}} h(x)  \), which is the right
+  derivative of \( g(x) \) at \( 0 \). Note that this derivative can be
+  (negative) infinity, for example if \( g(x) = -\sqrt[3]{x}  \).
+
+  In the case that \( x_{0} + d \in D \), \( h(1) \) is defined as \( h(1) =
+  g(x_{0}  + d) - g(x_{0}) \ge  L = \frac{\partial f}{\partial d}(x_{0})  \), QED.
+
+  Letting \( d = y - x \), then using the identity \( \frac{\partial f}{\partial
+  d} (x_{0}) = f'(x_{0})d \) for differentiable \( f \), we have \( f(y)-f(x)
+  \ge f'(x)(y-x) \) for all \( x, y \in D \) if \( f \) is convex.
+
+  To prove the reverse direction, let \( x = \mathcal{L}(y, z, w) \) such that \(
+  w \in [0, 1]\) (denoting \( \mathcal{L}(x, y, w) = wx + (1-w)y \) as the
+  \textbf{linear interpolation} (lerp) from \( x \) to \( y \) with weight \( w \)).
+  Then, \( f(z)-f(x) \ge f'(x)(z-x) \) and \( f(y)-f(x) \ge f'(x)(y-x) \).
+  Lerping the two inequality: \( \mathcal{L}(f(y)-f(x),f(z)-f(x),w) \ge
+  f'(x)\mathcal{L}(y-x, z-x, w) \), yields \( \mathcal{L}(f(y), f(z), w) - f(x)
+  \ge  f'(x)(\mathcal{L}(y,z,w)-x\). RHS is \( 0 \) since \( x =
+  \mathcal{L}(y,z,w) \), which means \( \mathcal{L}(f(y), f(z), w) \ge
+  f(\mathcal{L}(y,z,w) \), which implies that \( f \) is convex.
+
+  To prove the theorem in the strictly convex case, we can trivially use the
+  above proof with some obvious modifications.
+\end{proof}
+
+Now, consider \( f: D \subseteq \mathbb{R}^{n} \to  \mathbb{R} \), then \(
+\nabla f: D \subseteq \mathbb{R}^{n} \to  \mathbb{R}^{n} \), which is a vector
+function. Hence, one can define the Jacobian of this function \( (\nabla f)' \).
+This matrix, if it exists, is called the \textbf{Hessian} of \( f \). And in
+most cases, it's symmetric, hence it could be written as \( (\nabla f)'^{T} =
+\nabla ^2 f \). Then, one have the Taylor theorem: for a
+twice-continuously-differentiable function \( f \) and \( x_{0}, \Delta x \)
+such that \( x_{0}, x_{0} + \Delta x \in \operatorname{dom} f \), then there
+exists some \( \theta \in [0, 1] \) such that:
+
+\begin{align*}
+  f(x_{0}+\Delta x) &= f(x_{0}) + f'(x_{0})\Delta x + \frac{1}{2} \Delta x^{T}
+  \nabla ^2f(x_{0} + \theta \Delta x) \Delta x\\
+&= f(x_{0}) + f'(x_{0})\Delta x + \frac{1}{2} \Delta x^{T}
+  \nabla ^2f(x_{0}) \Delta x + o(\|\Delta x\|^2)
+.\end{align*}
+
+Using this theorem, one can prove the following important result, which can be
+used to identify convex functions.
+
+\begin{theorem}[Second derivative test for convex functions]
+  Let \( f \) be a twice-continuously-differentiable function on an open convex
+  domain \( D \). Then, \( f \) is convex iff \( \nabla ^2 f(x) \) is
+  positive semi-definite. Moreover, \( f \) is strictly convex if \( \nabla ^2
+  f(x) \) is positive definite.
+\end{theorem}
+
+\begin{proof}
+  Rewrite Taylor theorem as
+  \[
+    f(x_{0}+\lambda d)-f(x_{0})-\lambda f'(x_{0})d =\lambda^{2}
+    \frac{d^{T}\nabla^{2}f(x_{0} + t\lambda d)d}{2}
+  .\], then \( f \) is convex iff LHS is non-negative for all \( x_{0}, \lambda
+  \) and \( d \). Hence, if \( \nabla ^2 f \) is positive semi-definite, then
+  RHS is non-negative and we have QED.
+
+  If \( f \) is convex, then we use the other variant of the Taylor's theorem
+  and have RHS equals to \( \frac{1}{2}\lambda ^2 d^{T}\nabla ^2 f(x_{0})d +
+  o(\lambda ^2) \), which is dominated by the first term. Hence, \( \nabla ^2
+  f(x_{0}) \) needs to be positive semi-definite for all \( x_{0} \in D \).
+
+  The strictly convex case could be similarly proven.
+\end{proof}
+
+% section Differentiable convex functions (end)
+
+% chapter Unconstrained Nonlinear Programming (end)

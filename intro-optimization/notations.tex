@@ -194,19 +194,85 @@ Then, \( A = A^{1..n} = A_{1..m} \), with \( m,n  \) being the number of columns
 and rows of \( A \), respectively. These multi-indices are called
 \textbf{trivial multi-indices}.
 
-To conclude, we will prove the following theorem, which will be used extensively
-in manipulating matrix identities.
+To conclude, we will prove the following theorem, which will be used to "split"
+matrix products.
 
 \begin{theorem}
   Let \( A \) and \( B \) be matrices and \( I \) be a multi-index.
 
   If \( I \) can be partitioned into pairwise disjoint sets \( I_{1}, I_{2}, \ldots,
-  I_{n} \). 
+  I_{n} \), then
+  \[
+    A_{I}B^{I} = A_{I_{1}}B^{I_{1}} + \ldots +A_{I_{n}}B^{I_{n}}
+  .\] 
 \end{theorem}
 
-
-
+\begin{proof}
+  Since \( I_{1}, I_{2}, \ldots , I_{n} \) is a partition of \( I \), we have:
+  \[
+    AB = \sum_{i \in I} A_{i}B^{i} = \sum_{k = 1}^{n} \sum_{i \in I_{k}}
+    A_{i}B^{i} = \sum_{k=1}^{n} A_{I_{k}}B^{I_{k}}
+  .\] 
+\end{proof}
 
 % section Multi-index notation (end)
+
+\section{Pseudocode} % (fold)
+\label{sec:Pseudocode}
+
+In this book, we will use Pythonic pseudocode. It is fast to write, and much
+closer to actual code when compared to the its more "academic" variant. However,
+it is plain text, so we could not use special mathematical formula in it.
+
+Since we are working with vectors and matrices, this pseudocode language will
+have first-class support for such objects.
+\begin{python}
+# 5 dimensional vector with all entries 0
+v = [0] * 5
+
+# 4x4 identity matrix
+I4 = identity(4)
+
+# access rows, columns of vectors and matrices
+row_e2 = I4^2
+col_e2 = I4_2
+v4 = v^4
+\end{python}
+
+As one can see above, the line between Python lists and vectors are not clearly
+defined. Such notational error could be safely ignored, but one should always
+keep it in mind.
+
+Aside from the Python functions (we will not import any package in this
+pseudocode, but simply reference them using their package name, i.e.
+\verb|itertools.permutation|), we have some special function, which will be
+defined here:
+
+\begin{python}
+# returns the element in `args` that minimizes `f`
+def argmin[T, R: Comparable](f: T -> R, args: iterable[T]):
+  min = None
+  argmin = None
+  for arg in args:
+    if min is None or min > f(min):
+      min = f(arg)
+      argmin = arg
+  return argmin
+
+# the same, but for max
+def argmax[T, R: Comparable](f: T -> R, args: iterable[T]):
+  # equivalent to this if R can be negated
+  # return argmin(lambda arg: -f(arg), args)
+
+  max = None
+  argmax = None
+  for arg in args:
+    if max is None or max < f(max):
+      max = f(arg)
+      argmax = arg
+  return argmax
+\end{python}
+
+% section Pseudocode (end)
 
 % chapter Notations (end)
