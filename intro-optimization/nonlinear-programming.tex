@@ -1,6 +1,23 @@
 \chapter{Unconstrained Nonlinear Programming} % (fold)
 \label{chap:Unconstrained Nonlinear Programming}
 
+Consider the optimization problem:
+\begin{align*}
+  (P): \min\,&f(x),\\
+  \text{s.t.}\,&x \in \mathbb{R}^{n}
+,\end{align*} for \( f: \mathbb{R}^{n} \to \mathbb{R} \) is not a linear
+(or affine) function.
+
+Since \( x \) can freely take any value on \( \mathbb{R}^{n} \), this is an
+unconstrained nonlinear program. However, if one makes changes to \( f \) that
+makes \( f: \mathbb{R}^{n} \to \overline{\mathbb{R}}  \), this is generally
+considered to be a constrained problem, since \( x \) effectively could not take
+values that results in \( f(x) = +\infty \).
+
+when \( f \) is convex, one would say that this is a convex program.
+These programs have many interesting properties. One of such is the fact that
+all LOSes of a convex program are GOSes. Here is another such property:
+
 \section{A fresher on Multivariable Calculus} % (fold)
 \label{sec:A fresher on Multivariable Calculus}
 
@@ -296,15 +313,14 @@ Here is an example to illustrate this:
 \begin{bmatrix} xyz \\ e^{y} + x^2 \end{bmatrix}  \).
 
 Calculating the partial derivatives yields:
-\begin{align*}
+\begin{alignat*}{2}
   f'^{1}_{x}(x, y, z) &= \frac{d}{dx}(xyz) &= yz\\
   f'^{1}_{y}(x, y, z) &= \frac{d}{dx}(xyz) &= xz\\
   f'^{1}_{z}(x, y, z) &= \frac{d}{dx}(xyz) &= xy\\
   f'^{2}_{x}(x, y, z) &= \frac{d}{dx}(e^{y}+x^2) &= 2x\\
   f'^{2}_{y}(x, y, z) &= \frac{d}{dy}(e^{y}+x^2) &= e^{y}\\
   f'^{2}_{x}(x, y, z) &= \frac{d}{dz}(e^{y}+x^2) &= 0\\
-.\end{align*}
-
+\end{alignat*}
 Putting this all in the Jacobian matrix, we have:
 \[
   f'(x, y, z) = \begin{bmatrix} yz & xz & xy \\ 2x & e^{y} & 0 \end{bmatrix} 
@@ -691,17 +707,19 @@ locally optimal solution of the respective minimization or maximization problem.
 \begin{theorem}[Critical point theorem]
 \label{thr:Critical point theorem}
   If the function \( f \) is differentiable at \( x_{0} \) such that \(
-  f'(x_{0}) = 0 \), then \( x_{0} \) is called a \textbf{critical point} of \( f
-  \).
+  f'(x_{0}) = 0 \), then \( x_{0} \) is called a \textbf{stationary point} of \( f
+  \). A \textbf{critical point} is a point that is either a stationary point or
+  a point that \( f \) is not differentiable at.
 
   A local extremum (local minimum or maximum) \( x_{0} \) such that \( f \) is
   differentiable at \( x_{0} \) is always a critical point.
 \end{theorem}
 
 \begin{proof}
-  First, note that Theorem \ref{thr:Multivariable Taylor's theorem} implies (one
-  can use Lemma \ref{lem:Every linear map between Euclidean spaces are bounded}
-  here):
+  Assuming \( x_{0} \) is a local extremum such that \( f \) is differentiable
+  at \( x_{0} \). First, note that Theorem \ref{thr:Multivariable Taylor's theorem}
+  implies (one can use Lemma \ref{lem:Every linear map between Euclidean spaces are
+  bounded} here)
   \[
     f(x) = f(x_{0}) + f'(x_{0})(x - x_{0}) + o(\|x - x_{0}\|)
   ,\] or:
@@ -762,15 +780,199 @@ with continuous second partial derivatives. Then,
 \section{Differentiable convex functions} % (fold)
 \label{sec:Differentiable convex functions}
 
+\subsection{Epigraphs and Sublevel sets} % (fold)
+\label{sub:Epigraphs and Sublevel sets}
 
-\begin{theorem}
-  Let \( f \) be a convex function on convex \( D \) which yields no infinities.
-  If \( D \) is open, then \( f \) is continuous on \( D \).
+In \ref{sub:Convex optimization problem}, we have defined what convex sets and
+convex functions are. Here, we will expand on that notion, providing one with
+the machinery to check whether a function is convex or not, using the power of
+multivariable calculus and basic convex analysis.
+
+\begin{definition}[Epigraphs and Hypographs]
+\label{def:Epigraphs and Hypographs}
+  For a function \( f: X \subseteq \overline{\mathbb{R}}  \), the
+  \textbf{epigraph} of \( f \) is the set \( \operatorname{epi} f = \{(x, y) \in
+  X \times  \overline{\mathbb{R}}, y \ge f(x) \}    \). The hypograph of \( f \)
+  is the set \( \{\operatorname{hypo} f = \{(x, y) \in X \times
+  \overline{\mathbb{R}}, y \le f(x) \}  \}   \).
+
+  If \( X \subseteq \mathbb{R}^{n} \), one could consider \( (x, y) \in
+  \mathbb{R}^{n} \times  \mathbb{R} = \mathbb{R}^{n+1} \), i.e. the epigraph and
+  the hypograph are \( (n+1) \)-dimensional objects.
+\end{definition}
+
+Basically, the epigraph of \( f \) is the part above the graph of \( f \), and
+on the other hand, the hypograph is what lie below the graph of \( f \).
+However, we will only care about epigraph here, since its relatively deep
+relationship with convex functions.
+
+\begin{theorem}[Convex functions and convex epigraphs]
+\label{thr:Convex functions and convex epigraphs}
+  A function \( f: \mathbb{R}^{n} \to  \overline{\mathbb{R}}  \) is convex if
+  and only if its epigraph \( \operatorname{epi} f \) is convex.
 \end{theorem}
 
 \begin{proof}
-  Take \( x_{0} \in D \) and a neighborhood \( B(x_{0}, \varepsilon) \subseteq D
-  \). Consider a point \( x \in B(x_{0}, \varepsilon) \), let the line \(
+  If \( f \) is convex, then take points \( (x_{1}, y_{1}), (x_{2}, y_{2}),
+  \ldots , (x_{n}, y_{n}) \in \operatorname{epi} f \) and a weight vector \(
+  \lambda \ge 0 \). Denote \( A = (x_{1}, x_{2}, \ldots , x_{n})   \) and \( A'
+  = ((x_{1},y_{1}), (x_{2}, y_{2}), \ldots , (x_{n},y_{n})) = (A, f(A))\).
+  Then, \( z = \mathcal{C}(A', \lambda) = (\mathcal{C}(A, \lambda),
+  \mathcal{C}(f(A), \lambda)) \). To prove \( z \in \operatorname{epi} f \), we
+  need \( f(\mathcal{C}(A, \lambda)) \le \mathcal{C}(f(A), \lambda) \), which
+  comes from the convexity of \( f \).
+
+  If \( \operatorname{epi} f \) is convex, then pick \( (x_{1}, f(x_{1})),
+  (x_{2}, f(x_{2})), \ldots ,(x_{n}, f(x_{n})) \) from \( \operatorname{epi} f
+  \) and using the same notation as above, \( \mathcal{C}((A, f(A)), \lambda) =
+  (\mathcal{C}(A, \lambda), \mathcal{C}(f(A), \lambda)) \in \operatorname{epi}f
+  \), which suggests that \( \mathcal{C}(f(A), \lambda) \ge f(\mathcal{C}(A,
+  \lambda)) \) for arbitrary weight \( \lambda \ge 0 \).
+\end{proof}
+
+The theorem above can be used to prove that for convex functions \( (f_{i})_{i
+\in I} \), their epigraphs \( \operatorname{epi} f_{i} \) are all convex, and
+the intersection of such sets are also convex. However, note that this
+intersection is actually the set \( \operatorname{epi} f \), with \( f(x) =
+\sup_{i \in I} f_{i}(x) \). This gives us an intuitive proof for the second
+statement of Theorem \ref{thr:Operations on convex functions}.
+
+\begin{definition}[Level and Sublevel sets]
+\label{def:Level and Sublevel sets}
+  The \textbf{level set} of a function \( f: X \to Y \) at \( \alpha \in Y \) is
+  the set:
+  \[
+    L_{\alpha}(f) = f^{-1}(\{\alpha\}  ) = \{x \in X, f(x) = \alpha\}  
+  .\] 
+
+  If there is a partial order \( (\le, \ge ) \) defined on \( Y \), then one
+  also has the sublevel sets:
+  \begin{itemize}
+  \item The \textbf{lower level set} of \( f \) at \( \alpha \in Y \), denoted
+    as \( L_{\alpha}^{-}(f) = \{x \in X, f(x) \le \alpha\}   \).
+  \item The \textbf{upper level set} of \( f \) at \( \alpha \in Y \), denoted
+    as \( L_{\alpha}^{+}(f) = \{x \in X, f(x) \ge \alpha\}   \).
+  \end{itemize}
+\end{definition}
+
+\begin{theorem}[Convex functions are quasiconvex]
+\label{thr:Convex functions are quasiconvex}
+  If a function \( f: \mathbb{R}^{n} \to Y \) has \(
+  L_{\alpha}^{-}(f) \) is convex for all \( \alpha \in Y \), we say that \( f \)
+  is a \textbf{quasiconvex} function.
+
+  This terminology comes from the fact that all convex functions satisfies this
+  property.
+\end{theorem}
+
+\begin{proof}
+  Let \( f: \mathbb{R}^{n} \to  Y \) be a convex function. Then, consider \( A
+  \subseteq L_{\alpha}^{-}(f) \), we have \( f(a) \le \alpha \) for all \( a \in
+  A\).
+
+  Then, \( f(\mathcal{C}(A, \lambda)) \le \mathcal{C}(f(A), \lambda) \le \alpha
+  \), hence \( \mathcal{C}(A, \lambda) \in L_{\alpha}^{-}(f) \) for all \( \lambda
+  \ge 0\), this proves that \( L_{\alpha}^{-}(f) \) is a convex set.
+\end{proof}
+
+Of course, this naming also suggests that not all quasiconvex functions are
+convex. Such an example is the function \( f(x) = \sqrt{|x|}  \), which is concave
+(and not convex), but its lower level sets \( L_{\alpha}^{-}(f) =
+[-\sqrt{\alpha}, \sqrt{\alpha} ] \) (here we will only care about \( \alpha > 0
+\) for obvious reasons) are all convex.
+
+An alternative definition for quasiconvex functions is given as follows:
+\begin{theorem}[Alternative definition for quasiconvex functions]
+\label{thr:Alternative definition for quasiconvex functions}
+  The function \( f: \mathbb{R}^{n} \to  Y \) is quasiconvex if and
+  only if for all (finite) \( A \subseteq  \mathbb{R}^{n} \), we have:
+  \[
+    f(\mathcal{C}(A, \lambda)) \le \max f(A), \text{ for all } \lambda \ge  0.
+  \] 
+\end{theorem}
+
+\begin{proof}
+  If \( f \) is quasiconvex (in the sense that all lower level sets are convex),
+  we simply consider the level set \( L_{M}^{-}(f) \), with \( M = \max f(A) \).
+  We have \( A \subseteq L_{M}^{-} \), hence \( \mathcal{C}(A, \lambda) \in
+  L_{M}^{-} \), which suggests that \( f(\mathcal{C}(A, \lambda)) \le M = \max
+  f(A) \).
+
+  If the above inequality holds for all \( \lambda \ge 0 \) and finite \( A
+  \subseteq \mathbb{R}^{n} \), then consider \( \alpha \in Y \). If \(
+  L_{\alpha}^{-}(f) \) is nonempty, take a finite subset \( A \subseteq
+  L_{\alpha}^{-}(f) \) and we have \( f(\mathcal{C}(A, \lambda)) \le \max f(A)
+  \le \alpha \), which means \( \mathcal{C}(A, \lambda) \in L_{\alpha}^{-}(f) \)
+  for every \( \lambda \ge 0 \). Hence, \( L_{\alpha}^{-}(f) \) is a convex set.
+\end{proof}
+
+Consider a convex function \( f \) and its epigraph \( E \), which is a convex set.
+Then, \( \overline{E} \), the closure of \( E \), is a closed and convex
+function. Using Corollary \ref{cor:Closed convex sets are intersection of closed
+half-spaces}, \( \overline{E} \) is supported by infintely many hyperplanes,
+(most of) which correspond to an affine function. To be more precise, take \( x
+\in \mathbb{R}^{n}\), and we can see that \( (x, f(x)) \) trivially lies on the
+boundary of \( E \), and using Theorem \ref{thr:Supporting Hyperplane Theorem},
+there exists some hyperplane \( H: ax + by = \alpha \) that supports \( E \).
+If \( y = 0 \), then this suggests that \( ax \le \alpha \) (or \( ax \ge \alpha
+\)) for all \( x \), and since \( x \) can take any value in \( \mathbb{R}^{n}
+\), this only happens when \( a = 0 \), and \( H \) is no longer a hyperplane
+anymore. Hence, \( H \) can be written as \( y = \frac{\alpha}{b} -
+\frac{\alpha}{a}x \), which has the form of an affine function.
+
+This observation eventually lead to the following theorem.
+
+\begin{theorem}[Affine support of convex functions]
+\label{thr:Affine support of convex functions}
+  Let \( f: \mathbb{R}^{n} \to  \overline{\mathbb{R}}  \) be an arbitrary
+  function. Then, the row-vector \( a \) is called an \textbf{affine
+  support} of \( f \) at \( x_{0} \in \mathbb{R}^{n} \) if \( f(y) \ge f(x_{0})
+  + a(y - x_{0}) \), for every \( y \in \mathbb{R}^{n} \).
+
+  Then, a function \( f \) is closed and convex if and only if there is an
+  affine support of \( f \) at any \( x_{0} \in \mathbb{R}^{n} \).
+\end{theorem}
+
+To finalize this section, we will look at \textbf{subgradients} and
+\textbf{subdiferentials}.
+
+\begin{definition}[Subgradients and subdifferentials]
+\label{def:Subgradients and subdifferentials}
+  Let \( f \) be a convex function. Then \( a \) is a \textbf{subgradient} of \(
+  f\) at \( x_{0} \) if \( a^{T} \) is an affine support of \( f \) at \( x_{0} \).
+  The set of all subgradients of \( f \) at \( x_{0} \) is called the
+  \textbf{subdifferential} of \( f \) at \( x_{0} \), denoted \( \partial
+  f(x_{0}) \).
+\end{definition}
+
+Note that one can write \( \partial f(x_{0}) \) as:
+\[
+  \partial f(x_{0}) = \{a \in \mathbb{R}^{n}, \langle a, y - x_{0} \rangle \le f(y)
+  - f(x_{0}), y \in \mathbb{R}^{n}\}  
+.\]
+
+This is the intersection of (uncountably infinite) closed (and obviously convex)
+half-spaces, so \( \partial f(x_{0}) \) is a closed and convex set.
+
+% subsection Epigraphs and Sublevel sets (end)
+
+\subsection{Continuity of convex functions} % (fold)
+\label{sub:Continuity of convex functions}
+
+Not all convex functions are differentiable, which is not unsurprising at all.
+However, the interesting thing is that they can be proven continuous, despite
+having zero "analysis-like" notion (like limits, integrals, etc.) in their
+definition.
+
+\begin{theorem}
+  Let \( f: D \subseteq \mathbb{R}^{n} \to \overline{\mathbb{R}}  \).
+  If \( f \) is finite-valued in a neighborhood of \( x_{0} \in D \), then \( f
+  \) is continuous at \( x_{0} \). Morover, if \( f \) is finite-valued
+  everywhere, then \( f \) is continuous.
+\end{theorem}
+
+\begin{proof}
+  Take \( x_{0} \in D \) and a (relative) neighborhood \( B(x_{0}, \varepsilon) \subset  eq D  \). Consider a point \( x \in B(x_{0}, \varepsilon) \), let the line \(
   \mathbf{x} = \lambda x + (1- \lambda) x_{0} \) intersects \( \partial
   B(x_{0}, \varepsilon) \) at \( x_{1} \) and \( x_{2} \).
 
@@ -835,6 +1037,277 @@ with continuous second partial derivatives. Then,
   f(x) \to  f(x_{0}) \). Therefore \( f \) is continuous at \( x_{0} \).
 \end{proof}
 
+Since we allow infinity values in a convex function \( f \), one would be interested in
+the set of points \( x_{0} \) such that \( f(x_{0}) < +\infty \). This set is
+called the \textbf{effective domain} of \( f \), denoted as \(
+\operatorname{dom} f \). Hence, the above theorem is equivalent to the fact that
+\( f \) is continuous on \( \operatorname{Int} \operatorname{dom} f \).
+
+\begin{corollary}[Finite-valued convex functions are closed]
+\label{cor:Finite-valued convex functions are closed}
+  If \( f: \mathbb{R}^{n} \to  \mathbb{R}  \) is a finite-valued convex function,
+  then \( f \) is a closed convex function.
+\end{corollary}
+
+\begin{proof}
+  Consider a convergent sequence \( (x_{n}, a_{n})_{n \in \mathbb{N}} \) in \(
+  \operatorname{epi}  f\) (\( x_{n} \in \mathbb{R}^{n}, a_{n} \in \mathbb{R} \))
+  that converges to \( (\overline{x}, \overline{a}) \). We will prove that \(
+  (\overline{x}, \overline{a}) \in \operatorname{epi} f \).
+
+  Since \( f \) is continuous, we have:
+  \[
+    f(\overline{x}) = \lim_{x \to \overline{x}} f(x) = \lim_{n \to \infty}
+    f(x_{n}) \le  \lim_{n \to \infty} a_{n} = \overline{a}
+  .\] 
+  Hence, \( (\overline{x}, \overline{a}) \in \operatorname{epi} f \). Therefore,
+  \( \operatorname{epi} f \) contains all of its limit points, which means that
+  \( \operatorname{epi} f \) is a closed set.
+\end{proof}
+
+% subsection Continuity of convex functions (end)
+
+\subsection{First-order derivative of convex functions} % (fold)
+\label{sub:First-order derivative of convex functions}
+
+\begin{theorem}[Partials and convex implies differentiability]
+\label{thr:Partials and convex implies differentiability}
+  Let \( f: \mathbb{R}^{n} \to \overline{\mathbb{R}}  \) be a convex function
+  and \( x_{0} \in \operatorname{Int} \operatorname{dom} f \). Then if \( f \)
+  has partial derivatives at \( x_{0} \), then \( f \) is differentiable at \(
+  x_{0} \).
+\end{theorem}
+
+Note that unlike Theorem \ref{thr:Continuous partials implies
+differentiability}, this theorem only requires continuous partial derivatives.
+
+\begin{proof}
+  Consider a neighborhood \( B(x_{0}, n\varepsilon) \) and a vector \( d \in B(0,
+  \varepsilon) \).
+
+  By the definition of partial derivatives and directional derivatives, we have:
+  \begin{align*}
+    f(x_{0} + t d) &= f(x_{0}) + \frac{\partial f}{\partial d}(x_{0})t +o(t)\\
+    \implies f(x_{0} + t\mathbf{e_{i}}) &= f(x_{0}) + \frac{\partial f}{\partial
+    x^{i}}(x_{0}) t + o(t)
+  .\end{align*}
+
+  We have:
+  \begin{align*}
+  f(x_{0} + d) &= f \left( \frac{1}{n}(x_{0} + nd^{i}\mathbf{e_{i}}) \right) \\
+  &= \frac{1}{n}f(x_{0} + nd^{i}\mathbf{e_{i}}) \\
+  &= \frac{1}{n} \left( f(x_{0}) + n\frac{\partial f}{\partial x^{i}}(x_{0})d^{i} +
+  no(d^{i}) \right)  \\
+  &= f(x_{0}) + \frac{\partial f}{\partial x^{i}}(x_{0}) d^{i} + o(\|d\|)
+  .\end{align*}
+
+  And similarly,
+  \[
+    f(x_{0} - d) \le  f(x_{0}) - \frac{\partial f}{\partial x^{i}}(x_{0})d^{i} +
+    o(\|d\|) \\
+  .\] 
+
+  By convexity of \( f \), we have:
+  \begin{align*}
+    f(x_{0}) &\le \frac{1}{2} \left( f(x_{0} - d) + f(x_{0} + d) \right) \\
+    \implies f(x_{0} + d) &\ge 2f(x_{0}) - f(x_{0} - d) \\
+                          &\ge 2f(x_{0}) - \left( f(x_{0}) - \frac{\partial f}{\partial x^{i}}(x_{0})d^{i} +
+    o(\|d\|) \right) \\
+    &= f(x_{0}) + \frac{\partial f}{\partial x^{i}}(x_{0})d^{i} +
+    o(\|d\|)\\
+    &= f(x_{0}) + f'(x_{0})d + o(\|d\|)
+  .\end{align*}
+
+  So, from above, we have \( f(x_{0} + d) \le f(x_{0}) + f'(x_{0})d + o(\|d\|)
+  \), and here we have \( f(x_{0} + d) \ge f(x_{0}) + f'(x_{0})d + o(\|d\|) \).
+  The two little-o functions don't necessarily have to be the same, so we can
+  not naively combine the inequalities to get an equality. However, there is a
+  way to get around this, which is the squeeze theorem. Denote the two little-o
+  functions as \( h_{1}(d) \) and \( h_{2}(d) \), we have:
+  \[
+    \frac{h_{1}(d)}{\|d\|} \le \frac{f(x_{0} + d) - f(x_{0}) -
+    f'(x_{0})d}{\|d\|} \le \frac{h_{2}(d)}{\|d\|}
+  .\] 
+
+  As \( d \to 0 \), the far-left and far-right sides of the inequality tends to
+  \( 0 \), and hence the middle expression converges to \( 0 \), which is by
+  definition, equivalent to the fact that \( L(h) =
+  f'(x_{0})h\) is the multivariable derivative of \( f \) at \( x_{0} \).
+\end{proof}
+
+This theorem replaces the requirements of continuous partials by convex, which
+is generally harder to prove. In fact, the most conclusive test for convex
+function, Theorem \ref{thr:Second derivative convex test}, have the requirement
+that \( f \) is differentiable, which is the exact thing we want to prove in the
+first place. 
+
+Now, we will be interested in the properties of differentiable convex functions.
+
+First, we have this lemma:
+
+\begin{lemma}
+\label{lem:Convex inequality for one variable}
+  Let \( f: \mathbb{R} \to \mathbb{R} \) be a single-variable convex function.
+  Then, for every \( x < y < z \), we have:
+  \[
+    \frac{f(y) - f(x)}{y - x} \le \frac{f(z) - f(x)}{z - x} \le \frac{f(z) -
+    f(y)}{z - y}
+  .\] Moreover, if \( f \) is strictly convex, the above inequalities are strict.
+\end{lemma}
+
+\begin{proof}
+  The proof of this does not involves any complex (not the \( (a+bi) \)-type of
+  complex) multivariable calculus.
+
+  First, we express \( y \) as a linear combination of \( x \) and \( z \):
+  \[
+    y = \frac{z - y}{z - x}x + \frac{y - x}{z - x}z
+  .\] 
+
+  Then, by convexity of \( f \), we have:
+  \begin{align*}
+    f(y) &\le \frac{z - y}{z - x}f(x) + \frac{y - x}{z - x}f(z)
+  .\end{align*}
+
+  Using this, we have:
+  \begin{align*}
+    f(y) - f(x) &\le (y-x) \frac{f(z) - f(x)}{z - x}  \\
+    \frac{f(y) - f(x)}{y - x} &\le \frac{f(z) - f(x)}{z - x}
+  ,\end{align*} and:
+  \begin{align*}
+      f(z) - f(y) &\ge (z - y) \frac{f(z) - f(x)}{z - x}\\
+    \frac{f(z)-f(y)}{z - y} &\ge \frac{f(z) - f(x)}{z - x}
+  .\end{align*}
+\end{proof}
+
+Now, if one let \( y \to x^{+} \), and \( f \) is differentiable at \( x \), \(
+\frac{f(y)-f(x)}{y - x} \to f'(x) \). We have the inequality \( \frac{f(z) -
+f(x)}{z - x} \ge f'(x) \). Extending this idea to multivariable functions, we
+have:
+\begin{theorem}
+\label{thr:Derivative inequality of convex function}
+  Let \( f: \mathbb{R}^{n} \to \mathbb{R} \) be a differentiable
+  function. Then, \( f \) is convex if and only if:
+  \[
+    f(y) \ge f(x) + f'(x)(y-x)
+  .\] 
+\end{theorem}
+
+\begin{proof}
+  If \( f \) is convex, then let \( g(t) = f(x + t(y - x)) \), \( g \) is a
+  single-variable differentiable and convex function. Using Lemma
+  \ref{lem:Convex inequality for one variable}, we have:
+  \[
+    g'(0) = \lim_{t \to 0^{+}} \frac{g(t) - g(0)}{t - 0} \le \frac{g(1)-g(0)}{1
+    - 0} = f(y) - f(x) 
+  .\] 
+
+  Moreover, by Theorem \ref{thr:Multivariable chain rule}, we have \( g'(0) =
+  f'(x)(y - x) \), thus \( f'(x)(y - x) \le f(y) - f(x) \).
+
+  To prove the reverse case, consider \( A \subseteq \mathbb{R}^{n}, \lambda \ge
+  0\) and denote \(x_{0} = \mathcal{C}(A, \lambda) \). For every \( y \in A \),
+  we have \( f(y) \ge f(x_{0}) + f'(x_{0})(y - x_{0}) \), and hence:
+  \begin{multline*}
+    \mathcal{C}(f(A), \lambda) \ge \mathcal{C}(f(x_{0}) + f'(x_{0})(A - x_{0}),
+    \lambda) \ge f(x_{0}) - f'(x_{0})x_{0} + f'(x_{0})\mathcal{C}(A, \lambda)\\ =
+    f(x_{0}) - f'(x_{0})x_{0} + f'(x_{0})x_{0} = f(x_{0}) = f(\mathcal{C}(A,
+    \lambda)),
+  \end{multline*} and \( f \) is a convex function.
+\end{proof}
+
+\begin{corollary}[Stationary points of convex programs are GOSes]
+\label{cor:Stationary points of convex programs are GOSes}
+  If \( f \) is a convex function that is differentiable on \( \mathbb{R}^{n}
+  \), then \( x_{0} \) is a GOS of \( (P): \min f(x), x \in \mathbb{R}^{n} \)
+  if and only if \( f'(x_{0}) = 0 \).
+\end{corollary}
+
+\begin{proof}
+  Theorem \ref{thr:Critical point theorem} proved the \( \Rightarrow \) clause,
+  so we will only have to prove the reverse direction here.
+
+  Since \( f'(x_{0}) = 0 \), using Theorem \ref{thr:Derivative inequality of
+  convex function}, we have \( f(y) \ge f(x_{0}) +f'(x_{0})(y- x) = f(x_{0}) \),
+  for all \( y \in \mathbb{R}^{n} \), which means that \( x_{0} \) is a GOS of
+  \( (P) \).
+\end{proof}
+
+
+We can make the inequality more "symmetric" by using swapping \( x \) and \( y
+\) to get \( f(x) \ge f(y) + f'(y)(x-y)  \). Adding the original inequality to
+this yields \( (f'(y)-f'(x))(y - x)\ge 0 \). This inequality is actually
+equivalent to the original one (and the fact that \( f \) is convex), but we
+will not get into that here.
+
+Going back to affine supports, subgradients and subdifferentials. The value \( c
+\) is called the affine support of \( f \) at \( x_{0} \) if \( f(y)-f(x)\ge c(y -
+x) \), which fits what we have proven for the \( f'(x) \). Hence, the Jacobian
+matrix of a differentiable convex function is an affine support of that function
+at that point. And since the transpose of the Jacobian is the gradient, \(
+\nabla f(x) \) is a subgradient of \( f \) at \( x_{0} \), which is the
+motivation for the naming of subgradient. In fact, if \( f \) is continuously
+differentiable (i.e. \( \nabla f \) is continuous) at \( x \), then \( \nabla
+f(x) \) is the only subgradient of \( f \) at \( x_{0} \).
+
+% subsection First-order derivative of convex functions (end)
+
+\subsection{Second-order derivative of convex functions} % (fold)
+\label{sub:Second-order derivative of convex functions}
+
+Consider the twice-differentiable function \( f: \mathbb{R}^{n} \to \mathbb{R}
+\). We would be interested in checking whether \( f \) is convex (or concave or
+neither). For single-variable functions, \( f: \mathbb{R} \to \mathbb{R} \) is
+convex when \( f''(x) \ge 0 \), and the generalization of this to multivariable
+functions is the definiteness of the Hessian matrix:
+
+\begin{theorem}[Second derivative convex test]
+\label{thr:Second derivative convex test}
+  Let \( f: \mathbb{R}^{n} \to \mathbb{R} \) be a twice-differentiable function.
+  Then,
+  \begin{itemize}
+  \item \( f \) is convex if and only if \( f''(x_{0}) \) is
+    positive semi-definite for every \( x_{0} \in \mathbb{R}^{n} \).
+  \item If \( f''(x_{0}) \) is positive-definite, then \( f \) is
+    strictly convex.
+  \end{itemize}
+\end{theorem}
+
+\begin{proof}
+  The idea is to simply use Theorem \ref{thr:Multivariable Taylor's theorem},
+  one can rewrite the Lagrange remainder form to:
+  \[
+    f(x_{0}+\lambda d)-f(x_{0})-\lambda f'(x_{0})d =\lambda^{2}
+    \frac{d^{T}\nabla^{2}f(x_{0} + t d)d}{2}, t \in [0, \lambda],
+  \]
+
+  Note that by looking at the sign of the LHS, one can prove that \( f \) is
+  convex or strictly convex by Theorem \ref{thr:Derivative inequality of convex
+  function}.
+
+  If \( f \) is convex, LHS is positive and therefore so is RHS. Let \( \lambda
+  \to 0\), so \( t \to 0 \) and since RHS stays non-negative, we must have \(
+  d^{T}f''(x_{0})d \ge 0 \) for all vectors \( d \in \mathbb{R}^{n} \), which
+  means \( f''(x_{0}) \) is positive semi-definite.
+
+  If \( f''(x) \) is positive semi-definite for all \( x \in \mathbb{R}^{n} \),
+  then the RHS expression is non-negative. Let \( x_{0} + \lambda d = y \), we
+  have \( f(y) - f(x_{0}) \ge f'(x_{0})(y - x_{0}) \) holds true for all \( y \)
+  and \( x_{0} \). therefore, \( f \) is convex.
+
+  If \( f''(x) \) is positive-definite, then the inequality is strict when \( d
+  \neq 0 \), so \( f(y) > f(x_{0}) + f'(x_{0})(y - x_{0}) \) for all \( y \neq
+  x_{0}\), which is equivalent to the fact that \( f \) is strictly convex.
+\end{proof}
+
+Note that here, \( f \) being strictly convex does not necessarily imply that \(
+f''(x_{0})\) is positive-definite. One such counterexample is the function \( f:
+\mathbb{R} \to  \mathbb{R}\), \( f(x) = x^{4} \), with \( f''(x) = 12x^2 \),
+which is not strictly positive for all \( x \in \mathbb{R} \).
+
+% subsection Second-order derivative of convex functions (end)
+
+\iffalse
 \begin{theorem}
   Let \( f \) be a function on open convex set \( D \).
 
@@ -919,22 +1392,1324 @@ used to identify convex functions.
 \end{theorem}
 
 \begin{proof}
-  Rewrite Taylor theorem as
-  \[
-    f(x_{0}+\lambda d)-f(x_{0})-\lambda f'(x_{0})d =\lambda^{2}
-    \frac{d^{T}\nabla^{2}f(x_{0} + t\lambda d)d}{2}
-  .\], then \( f \) is convex iff LHS is non-negative for all \( x_{0}, \lambda
-  \) and \( d \). Hence, if \( \nabla ^2 f \) is positive semi-definite, then
-  RHS is non-negative and we have QED.
-
-  If \( f \) is convex, then we use the other variant of the Taylor's theorem
-  and have RHS equals to \( \frac{1}{2}\lambda ^2 d^{T}\nabla ^2 f(x_{0})d +
-  o(\lambda ^2) \), which is dominated by the first term. Hence, \( \nabla ^2
-  f(x_{0}) \) needs to be positive semi-definite for all \( x_{0} \in D \).
-
   The strictly convex case could be similarly proven.
 \end{proof}
+\fi
+
+\subsection{Convergence and convergence rate of an algorithm} % (fold)
+\label{sub:Convergence and convergence rate of an algorithm}
+
+Every recursive algorithm works by recursively constructing a (potentially
+infinite) sequence \( x_{1}, x_{2}, \ldots , x_{n}, \ldots  \). If the algorithm
+can find an exact solution, the sequence will only have finitely many steps,
+then there exists a map \( T: I \to \mathbb{R} \) that maps every input to the
+number of iterations that the algorithm requires. This map can be analyzed to
+retrieve the \textbf{time complexity} of the algorithm. Hence, this case is
+already solved. For example, the simplex method is \( O(2^{n}) \), which seems
+rather inefficient, but it works really well for real-world data.
+
+However, in the case that the sequence \( x_{n} \) is infinite, 
+
+% subsection Convergence and convergence rate of an algorithm (end)
 
 % section Differentiable convex functions (end)
+
+\section{Unimodal optimization algorithms} % (fold)
+\label{sec:Single-variable algorithms}
+
+In optimizing mutlivariable functions, sometimes, one would need to solve
+univariate nonlinear programs. Here, we will discuss several algorithms to solve
+this special class of programs. Additionally, we will only consider a special
+class of univariate functions: \textbf{unimodal functions}.
+
+\begin{definition}[Unimodal function]
+\label{def:Unimodal function}
+  A function \( f: X \subseteq \mathbb{R} \to  \mathbb{R} \) is
+  \textbf{unimodal} if there exists \( x_{0} \in X \) such that \( f \) is
+  monotonically decreasing on \( X_{-} = \{x \in X, x < x_{0}\}   \) and
+  monotonically increasing on \( X_{+} = \{x \in X, x > x_{0}\}   \).
+\end{definition}
+
+This definition is not consistent with the traditional one. \( x_{0} \) here is
+the global minimum of \( f \) on \( X \), but the original concept of this
+function: "functions with one mode (global maximum)". However, the idea is still
+the same.
+
+If \( X \) is closed, then \( f \) has a global minimum on \( X \). If
+furthermore, \( f \) is a convex function, then one can trivially prove that \(
+f\) is unimodal. Much like in binary search, we will use the "structure" of
+unimodal functions to find its GOS. For example, if \( X = [a, b] \), pick \(
+x_{1}, x_{2} \in [a, b] \), \( x_{1} < x_{2} \). One can determine the segment
+which \( x_{0} \) belongs to by simply comparing the values of
+\( f(x_{1}) \) and \( f(x_{2}) \). If \( f(x_{1}) > f(x_{2}) \), then \( x_{0}
+\in [x_{1}, b] \), and otherwise \( x_{0} \in [a, x_{2}] \). This test allows us
+to use the idea of binary search in optimizing unimodal functions.
+
+\subsection{Binary method} % (fold)
+\label{sub:Binary method}
+
+The algorithm goes as follows:
+\begin{python}
+# optimize f on [left, right]
+def binary_method(f, left, right):
+  epsilon = 1e-3 # or some small constant
+  mid = (left + right) / 2
+  x1 = mid - epsilon / 2
+  x2 = mid + epsilon / 2
+
+  if f(x1) <= f(x2):
+    # x0 is in [left, x2]
+    if x2 - left <= epsilon:
+      # if the range is too small, return x1
+      return x1
+    else:
+      return binary_method(f, left, x2)
+  else:
+    # x0 is in [x1, right]
+    if right - x1 <= epsilon:
+      # if the range is too small, return x2
+      return x2
+    else:
+      return binary_method(f, x1, right)
+\end{python}
+
+One can trivially see that if \verb|epsilon| is small, then the range
+\verb|[left, right]| scales in half each iteration, hence the name
+\textit{binary} method.
+
+% subsection Binary method (end)
+
+\subsection{Golden ratio method} % (fold)
+\label{sub:Golden ratio method}
+
+The Fibonacci sequence is defined as:
+\begin{align*}
+  F_{1} &= F_{2} = 1 \\
+  F_{n+2} &= F_{n} + F_{n + 1}, n \in \mathbb{N}
+.\end{align*}
+
+The explicit formula of \( F_{n} \) is \( F_{n} = \frac{\varphi^{n} -
+\phi^{n}}{\varphi - \phi} \), with \( \varphi = \frac{\sqrt{5}  + 1}{2} \) is
+the golden ratio, \( \phi =  \frac{1 - \sqrt{5} }{2} \) is \( \varphi \)'s
+conjugate. The exact reason why this formula exists is out of the scope, but
+using this, we have:
+\[
+  \lim_{n \to \infty} \frac{F_{n + 1}}{F_{n}} = \varphi
+.\] 
+
+The golden ratio is the number \( \varphi = \frac{a}{b} \) that satisfies:
+\[
+  \frac{a + b}{a} = \frac{b}{a}, \forall a, b > 0, \varphi = \frac{a}{b}.
+\]
+
+The idea of this method is to divide the \( [a, b] \) range into subranges, much
+like in the binary method, but with a twist. The values of \( x_{1} \) and \(
+x_{2} \), the positions that we will evaluate \( f \) at, are shared across
+iterations.
+
+In other word, if one divide the \( [a, b] \) range into \( [a, x_{2}] \) and \(
+[x_{1}, b]\), using linear interpolation:
+\begin{align*}
+  x_{1} &= \operatorname{lerp}(a, b, t_{1}) \\
+  x_{2} &=  \operatorname{lerp}(a, b, t_{2}) \\
+.\end{align*}
+
+Then, in the subranges \( [a, x_{2}] \) and \( [x_{1}, b] \), we have these
+division points:
+\begin{align*}
+  x_{11} &= \operatorname{lerp}(a, x_{2}, t_{1}) \\
+  x_{12} &= \operatorname{lerp}(a, x_{2}, t_{2}) \\
+  x_{21} &= \operatorname{lerp}(x_{1}, b, t_{1}) \\
+  x_{22} &= \operatorname{lerp}(x_{1}, b, t_{2})
+.\end{align*}
+
+Now, we have either \( x_{2} = x_{21} \) or \( x_{2} = x_{22} \). We have \(
+x_{1} > a \), then \( \operatorname{lerp}(x_{1}, b, t_{2}) >
+\operatorname{lerp}(a, b, t_{2}) \), and hence \( x_{22} > x_{2} \). Therefore,
+we must have \( x_{2} = x_{21} \), which is equivalent to:
+\begin{align*}
+  x_{2} &= x_{21} = (1 - t_{1})x_{1} + t_{1}b\\
+  &= (1 - t_{1})((1 - t_{1})a + t_{1}b) + t_{1}b \\
+  &= (1 - t_{1})^2 a + (2t_{1} - t_{1}^2)b \\
+  x_{2} &= (1 - t_{2})a + t_{2}b
+,\end{align*}hence \( 1 - t_{2} = (1 - t_{1})^2 \) and \( t_{2} = 2t_{1} -
+t_{1}^2 \).
+
+The two equations are actually equivalent (one can add them up to yield \( 1 = 1
+\)), so we need to consider the equation for \( x_{1} = x_{12} \):
+
+\begin{align*}
+  x_{1} &= x_{12} = (1 - t_{2})a + t_{2}x_{2} \\
+  &= (1-t_{2})a + t_{2}((1-t_{2})a + t_{2}b) \\
+  &= (1 - t_{2}^2)a + t_{2}^2b \\
+  x_{1} &= (1 - t_{1})a + t_{1}b
+,\end{align*}hence \( t_{2}^2 = t_{1}\).
+
+Now, we have \( t_{2} = 2t_{2}^2 - t_{2}^{4} \), or equivalently, \( t_{2}(t_{2}
+- 1)(t_{2}^2 -t_{2} - 1) = 0 \). Solving this yields \( t_{2} = \varphi \), the
+golden ratio. Then, since \( t_{1} = t_{2}^2 = \varphi ^2 \), and \( \varphi ^2
++ \varphi = 1\), we must have \( t_{1} + t_{2} = 1 \), and the division points
+\( x_{1} \) and \( x_{2} \) are symmetric wrt the midpoint.
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{figures/b}
+\end{figure}
+
+Using this, we have the golden ratio method (this algorithm will assume that \(
+f\) uses memoization, in order to make thing less complicated).
+\begin{python}
+def golden_ratio_method(f, left, right):
+  epsilon = 1e-3 # or some small constant
+  golden_ratio = (sqrt(5) - 1) / 2 # > (2 - 1) / 2 = 1/2
+  x1 = lerp(right, left, golden_ratio)
+  x2 = lerp(left, right, golden_ratio) # since golden_ratio > 1/2, x1 < x2
+
+  if f(x1) <= f(x2):
+    # in [left, x2]
+    if x2 - left <= epsilon:
+      return x1
+    else:
+      return fibonacci_method(f, left, x2)
+  else:
+    # in [x1, right]
+    if right - x1 <= epsilon:
+      return x2
+    else:
+      return fibonacci_method(f, x1, right)
+\end{python}
+
+Aside from the first iteration, the algorithm calculate \( f(x) \) (for a brand
+new value of \( x \)) once every
+iteration. For complicated objective functions, this can make the algorithm much
+faster than the binary method. However, the range scales by \( \varphi^{-1} \)
+every iteration, which is slower than the binary method.
+
+Let's do a quick comparison of the two algorithms. Assuming that every
+evaluation of \( f \) takes \( F \) units of time, and the control flow of each
+iteration takes \( I \) units of time, the number of iterations
+needed for the binary method is roughly \( N = \log_{2} L = \frac{\ln L}{\ln  2}
+\), with \( L \) being the length of the original range, so the time taken in
+the binary method is \( T_{2} = \frac{\ln L}{\ln  2}(2F + I) \). Similarly, the time
+taken for the golden ratio method is \( T_{\varphi} = \frac{\ln L}{\ln
+\varphi}(F + I) \). The ratio of the two expressions is:
+\[
+  \frac{T_{2}}{T_{\varphi}} = \frac{(2F + I)\ln \varphi}{(F + I)\ln 2}
+.\]
+
+If \( F \ll I \), then this ratio approximately become \( \frac{\ln \varphi}{\ln
+2} = 0.69\ldots  \), so the binary method is about \( 31\% \) more efficient
+than the golden ratio method. However, if \( F \gg I \), then this ratio become
+\( \frac{2 \ln \varphi}{\ln 2} = 1.39\ldots  \), so the golden ratio method is
+\( 39\% \) faster. Our premature optimization ends here.
+
+% subsection Golden ratio method (end)
+
+% section Single-variable algorithms (end)
+
+\section{Descent method} % (fold)
+\label{sec:Descent method}
+
+The simplex method, introduced in Chapter \ref{chap:Linear programming} is a
+variant of the descent method. The idea of this method is very simple: one
+simply start from a point \( x_{0} \) in the feasible set (which is
+unconstrained in unconstrained linear programs), and look at a local
+neighborhood of \( x_{0} \), then move in a direction \( d \) that minimizes \(
+f\). If every direction ends up increasing the objective function, by
+definition, \( x_{0} \) is a LOS.
+
+If the objective is to find GOSes, one may need to find some method to break out
+of the "cages" that LOSes introduces. For example, Genetic Algorithm (GA) uses
+mutation to "mutate" its set of potential solutions. This is a very hard
+problem, and there are no conclusive solution for this, hence most test
+optimization functions (escape for the trivial Sphere function)
+are functions that features multiple LOSes and an unique
+GOS, in order to test the ability to escape from the cages of LOSes.
+
+Here, we will only be interested in the naive algorithm, not caring about
+escaping LOS cages. In other words, we are only interested in finding LOSes.
+
+\subsection{Descent directions} % (fold)
+\label{sub:Descent directions}
+
+The descent method requires one to find a direction \( d \) (WLOG assuming \(
+\|d\| = 1 \), we are only interested in the direction of this vector, at least
+for now) that minimizes \( f \) at some point \( x_{0} \in \mathbb{R}^{n} \).
+For example, if \( f \) is differentiable, we have \( \frac{\partial f}{\partial
+d}(x_{0}) = f'(x_{0})d = \langle \nabla f(x_{0}), d \rangle \), representing how
+\( f \) changes in an infinitesimal neighborhood of \( x_{0} \). To minimize the
+inner product in RHS, one simply let \( d = -\frac{\nabla f(x_{0})}{\|\nabla
+f(x_{0}\|)} \). Since we are descending using the direction of the gradient,
+this method is called \textbf{gradient descent}.
+
+We can generalize this notion to the concept of \textbf{descent direction}.
+
+\begin{definition}[Descent direction]
+\label{def:Descent direction}
+  Consider the unconstrained nonlinear program \( (P): \min f(x), x \in
+  \mathbb{R}^{n} \) and a point \( x_{0} \in \mathbb{R}^{n} \) Then,
+  \( d \) is called a \textbf{descent direction} of \( (P) \) at \( x_{0}
+    \) if there exists some \( \varepsilon > 0 \) such that \(    f(x_{0} + t d)
+    > f(x_{0}) \) for all \( t \in (0, \varepsilon)    \).
+\end{definition}
+
+The above result can be formulated into a theorem:
+
+\begin{theorem}[Negative gradient is a descent direction]
+\label{thr:Negative gradient is a descent direction}
+  If \( f \) is a differentiable function on \( \mathbb{R}^{n} \), then \( d =
+  -\nabla f(x_{0}) \) is a descent direction of \( f \) at \( x_{0} \) if \( d
+  \neq 0 \). More generally, if \( f'(x_{0})d < 0 \), then \( d \) is a descent
+  direction of \( f \).
+\end{theorem}
+
+\begin{proof}
+  If \( d = -\nabla f(x_{0}) \neq 0 \), then \( f'(x_{0})d = -d^{T}d < 0 \). We
+  only need to prove the general statement.
+
+  Since \( \frac{\partial f}{\partial d}(x_{0}) = \langle \nabla f(x_{0}), d
+  \rangle < 0 \), by definition of directional derivatives, we have:
+  \[
+    \lim_{t \to  0^{+}} \frac{f(x_{0} + t d) - f(x_{0})}{t} < 0
+  .\] 
+
+  This implies that there exists some \( \varepsilon > 0 \) such that \( \forall
+  t \in (0, \varepsilon), f(x_{0} + t d - f(x_{0}) < 0\) and therefore \(
+  f(x_{0} + t d) < f(x_{0}) \), \( d \) is a descent direction of \( f \).
+\end{proof}
+
+For convex differentiable functions, we have the reverse direction of Theorem
+\ref{thr:Negative gradient is a descent direction}.
+
+\begin{theorem}[Descent direction of convex differentiable function]
+\label{thr:Descent direction of convex differentiable function}
+  Let \( f: \mathbb{R}^{n} \to \mathbb{R}\) be a convex differentiable function.
+  Then, \( d \) is a descent direction of \( f \) if and only if \( f'(x_{0})d <
+  0\).
+\end{theorem}
+
+\begin{proof}
+  If \( f'(x_{0})d < 0 \), by the previous theorem, \( d \) is a descent
+  direction of \( f \).
+
+  Since \( f \) is convex, by Theorem \ref{thr:Derivative inequality of convex
+  function}, we have \( f(x_{0} + \lambda d) \ge f(x_{0}) + \lambda f'(x_{0})d
+  \). If \( d \) is a descent direction of \( f \), then there exists some \(
+  \lambda > 0 \) such that \( f(x_{0} + \lambda d) < f(x_{0}) \), which means
+  that \( f'(x_{0})d < 0 \).
+\end{proof}
+
+% subsection Descent directions (end)
+
+\subsection{Exact and inexact line search} % (fold)
+\label{sub:Exact and inexact Line search}
+
+Now that we have the direction to iterate towards, we need to specify how much
+to translate the original solution.
+his factor is called the \textbf{step length}. If the step length is too small, then
+the algorithm will need more iterations to converge to a LOS, and if it is too
+large, the algorithm will \textit{overshoot}. The 
+
+Now that we have descent directions and step lengths, we can implement the
+descent method in pseudocode:
+\begin{python}
+def descent(f, x0):
+  d = find_descent_direction(f, x0)
+  if d is not None or some_other_condition():
+    return x0
+  l = find_step_length(f, x0, d)
+  x0 += l * d
+  return descent(f, x0)
+\end{python}
+
+The most naive way to determine step length is to simply take the step length to
+whatever that minimizes \( f \). This method is called \textbf{exact line
+search}, since despite it naivety, it's the most efficient (in terms of how many
+iterations, not accounting for the time for each iteration) and "exact" way to
+solve the problem. The exact step length of a descent direction \( d \) can be
+calculated as:
+\[
+  L(x_{0}, d) \in \operatorname{Argmin}_{t > 0} f(x_{0} + t d)
+.\] Here, do note that multiple exact step length can exist concurrently, much
+like how there may be many GOSes for an optimization problem.
+
+For example, if one let \( f(x) = \frac{1}{2}x^{T}Ax + bx + c, x \in
+\mathbb{R}^{n}, A \in \mathbb{R}^{n\times n}, b \in \mathbb{R}^{1\times n}, c
+\in \mathbb{R} \), \( d = -\nabla f(x_{0}) \) and \( A \) is positive-definite,
+then one can calculate \( L(x_{0}, d) \) using an explicit formula (without
+inverting \( A \)).
+
+First, it is trivial to see that \( f \) is convex, and \( d \) is a descent
+direction of \( f \) implies that \( x_{0} \) is not a GOS of \( (P): \min f(x),
+x \in \mathbb{R}^{n}\). Then, let \( \varphi(t) = f(x_{0} + t d) \) and use
+Theorem \ref{thr:Multivariable chain rule}, we have:
+\[
+  \varphi'(t) = \frac{df}{d(x_{0} + t d)} \frac{d(x_{0} + t d)}{dt} = f'(x_{0} +
+  t d)d
+.\]
+
+Substituting \( f'(x) = x^{T}A + b \) to this identity yields:
+\[
+  \varphi'(t) = ((x_{0}+t d)^{T}A + b)d = (x_{0}^{T}A + b)d + td^{T}Ad
+.\] 
+
+Since \( A \) is positive-definite, \( \varphi'(t) \) is an increasing linear
+function, which means that \( \varphi \) has a global minimum at \( t_{0} \)
+such that \( \varphi'(t_{0}) = 0 \). We can calculate \( t_{0} \) to be:
+\[
+  t_{0} = -\frac{(x_{0}^{T}A + b)d}{d^{T}Ad}
+,\] and this is the exact step length of \( d \).
+
+This expression is very efficient to calculate, since it does not involve any
+inefficient operations (the most inefficient one here is probably matrix-vector
+multiplication, which is only \( O(n^2) \) complexity).
+
+The descent method that uses exact step length and negative gradient as its
+descent direction is called the \textbf{steepest descent} method.
+
+Exact line search only works for simple functions. Here, we will look at how to
+roughly estimate a good step length. Since this algorithm is not exact, we will
+call such algorithms \textbf{inexact line search}.
+
+These algorithms work by finding the step length \( t_{0} \) such that \(
+f(x_{0} + t d) < f(x_{0}) \), and to ensure convergence, \( t_{0} \) must
+satisfy several conditions. One such condition is the Armijo conditions. This
+works at \( x_{0} \in \mathbb{R}^{n} \)for functions \( f \), but with
+additional conditions like \( f \) being Lipschitz continuous and a weird and
+complex condition. We will not discuss them here, but for many functions (L.
+Armijo described them to be "functions having Lipschitz coninuous first partial
+derivatives"), these conditions are satisfied for all \( x_{0} \in
+\mathbb{R}^{n} \).
+
+Consider a descent direction \( d \) of \( f \) at \( x_{0} \in \mathbb{R}^{n}
+\), we have:
+\[
+  \frac{\partial f}{\partial d}(x_{0}) = f'(x_{0})d = \lim_{t \to  0^{+}}
+  \frac{f(x_{0} + t d) - f(x_{0})}{t} < 0
+.\] 
+
+Which is equivalent to:
+\[
+  \lim_{t \to  0^{+}}  \frac{f(x_{0} + t d) - f(x_{0})}{tf'(x_{0})d} = 1
+.\]
+
+Hence, for every \( m \in (0, 1) \), there exists \( t_{0} \) such that \(
+\frac{f(x_{0} + t d) -f(x_{0})}{tf'(x_{0})d} \ge  m \), or \( f(x_{0} + t d) \le 
+f(x_{0}) + mt f'(x_{0})d \) for all \( t \in (0, t_{0}] \). \textbf{Backtracking
+line search} works by finding \( t_{0} \) for some fixed value \( m \). The idea
+is simple, one starts with \( t_{0} = t_{max} \) (tipically \( t_{max} = 1 \)), and
+decreases \( t_{0} \) by multiplying it with some constant \( \alpha \in (0, 1)
+\). To check whether \( t_{0} \) is valid, we will only check the inequality for
+\( t = t_{0} \):
+\begin{python}
+t_max = 1
+def backtracking_line_search(f, x0, d):
+  jf = jacobian(f, x0)
+  t0 = t_max
+
+  while f(x0 + t * d) > f(x0) + m * t0 * jf * d:
+    t0 *= alpha
+
+  return t0
+\end{python}
+
+% subsection Exact and inexact line search (end)
+
+\subsection{Multivariate Newton's method} % (fold)
+\label{sub:Multivariate Newton's method}
+
+Solving for critical points is equivalent to solving \( g(x) = \nabla f(x) = 0 \) (and
+find points where \( \nabla f(x) \) is undefined). This is a nonlinear equation,
+and there is no general way to solve these. However, there are many
+approximation methods for this. One such method is the Newton's method.
+
+The traditional Newton's method is used to find roots of nonlinear
+single-variable equations: \( g(x) = 0 \), if \( g \) is a differentiable
+function. The idea is simply repeatedly reassigning \( x = x -
+\frac{g(x)}{g'(x)} \) until the solution is good enough. Here, we will elaborate
+further about the motivation of this formula and more importantly, generalize it
+to multivariable functions.
+
+The idea of the method goes as follow. Consider the Taylor expansion at a point
+\( x_{0} \in \mathbb{R}^{n} \):
+\[
+  g(x) \approx g(x_{0}) + g'(x_{0})(x - x_{0})
+.\]
+
+If one knows \( g(x_{0}) \) and \( g'(x_{0}) \), and would want to find \( x \)
+such that \( g(x) = 0 \), one can approximate \( x \) as:
+\begin{align*}
+  &0 \approx g(x) = g(x_{0}) + g'(x_{0})(x - x_{0}) \\
+  &\implies x - x_{0} \approx - g'(x_{0})^{-1}g(x_{0})\\
+  &\implies x \approx x_{0} - g'(x_{0})^{-1}f(x_{0})
+.\end{align*}
+
+For some, the generalization from the single-variable formula to this formula is
+obvious, since replacing division in \( \mathbb{R} \) by multiplying with
+the inverse matrix. We derive it here in order to show the motivation for the
+method.
+
+Substituting back \( g = \nabla f \), we have \( g' = \nabla ^2f \) and:
+\[
+  x = x_{0} - f''(x_{0})^{-1}\nabla f(x_{0})
+.\] 
+
+The direction of \( x - x_{0} \), \( -f''(x_{0})^{-1} \nabla f(x_{0}) \) is
+called the \textbf{Newton direction} of \( f \) at \( x_{0} \). Here is a
+relationship between Newton directions and descent directions:
+
+\begin{theorem}[Newton directions are descent directions]
+\label{thr:Newton directions are descent directions}
+  If \( f''(x_{0}) \) is positive-definite, then the Newton direction of \( f \)
+  at \( x_{0} \): \( n(x_{0}) = -f''(x_{0})^{-1}\nabla f(x_{0}) \) is a descent
+  direction of \( f \).
+\end{theorem}
+
+\begin{proof}
+  One simply calculate \( f'(x_{0})n(x_{0}) \) as follows:
+  \begin{align*}
+    f'(x_{0})n(x_{0}) = -\nabla f(x_{0})^{T}f''(x_{0})^{-1}\nabla f(x_{0}) < 0
+  ,\end{align*} since \( f''(x_{0}) \) is positive-definite (and therefore so is
+  its inverse). By Theorem \ref{thr:Negative gradient is a descent direction},
+  \( n(x_{0}) \) is a descent direction of \( f \) at \( x_{0} \).
+\end{proof}
+
+The Newton's method can utilize constant step length or using backtracking line
+search to determine the step length. However, one can see two problems of this method:
+\begin{itemize}
+\item \( n(x_{0}) \) does not necessarily have to be a descent direction of \( f
+  \) at \( x_{0} \).
+\item \( f''(x_{0}) \) does not necessarily have to be invertible.
+\item Inverting \( f''(x_{0}) \) (or solving for \( n(x_{0}) \) for better
+  performance) is very inefficient.
+\end{itemize}
+
+To fix this, one can reuse the idea of "caching" like in the simplex method.
+However, there are no exact way to calculate \( f''(x)^{-1} \) from \(
+f''(x_{0})^{-1} \), so the best thing here is to approximate. This is called the
+\textbf{Quasi-Newton methods}. For linear approximations,
+this theorem will come in handy:
+
+\begin{theorem}[Sherman-Morrison formula]
+\label{thr:Sherman-Morrison formula}
+  Let \( A \in \mathbb{R}^{n\times n} \) be an invertible \( n\times n \)
+  matrix, then the matrix \( A' = A + uv^{T} \) is invertible if and only if \(
+  1 + v^{T}A^{-1}u \neq 0\). In this case:
+  \[
+    A'^{-1} = A^{-1} - \frac{A^{-1}uv^{T}A^{-1}}{1 + v^{T}A^{-1}u}
+  .\] 
+\end{theorem}
+
+\begin{proof}
+  We have:
+  \begin{align*}
+    (A + uv^{T})(A^{-1}-\frac{A^{-1}uv^{T}A^{-1}}{1 + v^{T}A^{-1}u}) - I_{n} &= -
+    \frac{uv^{T}A^{-1}}{1 + v^{T}A^{-1}u} + uv^{T}A^{-1}
+    -\frac{u(v^{T}A^{-1}u)v^{T}A^{-1}}{1 + v^{T}A^{-1}u}\\
+    &= uv^{T}A^{-1} -  \frac{u(1 + v^{T}A^{-1}u)v^{T}A^{-1}}{1 + v^{T}A^{-1}u} \\
+    &= 0
+  .\end{align*}
+
+  To prove the result in the case \( 1 + v^{T}A^{-1}u = 0 \), one can use the
+  Matrix determinant lemma. In a nutshell, skipping the details of \( \det(I +
+  uv^{T}) = 1 +  u^{T}v = 1 + v^{T}u \), we have:
+  \[
+    \det A' = \det(A + uv^{T}) = \det(A) \det(I_{n} + A^{-1}uv^{T}) = (1 +
+    v^{T}A^{-1}u)\det A
+  .\] 
+
+  Hence, one can see that \( A' \) is invertible if and only if \( 1 +
+  v^{T}A^{-1}u \neq 0 \), given that \( A \) is already invertible.
+\end{proof}
+
+For example, in the Davidon-Fletcher-Powell formula, we update the "approximated
+inversed Hessian matrix" using this formula:
+\begin{align*}
+  u &=  \nabla f(x_{0} + t d) - \nabla f(x_{0}) \\
+  v &= H(x_{0})u \\
+  H(x_{0} + t d) &= H(x_{0}) + \frac{dd^{T}}{u^{T}d}t - \frac{vv^{T}}{u^{T}H(x_{0})u}
+.\end{align*}
+
+As one can see, the formulas here are very complicated, and so is the motivation for
+the formula.
+
+% subsection Multivariate Newton's method (end)
+
+% section Descent method (end)
+
+\section{Search algorithms for nondifferentiable functions} % (fold)
+\label{sec:Search algorithms for nondifferentiable functions}
+
+Here, we will list two relatively simple search algorithms for nondifferentiable
+functions.
+
+\subsection{Hooke-Jeeves method} % (fold)
+\label{sub:Hooke-Jeeves method}
+
+\begin{python}
+def hooke_jeeves(f, x0):
+  delta = 1 # one should start off with a large delta
+  epsilon = 1e-3 # a small positive constant
+  n = dimensions(x0)
+  v = identity(n) * delta
+
+  while True:
+    old_x0 = x0
+    for i in range(n):
+      x0 = argmin(f, [x0, x0 - v_i, x0 + v_i])
+    if x0 == old_x0:
+      if delta <= epsilon:
+        return x0
+      else:
+        v /= 2
+        delta /= 2
+    else:
+      x0 = 2 * x0 - old_x0
+\end{python}
+
+The method basically explores the (discrete) neighborhood of a given point \(
+x_{0} \). If \( x_{0} \) is the most optimal, it decreases the step length
+(\verb|delta|) and continue searching in a smaller neighborhood, or stop the
+algorithm once the precision is sufficient. Otherwise, we move to the point \(
+x_{0}' \) that is symmetric to \( x_{0} \) (\verb|old_x0|) across the most
+optimal neighbor (\verb|x0|). The matrix \( v \) here simply acts as an array of
+standard basis vectors, no matrix operations are done to it (scaling it simply
+means scaling all column vectors of \( v \)).
+
+% subsection Hooke-Jeeves method (end)
+
+\subsection{Sequential simplex search algorithm} % (fold)
+\label{sub:Sequential simplex search algorithm}
+
+The idea of this algorithm is to construct a simplex, which is the most simple
+convex polytope (bounded convex polyhedron) in \( n \) dimensions. Every
+iteration, one move or shrink the simplex by looking at the least optimal vertex
+of the simplex, and try to replace it with better points. If it can't find any
+better points, it simply shrink the simplex at the most optimal simplex. Every
+iteration, the algorithm makes the vertices of the simplex "more optimal".
+
+\begin{python}
+# calculate the center of gravity of the simplex,
+# with weights determined by `f`
+def center_of_gravity(vertices, weight_function):
+  sum_weights = 0
+  center = [0] * dimensions(vertices[0])
+  for v in vertices:
+    w = weight_function(v)
+    sum_weights += w
+    center += v * w
+  return center / sum_weights
+
+def sequential_simplex(f, simplex_vertices):
+  n = dimensions(f)
+
+  if simplex_vertices is None:
+    # initialize the simplex on first iteration
+    simplex_vertices = []
+  
+    for _ in range(n):
+      vertex = random_vector(n)
+      simplex_vertices.append(vertex)
+
+  x_max = argmax(f, simplex_vertices)
+  x_min = argmin(f, simplex_vertices)
+  i_max = simplex_vertices.find(x_max)
+  i_min = simplex_vertices.find(x_min)
+
+  # if the simplex vertices are roughly as optimal, end the program
+  if f(x_max) - f(x_min) < epsilon:
+    return x_min
+
+  center = center_of_gravity(simplex_vertices, lambda x: abs(f(x)))
+
+  # reflect x_max about center
+  x_reflect = 2 * center - x_max
+
+  if f(x_reflect) <= f(x_min):
+    # reflect center about x_reflect
+    center_reflect = 2 * x_reflect - center
+
+    # replace x_max by a better point
+    simplex_vertices[i_max] = center_reflect if f(center_reflect) < f(x_min)
+                                             else x_reflect
+  elif f(x_reflect) < f(x_max):
+    simplex_vertices[i_max] = x_reflect
+  else:
+    # x_reflect is even worse than x_max
+    # so maybe a point between x_max and center is good?
+    x_midpoint = (x_max + center) / 2
+    if f(x_midpoint) < f(x_max):
+      simplex_vertices[i_max] = x_midpoint
+    else:
+      # we are basically out of points to substitute,
+      # so our last resort is to shrink the simplex from x_min
+      for i in range(len(simplex_vertices)):
+        simplex_vertices[i] = (simplex_vertices[i] + x_min) / 2
+  return sequential_simplex(f, simplex_vertices)
+\end{python}
+
+% subsection Sequential simplex search algorithm (end)
+
+% section Search algorithms for nondifferentiable functions (end)
+
+\section{Convergence and convergence complexity} % (fold)
+\label{sec:Convergence and convergence complexity}
+
+\subsection{Asymptotic notation} % (fold)
+\label{sub:Asymptotic notation}
+
+We have been using this notation throughout in this book, so here we will define
+them rigorously.
+
+\begin{definition}[Asymptotic notation]
+\label{def:Asymptotic notation}
+  Consider two functions \( f(x): X_{1} \to  \mathbb{R} \) and \( g(x): X_{2}
+  \to \mathbb{R} \) and a point \( x_{0} \) on \( X = \overline{X_{1}} \cap
+  \overline{X_{2}}  \). Then, we have:
+  \begin{itemize}
+  \item If \( \limsup_{x \to x_{0}} \frac{|f(x)|}{g(x)} < +\infty \), or for every
+    neighborhood \( B(x_{0}, \varepsilon) \subseteq X \), there exists \( M \)
+    such that \( |f(x)| \le Mg(x), \forall x \in B(x_{0}, \varepsilon) \), then
+    one can write \( f(x) = O(g(x)) \)
+  \item If \( \lim_{x \to x_{0}} \frac{f(x)}{g(x)} = 0 \), or for every \( 
+    M > 0\), there exists a neighborhood \( B(x_{0}, \varepsilon) \subseteq X\)
+    such that \( |f(x)| \le Mg(x), \forall  x \in B(x_{0}, \varepsilon) \), then
+    one can write \( f(x) = o(g(x)) \).
+  \item If \( g(x) = O(f(x)) \), one can write this alternatively as \( f(x) =
+    \Omega(g(x)) \)\footnote{This is not equivalent to the Big Omega notation of
+    Hardy and Littlewood, which is oftenly used in analytic number theory. Here,
+    we are using the Knuth definition, which has been extensively used in
+    complexity theory}.
+  \item If \( g(x) = O(f(x)) \) and \( f(x) = O(g(x)) \), then one can write \(
+    f(x) = \Theta(g(x)\).
+  \item If \( \lim_{x \to x_{0}} \frac{f(x)}{g(x)} = 1 \), then one can write \(
+    f(x) \sim g(x)\)
+  \end{itemize}
+\end{definition}
+
+This is somewhat an abuse of notation, since we have \( x = O(x) = 2x \), but \(
+x\) and \( 2x \) are different functions. Therefore, when asymptotic notation is
+used, one can not use the transitive property of equality.
+
+A way to get around this is to use set notation, for example \( f(x) \in O(g(x))
+\). Here, \( o(g(x) \), \( O(g(x)) \), \( \Theta(g(x)) \) and \( \Omega(g(x)) \)
+can be thought of as set of functions satisfying the respective conditions, and one
+can add, multiply these sets with a regular function (or sets of functions)
+to get a new set of functions. Since the \( \in \) binary relation is not
+transitive, this is very well-defined. But since history is not on our side, we
+still have to cope with the original notation.
+
+For example, if there is a some algorithm that process an array with length \( n
+\), if one looks at the nitty-gritty details like CPU caches, memory latency and
+processing speed, the runtime of the algorithm would be a very complicated
+expression. However, one can approximate the runtime as a linear function with
+relative to \( n \): \( T(n) = an + b \). Here, calculating the constants \( a \) and
+\( b \) would again, be impossible due to all of the details described above. To
+solve this, one basically write \( T(n) = O(n) \). This also make things much
+easier to handle, for example, if \( T(n) = \sqrt{An^2 + Bn + C}  \), then one
+can just reduce the square root sign entirely and write \( T(n) = O(n)  \).
+Also, in analyzing algorithmic complexity, one rarely care about the exact
+amount of steps. For example, if one have a \verb|int| variable \( i \) loops from
+\( 1 \) to \( \lfloor \sqrt{x} \rfloor \), we can skip the flooring in
+complexity analysis, resulting in something like a \( O(\sqrt{n} ) \)
+algorithm.
+
+An asymptotic identity, by its definition, can be thought of a limit, and
+therefore, must be handled carefully. One can add and multiply both sides, much
+like limits, but just like limit, one can't use the transitive property of
+equality, for example.
+
+Going back to the definition, we have the set \( \overline{X}  \), which is the
+closure of \( X \). This is to extend the set of feasible \( x_{0} \)'s to a
+wider range. For example, most functions works only with the real numbers, and
+not \( +\infty \), but in the \( \overline{\mathbb{R}} = \mathbb{R} \cup \{\pm
+\infty\}    \) topology, the closure of \( \mathbb{R} \) is \(
+\overline{\mathbb{R}}  \), and hence, one can use this notation for \( x_{0} =
++\infty \). This is used extensively in complexity analysis, since the input of
+algorithms were generally considered to be very large. The variable \( x_{0} \)
+is oftenly induced from the situation. If one is looking at the complexity of
+algorithms, \( x_{0} = +\infty \). But in things like the Taylor series, \(
+x_{0} = 0 \).
+
+\iffalse
+Here is a little fun theorem that relates this and convex analysis.
+
+\begin{theorem}[Big-O functions form a convex cone]
+\label{thr:Big-O functions form a convex cone}
+  Let \( O(f(x)) \) be the set of functions \( g(x) \) such that \( g(x) =
+  O(f(x)) \) (as \( x \to x_{0} \) for some fixed \( x_{0} \)).
+  Then, \( O(f(x) \) is a convex cone in the linear space of
+  functions (with the same domain and codomain as \( f \)).
+\end{theorem}
+
+\begin{proof}
+  Let \( A\subseteq O(f(x)) \). Then for every \( a(x) \in A \), we have:
+  \[
+    \limsup_{x \to x_{0}} \frac{|a(x)|}{f(x)} < +\infty
+  .\] 
+
+  Then, for we have:
+  \begin{align*}
+    \limsup_{x \to x_{0}} \frac{|\mathfrak{C}(A, \lambda)(x)|}{f(x)} 
+    &\le
+    \left| \limsup_{x \to x_{0}} \frac{\mathfrak{C}(A, \lambda)(x)}{f(x)}
+    \right| \\
+    &= \left|\mathfrak{C}\left(\limsup_{x \to x_{0}}\frac{A(x)}{f(x)}, \lambda
+    \right)\right|\\
+    & \le \mathfrak{C} \left( \limsup_{x \to x_{0}} \frac{|A(x)|}{f(x)}, \lambda
+    \right) \\
+    &< \mathfrak{C}(\{+\infty, +\infty, \ldots \}, \lambda )\\
+    &< +\infty
+  .\end{align*}
+
+  Hence, \( \mathfrak{C}(A, \lambda) \in O(f(x)) \)
+\end{proof}
+\fi
+
+% subsection Asymptotic notation (end)
+
+\subsection{Convergence rate of sequences} % (fold)
+\label{sub:Convergence rate of sequences}
+
+All of the above algorithms work recursively, and they basically start from a
+point \( x_{0} \), find a more optimal point \( x_{1} \), find a even more
+optimal point \( x_{2} \), etc. until the stop condition has been reached.
+Hence, these algorithms basically produces sequence of solutions for each
+optimization problem. Assuming that we give the algorithm no stopping condition
+(i.e. we want infinite precision), and even when an optimal solution has been
+reached, the algorithm would repeat that solution in this sequence, every
+invocation of an optimization algorithm produces an infinite list. We can now
+judge how good the algorithm is (num-of-iteration-wise), by looking at the
+\textbf{convergence rate} of this sequence.
+
+\begin{definition}[Convergence rate of a sequence]
+\label{def:Convergence rate of a sequence}
+  Let \( (x_{n})_{n \in \mathbb{N}} \) be a convergent sequence: \( x_{n}\to
+  x^{*} \) as \( n \to +\infty \).
+
+  We say that \( x_{n} \) converges with order \( q \) and with factor \( \gamma  \)
+  if:
+  \[
+    \gamma \ge  \limsup_{n \to +\infty} \frac{\|x_{n + 1} -
+    x^{*}\|}{\|x_{n} - x^{*}\|^{q}}
+  .\] 
+
+  This is equivalent to:
+  \[
+    0 \le \|x_{n + 1} - x^{*}\| \le \gamma \|x_{n} - x^{*}\|^{q}, \text{for
+    arbitrary large } n \in \mathbb{N}
+  .\] 
+\end{definition}
+
+We have some special cases:
+\begin{itemize}
+\item If \( q = 1 \), \( \gamma = 1 \), we say convergence is sublinear.
+\item If \( q = 1 \), \( \gamma \in (0, 1) \), we say convergence is linear.
+\item If \( q = 1 \), \( \gamma = 0 \), we say convergence is superlinear.
+\item If \( q = 2 \), we say convergence is quadratic.
+\item If \( q = 3 \), we say convergence is cubic.
+\end{itemize}
+
+Quadratically convergent and cubically convergent sequences also converges
+superlinearly.
+
+When an iterative method solves an optimization problem, it generates many
+sequences: \( x_{n} \), the argument sequence, \( f(x_{n}) \), the objective
+value sequence, and for problems with differentiable objective functions, there
+is also the gradient sequence \( \nabla f(x_{n}) \). Some sequences are derived
+from the sequence \( f(x_{n}) \). First, the error sequence \( e_{n} = f(x_{n})
+- f^{*}\) (\( f^{*} = \lim_{n \to \infty} f(x_{n}) \) and the error digit count
+sequence \( d_{n} = -\log e_{n} \).
+
+Here, the error sequence represents how unoptimal the current solution is, and
+the error digit count sequence shows how many accurate digits the current error
+is.
+
+We look at some examples:
+
+\textbf{Example} Consider the simple geometric proession:
+\[
+  x_{0} = 1, x_{1} = \frac{1}{2}, x_{2} = \frac{1}{4}, \ldots , x_{n} =
+  2^{-n},\ldots 
+.\] 
+
+This sequence converges linearly, with \( q = 1, \mu  = \frac{1}{2} \). We have
+\( N(\varepsilon) = -\log _{2} \varepsilon = O(-\log \varepsilon) = O(\delta) \).
+
+\textbf{Example} Consider a faster converging sequence:
+\[
+  x_{0} = \frac{1}{2}, x_{1} = \frac{1}{4}, x_{2} = \frac{1}{16}, x_{3} =
+  \frac{1}{256}, \ldots ,x_{n} = 2^{-2^{n}}, \ldots 
+.\] 
+
+This sequence converges quadratically, with \( q = 2, \mu  = 1 \). We have \(
+N(\varepsilon) = \log_{2} (-\log _{2} \varepsilon) = O(\log O(\delta)) \).
+
+\textbf{Example} Consider the algorithm that calculate \( \pi  \), in every
+iteration of it, it yields a new digit of in the decimal expansion of \( \pi
+\), i.e.
+\[
+  x_{0} = 3, x_{1} = 3.1, x_{2} = 3.14, x_{3} = 3.141, x_{4} = 3.1415,\ldots 
+.\] 
+
+Then, we have \( 0 < |x_{n} - \pi| < 10^{-n} \) for all \( n \in \mathbb{N} \).
+Using this, we can have an estimate for \( N(\varepsilon) \) as \(
+N(\varepsilon) = O(-\log \varepsilon) = O(\delta) \).
+
+This sequence has \( q = 1 \) and \( \mu = \frac{1}{10} \). This combination of
+order of convergence and rate of convergence is \textbf{linear rate}. More
+generally, a sequence converges with linear rate if it has order of convergence
+\( q = 1 \) and rate of convergence \( \mu \in (0, 1) \). When \( \mu = 0 \) and
+\( \mu = 1 \), it is called \textbf{sublinear rate} and \textbf{superlinear
+rate}, respectively.
+
+\textbf{Example} Consider the algorithm that calculate \( \ln 2 \) by the series:
+\[
+  \ln 2 = \sum_{n = 1}^{+\infty} \frac{(-1)^{n+1}}{n} =
+  1-\frac{1}{2}+\frac{1}{3}-\frac{1}{4}+\ldots 
+.\] 
+(Here, \( x_{n} \) is the \( n \)-th partial sum of this series \( x_{n} = \sum_{k =
+1}^{n} \frac{(-1)^{k + 1}}{k} \).)
+
+The error terms are:
+\[
+  e_{n} = \sum_{k = n + 1}^{+\infty} \frac{(-1)^{n+1}}{n + 1} = O \left(
+  \frac{1}{n} \right) 
+.\]
+(This result is unproven, since it's outside the scope of what we are discussing
+here.)
+
+In optimization problems, if a method achieves convergence, then there are many
+\textit{convergent things}: \( x_{n} \to x^{*} \), \( f(x_{n}) \to x^{*} \) or \(
+f'(x_{n}) \to 0 \) (for differentiable problems). The convergence theorems
+basically prove that one of the \textit{things} mentioned above is convergent, but it
+does not necessarily mean that the \textit{other things} are convergent too, and
+obviously, knowing the convergent rate of one \textit{thing} does not
+necessarily implies that of the other \textit{things}.
+
+Here, we will mostly look at the convergence of the sequence \( f(x_{n}) \), and not
+\( x_{n} \). This is somewhat easy to see why, since the quantities like gradients, the
+Hessian, etc. talk about the change in \( f \) (with relative to the change in
+\( x \), but the main thing is still about the change in \( f \)). Assuming an
+algorithm generates
+the sequence \( x_{0}, x_{1}, \ldots  \) that converges to \( x^{*} \) (or
+weaker, \( f(x_{k}) \) converges to some value \( f^{*} \), which will be
+denoted as \( f(x^{*}) \) here),
+we denote the \( k \)-th \textbf{error} as \( e_{k} = f(x_{k}) - f(x^{*}) \).
+Note that this term is always non-negative, since \( x_{n} \) is a
+non-increasing sequence.
+We also don't really talk much about the error, but rather how many digits of
+them are certain. This amount is represented by the sequence \( d_{n}= -\log
+e_{n} = \log \frac{1}{e_{n}}  \).
+
+For some value of \( \varepsilon > 0 \), denote \( N(\varepsilon) \) as the
+minimum value of \( N \) such that \( e_{n} < \varepsilon, \forall  n \ge N \).
+Then, one can use asymptotic notation to write \( N(\varepsilon) \). Here, one
+implicitly let \( \varepsilon \to 0 \). We also denote \( \delta = -\log
+\varepsilon \), representing the number of digits in \( \varepsilon \).
+
+
+Hence, one can see that \( N(\varepsilon) = O \left( 1 / \varepsilon
+\right)  = O(10^{\delta}) \). This is called \textbf{exponential time}. And as
+one can see, for every new digit of \( \ln 2 \), the algorithm takes more and more
+iterations to compute. This is very inefficient.
+
+This sequence has \( q = 1 \) and \( \mu = 1 \). As discussed above, this
+sequence converges sublinearly.
+
+We will generalize this result further.
+
+\begin{theorem}[Iteration complexity of linear convergence]
+\label{thr:Iteration complexity of linear convergence}
+Let \( x_{n} \) be a convergent sequence with rate of convergence \( \mu \in[0,
+1]  \) and order of convergence \( q = 1 \). Then, denote \( \delta = -\log
+\varepsilon \), we have:
+\begin{itemize}
+\item If \( \mu  = 0 \), then \( N(\varepsilon) \le O(\log \delta) \).
+\item If \( \mu = 1 \), then \( N(\varepsilon) \le  O(1 / \varepsilon) \).
+\item Otherwise, \( N(\varepsilon) \le  O(\delta) \).
+\end{itemize}
+\end{theorem}
+
+\begin{proof}
+  We have:
+  \[
+    \lim_{n \to +\infty} \frac{\|x_{n + 1} - x^{*}\|}{}
+  .\] 
+\begin{itemize}
+\item If \( \mu  = 1 \), then we have:
+\item If \( \mu  = 0 \), then we have:
+  \[
+    1 = \lim_{n \to \infty} \frac{e_{n + 1} - e_{n}}{e_{n}} 
+  .\] 
+  using the definition of limits, for every \(
+  \varepsilon_{0} > 0 \), there exists some \( M(\varepsilon_{0}) > 0 \)
+  such that:
+  \[
+    0 \le  e_{n + 1}  \le \varepsilon_{0} e_{n}, \forall n \ge  M(\varepsilon_{0}) 
+  .\] 
+
+  Repeatedly using this, we have: \( e_{n + N} \le \varepsilon_{0}^{n} e_{N}, \forall N \ge
+  M(\varepsilon_{0}), n \in \mathbb{N}\). Then, if \( \varepsilon_{0} ^{n}e_{N} <
+  \varepsilon \), then \( e_{n + N} < \varepsilon \), which is equivalent to \(n
+  > \frac{\log \varepsilon_{0} - \log e_{N}}{\log e_{N}}
+  \)
+
+\end{itemize}
+\end{proof}
+
+We can look at how fast \( e_{k} \) converges. By the above definition, we have
+\( e_{n + 1} \approx \mu e_{n}^{q} \). Repeatedly using this approximation, we
+have:
+\begin{align*}
+  e_{n + N} &\approx \mu e_{n + N - 1}^{q} \\
+            &\approx \mu^{1 + q} e_{n + N - 2}^{q^2}\\
+            &\approx \ldots \\
+            &\approx \mu ^{1 + q + \ldots  + q^{n}}e_{N}^{q^{n}}
+.\end{align*}
+
+Here, \( N \) is a very large number, and because of that, \( e_{N} \) would be
+very small. Here, we will let \( e_{N} \in (0, 1) \) to get a juicy
+"geometric-like progression". 
+\iffalse
+The \( \mu^{1 + q + \ldots +q^{N}}  \) term here
+is basically insignificant\footnote{A more careful analysis works as follows. If
+\( q \le  1 \), then since \( x_{n} \) converges, \( \mu \in [0, 1] \), then this
+term even make the error smaller. Otherwise, \( q > 1 \) makes \( q^{2^{n}} \) a
+geometric progression that grows super fast. That and the fact that it is the
+exponent of a power with base \( e_{N} \in (0, 1) \) make the \( \mu^{1 + q +
+\ldots  + q^{n}} \) basically a nothing-burger.}
+, so we will omit that term.
+\fi
+Taking the logarithm of both sides yields:
+\[
+  d_{n + N} \approx -\log e_{n + N} \approx -(1 + q + \ldots  + q^{n})\log \mu +
+  q^{n}d_{N}
+.\]
+If \( q < 1 \), the convergence is painfully slow. If we have developed some
+algorithm that have that convergence rate, we may as well throw that algorithm
+into the trash can.
+
+If \( q > 1 \), then we can have this estimation:
+\[
+  d_{n + N} \approx q^{n} \left( d_{N} + \frac{\log \mu}{q - 1} \right)
+.\] 
+
+When \( N \) is large, \( d_{N} \gg -\frac{\log \mu}{q - 1} \), and therefore \(
+d_{n + N} \approx q^{n}d_{N}\), \( d_{n} \) can be thought of as a geometric
+series, so it grows very quickly. In other words, the more iterations we run,
+the more digits each iteration would give us.
+
+
+If \( q = 1 \), we have three cases:
+\begin{itemize}
+\item \( \mu = 0 \): \textbf{superlinear rate}. Here, 
+\end{itemize}
+
+For linearly convergent sequences, we have \( q = 1 \), and since \( x_{n} \)
+converges, we must have the rate of convergence \( \mu \in [0, 1] \). \( \mu = 0
+\) is superlinear rate, \( \mu = 1 \) is sublinear rate, and \( \mu  \in (0, 1)
+\) is simply linear rate.
+
+Now, we will look at how \textit{good} superlinear rate is. Unwrapping the
+limit, for every \( \varepsilon > 0 \), there exists some \( N > 0 \) such that:
+\[
+  (\mu - \varepsilon)\|x_{n}-x^{*}\| \le 
+  \|x_{n+1}-x^{*}\| \le 
+  (\mu + \varepsilon)\|x_{n}-x^{*}\|, \forall n \ge  N
+.\]
+
+Applying this multiple times yields:
+\[
+  0 \le \|x_{n + N} - x^{*}\| \le (\mu + \varepsilon)^{n}\|x_{N} - x^{*}\|
+.\] 
+
+Pick \( \varepsilon \) such that \( \mu + \varepsilon \in (0, 1) \), one ends up
+with roughly this rate of convergence: \( \|x_{n} - x^{*}\| \sim
+\mu^{n} \). Then, if one wants the estimation error to be at most \( \varepsilon
+\), one just need \( O \left( \log  \right)  \)
+
+% subsection Convergence rate of sequences (end)
+
+\subsection{Convergence theorems} % (fold)
+\label{sub:Convergence theorems}
+
+In this section, we will discuss results about convergence of the algorithms
+that we introduced earlier in this section. First, we have the notion of
+\textbf{Lipschitz continuity}.
+
+\begin{definition}[Lipschitz continuity]
+\label{def:Lipschitz continuity}
+  Let \( (X, d_{X}) \) and \( (Y, d_{Y}) \) be metric spaces and \( f: X \to Y
+  \). Then, we say that \( f \) is Lipschitz continuous on \( X' \subseteq X
+  \) with constant \( M > 0 \) if:
+  \[
+    d_{Y}(f(x_{1}), f(x_{2})) \le Md_{X}(x_{1}, x_{2}), \forall  x_{1}, x_{2}
+    \in X'
+  .\] 
+\end{definition}
+
+One can proves that Lipschitz continuity implies continuity pretty easily. To
+prove \( f \) is continuous at \( x_{0} \in X \), we need to prove that for
+every \( \varepsilon > 0 \), there exists some \( \delta \) such that \(
+d_{Y}(f(x), f(x_{0})) < \varepsilon \) for all \( x \in B(x_{0}, \delta) \).
+This can be achieved by letting \( \delta = \frac{\varepsilon}{M} \).
+
+Now we will look at the convergence of descent method. First, we will look at
+convergence of the classic gradient descent method (with fixed step length).
+
+\begin{theorem}[Convergence of gradient descent with fixed step length]
+\label{thr:Convergence of gradient descent with fixed step length}
+  Let \( f: \mathbb{R}^{n} \to \mathbb{R} \) be a convex and differentiable
+  function, and its gradient is Lipschitz continuous with constant \( M > 0
+  \). If \( t \in\left( 0, \frac{1}{L} \right]  \) is the step length of a
+  gradient descent process, which yields the value \( x_{k} \) after \( k \)
+  iterations, then:
+  \[
+    f(x_{k}) - f(x^{*}) \le \frac{1}{2tk}\|x_{0}-x^{*}\|^2
+  ,\] with \( x^{*} \) denoting the global minimum of \( f \).
+\end{theorem}
+
+Using this inequality, we can trivially see that \( f(x_{k}) \to f(x^{*}) \) as
+\( k \to +\infty \). This means that \( x_{k} \) will converge to a point as
+optimal as \( x^{*} \). Note that \( f \) here is convex, and in a convex
+optimization problem, all LOSes are GOSes. So we don't need to worry about
+whether \( x_{k} \) converges to a LOS or not.
+
+\begin{proof}
+  From the definition of the multivariable derivative, applied to \( f''(x) \):
+  \[
+    \lim_{h \to 0} \frac{|\nabla f(x_{0}+h)-\nabla f(x_{0}) - f''(x_{0})h|}{\|h\|} = 0
+  .\] 
+
+  Substitute \( h = tv \) for some fixed \( v \in \mathbb{R}^{n} \), we have:
+  \[
+    \|f''(x_{0})v\| = \lim_{t \to 0^{+}} \frac{|\nabla f(x_{0}+tv)-f(x_{0})|}{t} \le
+    \lim_{t \to  0^{+}} \frac{L\|x_{0} + tv - x_{0}\|}{t} = L\|v\|
+  .\] 
+
+  Using this, we have \( |v^{T}f''(x_{0})v| \le \|v\| \|f''(x_{0})v\| \le
+  L\|v\|^2\). Now using the Lagrange remainder form of Theorem
+  \ref{thr:Multivariable Taylor's theorem}, for some \( \theta \in [0, 1] \), we have:
+  \begin{align*}
+    f(x_{0} + h) &= f(x_{0}) -f'(x_{0})h +\frac{1}{2} h^{T}f''(x_{0} + \theta h)h\\
+                 &= f(x_{0})-f'(x_{0})h+\frac{1}{2} L\|h\|^2
+  .\end{align*}
+
+  Substitute \( x_{0} = x_{k} \) and \( h = x_{k+1} - x_{k} = -t\nabla f(x_{k})
+  \), we have:
+  \begin{align*}
+    f(x_{k+1}) &= f(x_{k}) - t\|\nabla f(x_{k})\|^2 + \frac{1}{2}Lt^2\|\nabla
+    f(x_{k})\|^2  \\
+    &= f(x_{k}) - t\|\nabla f(x_{k})\|^2 \left( 1 - \frac{Lt}{2} \right)  \\
+    &\le f(x_{k}) - \frac{1}{2}t \|\nabla f(x_{k})\|^2
+  .\end{align*}
+
+  This is a really interesting result. It showed that, if we knew the value for
+  \( L \), then we can always pick a step length that always decrease the
+  objective function in every step of gradient descent. Note that this does not
+  rely on the condition \( f \) is convex, so this inequality also holds for
+  nonconvex functions with Lipschitz continuous gradient.
+
+  Now, using Theorem \ref{thr:Derivative inequality of convex function}, we
+  have:
+  \begin{align*}
+    &f(x^{*}) - f(x_{k}) \ge f'(x_{k})(x^{*} - x_{k})\\
+    \implies &f(x_{k})\le f(x^{*})+f'(x_{k})(x_{k}-x^{*})
+  .\end{align*}
+
+  Substitute this to the above inequality, we have:
+  \begin{align*}
+    f(x_{k+1}) - f(x^{*}) &\le f'(x_{k})(x_{k}-x^{*}) - \frac{1}{2t}\|\nabla
+    f(x_{k})\|^2\\
+    &= \frac{1}{2t} \left( 2t \nabla f(x_{k})^{T}(x_{k}-x^{*}) - \|\nabla
+    f(x_{k})\|^2 - \|x_{k} - x^{*}\|^2 \right)  + \frac{1}{2t}\|x_{k}-x^{*}\|^2\\
+    &= -\frac{1}{2t}\|x_{k} - t\nabla f(x_{k}) - x^{*}\|^2 +
+    \frac{1}{2t}\|x_{k}-x^{*}\|^2\\
+    &= \frac{1}{2t}\left( \|x_{k}-x^{*}\|^2 - \|x_{k+1}-x^{*}\|^2 \right) 
+  .\end{align*}
+
+  Taking the sum as \( k \in 0..(n - 1) \) yields:
+  \begin{align*}
+    \sum_{k=0}^{n-1} \left( f(x_{k+1}) - f(x^{*}) \right) &\le \frac{1}{2t}
+    \left( \|x_{0}-x^{*}\|^2 - \|x_{n}-x^{*}\|^2 \right) \le
+    \frac{\|x_{0}-x^{*}\|^2}{2t}
+  .\end{align*}
+
+  Now, note that the terms of the LHS sum are non-increasing, we have the following
+  inequality:
+  \[
+    f(x_{n}) - f(x^{*}) \le \frac{1}{2nt}\|x_{0}-x^{*}\|^2
+  .\] 
+\end{proof}
+
+Moving to the steepest descent algorithm. It seems to be more "efficient" than
+the naive gradient descent, so one would expect it to converge similarly, and
+maybe with less conditions (especially convexity). The following theorem proves
+that, but the suprising thing is not only does one not need convexity, but
+without the Lipschitz continuity condition, the algorithm would still converge!
+
+\begin{theorem}[Global Convergence of Steepest Descent]
+\label{thr:Global Convergence of Steepest Descent}
+  Let \( f: \mathbb{R}^{n} \to \mathbb{R} \) be a continuous differentiable
+  function. Start the steepest descent progress with initial point \( x_{0} \)
+  such that the lower level set \( L = L_{f(x_{0})}^{-}(f) \) is bounded (and
+  therefore compact), then the algorithm will converges to a stationary point \(
+  x^{*} \) of \( f \), i.e. \( f'(x^{*}) = 0 \).
+\end{theorem}
+
+\begin{proof}
+  Denote the value yielded at iteration \( k \) of the algorithm as \( x_{k} \).
+  One can trivially see that \( f(x_{k}) \) is a non-increasing
+  sequence. Since \( L \) is closed, \( m = \min_{x \in \mathbb{R}^{n}} f(x) =
+  \min_{x \in L} f(x) \) exists, and therefore \( f(x_{k}) \) is bounded below.
+  This means that \( f(x_{k}) \) converges as \( k \to
+  +\infty \).
+
+  Now assuming that \( \|\nabla f(x_{k})\| \) does not converge to \( 0 \), i.e.
+  there exists some \( \varepsilon > 0 \) such that \( \|\nabla f(x_{k})\| \ge
+  \varepsilon \) for infinitely many \( k \in \mathbb{N} \). Denote \( i_{k} \)
+  as the \( k \)-th index of \( i \) satisfying this inequality, then \(
+  x_{i_{k}} \) is a infinite sequence and \( x_{i_{k}} \in L \). Since \( L \)
+  is closed, by the \textit{Bolzano-Weierstrass Theorem}, there exists a
+  subsequence \( x_{j_{k}} \) of \( x_{i_{k}} \) that converges to \( z \).
+  Trivially, we have \( \|\nabla f(z)\| > 0 \).
+
+  By Theorem \ref{thr:Multivariable Taylor's theorem}, we have:
+  \[
+    f(z - t \nabla f(z)) = f(z) - t\|\nabla f(z)\|^2 + o(t) \le f(z) -
+    \frac{1}{2}t \|\nabla f(z)\|^2
+  .\] 
+
+  The last inequality holds for arbitrary small \( t \), since \( o(t) \le
+  \frac{1}{2}t \|\nabla f(z)\|^2 \) holds for such values of \( t \). Pick \(
+  t_{0} \) as one such value of \( t \), then we have:
+  \begin{align*}
+    f(x_{j_{k} + 1}) &= \min_{t \ge 0} f(x_{j_{k}} - tf'(x_{j_{k}}))\\
+    &\le f(x_{j_{k}}-t_{0}\nabla f(x_{j_{k}})) \\
+    &= f(x_{j_{k}}-t_{0}\nabla f(x_{j_{k}})) - f(z - t_{0}\nabla f(z)) + f(z -
+    t_{0}\nabla f(z)) \\
+    &\le  f(x_{j_{k}}-t_{0}\nabla f(x_{j_{k}})) - f(z - t_{0}\nabla f(z)) + f(z) -
+    \frac{t_{0}}{2}\varepsilon ^2 \\
+  .\end{align*}
+
+  Subtracting \( f(x_{j_{k}}) \) from both sides and let \( k \to +\infty \):
+  \[
+    \underbrace{f(x_{j_{k}}+1) - f(x_{j_{k}})}_{\to 0}
+     \le 
+     \underbrace{\left( 
+    f(x_{j_{k}}-t_{0}\nabla f(x_{j_{k}})) - f(z - t_{0}\nabla f(z))
+\right)}_{\to 0}
++ \underbrace{(f(z) - f(x_{j_{k}}))}_{\to 0} -
+    \frac{t_{0}}{2}\varepsilon ^2 \\
+  .\] 
+
+  Here, the last two convergence is due to \( f \) being continuous and \(
+  x_{j_{k}} \) converges to \( z \). The first one is the result of the fact
+  that \( f(x_{k}) \) converges, proved right at the start of the proof.
+  Hence, we must have \( t_{0}\varepsilon ^2 \le 0 \), which contradicts with \(
+  t_{0} > 0\) and \( \varepsilon \neq 0 \).
+\end{proof}
+
+Despite this nice result, the real world still found an optimization problem to
+mess with this method. This is due to the hardware limitation of computers,
+unable to represent infinite precision and therefore prone to numerical errors.
+This nonlinear program is to minimize the Rosenbrock function, which is a very
+simple function: \( f(x, y) = 10(y-x^2)^2+(x-1)^2 \).
+
+For inexact line search methods, if can ensure that the step length of each
+iterations satisfies certain conditions, then one can prove the convergence of
+the algorithm will converge to a stationary point. Such conditions had been
+used above in the Backtracking line search algorithm. One may think as condition
+as \textit{constraints} that we must satisfy to make thing work, but in reality,
+they act more like \textit{clues}, helping us find better and better step
+lengths for our algorithm. Remember, if the conditions listed in these theorems
+could not be ensured, it does not mean that our algorithm is going to fail,
+we just simply lose the certainty for it to work. And as one can see above, even
+when the conditions are met, factors like float precision can always cause
+issues.
+
+Without further ado, here is \textbf{Zoutendijk's Theorem}, a valuable result in
+proving the convergence of inexact line search methods.
+
+\begin{theorem}[Zoutendijk's Theorem]
+\label{thr:Zoutendijk's Theorem}
+  Let \( f: \mathbb{R}^{n} \to \mathbb{R} \) be a continuous
+  differentiable function, \( f \) is bounded below and its gradient is
+  Lipschitz continuous on \( \mathbb{R}^{n} \).
+
+  In the descent method, let the descent direction of the \( k \)-th iteration
+  be \( d_{k} \), and the step length \( \alpha_{k} \) satisfies the Wolfe
+  condition, which is:
+  \begin{itemize}
+  \item Armijo's condition: \( f(x_{k+1}) \le f(x_{k}) +
+    m\alpha_{k}f'(x_{k})d_{k} \), for some \( m > 0 \)
+  \item Curvature condition: \( f'(x_{k + 1})d_{k} \ge
+    m'f'(x_{k})d_{k} \), for some \( m' < 1 \).
+  \end{itemize}
+
+  Then, denote \( \theta_{k} \) as the angle between \( d_{k} \) and \( \nabla
+  f(x_{k}) \), the following non-negative series converges:
+  \[
+    \sum_{k \ge 0} \cos(\theta_{k})^2 \|\nabla f(x_{k})\|^2 < +\infty
+  .\] 
+\end{theorem}
+
+Note that this implies \( \lim_{k \to \infty} \cos(\theta_{k})^2\|\nabla
+f(x_{k})\|^2 = 0 \). If we are picking the descent direction \( d_{k} \) such
+that \( \theta_{k} \) has a lower bound (e.g. not picking \( d_{k} \) such that
+\( \theta_{k} = \frac{1}{k} \) for example), then the cosine term is bounded in
+an interval with no zero, forcing \( \nabla f(x_{k}) \) to converges to \( 0 \).
+
+Also, as one can see, this theorem has a lot of conditions, but we can freely
+ignore some when running the algorithm and it might still work well (in most
+cases). However, in designing algorithm, one can some of the above conditions to
+find a better step length, which is why the Armijo's condition is included in
+Backtracking line search.
+
+\begin{proof}
+  First, let \( M \) be the constant satisfying: \( \|\nabla f(x_{1})-\nabla
+  f(x_{2})\| \le M\|x_{1}-x_{2}\|, \forall  x_{1}, x_{2} \in \mathbb{R}^{n}\),
+  then we have:
+  \[
+    \|(f'(x_{1})-f'(x_{2}))d\| \le \|\nabla f'(x_{1})-\nabla f'(x_{2})\| \|d\|
+    \le M\|x_{1}-x_{2}\|\|d\|, \forall  x_{1}, x_{2}, d \in \mathbb{R}^{n}
+  .\] 
+
+  Start with the Curvature's condition and Lipschitz continuity of the gradient:
+  \begin{align*}
+    &f'(x_{k + 1} \ge m'f'(x_{k})d_{k}\\
+    &\implies (m' -
+    1)f'(x_{k})d_{k} \le (f'(x_{k + 1}) - f'(x_{k}))d_{k}\\
+    &\implies (m' -
+    1)f'(x_{k})d_{k} \le M\alpha_{k}\|d_{k}\|^2
+  .\end{align*}
+
+  Hence, we have:
+  \[
+    \alpha_{k} \ge \frac{m'-1}{M} \frac{f'(x_{k})d_{k}}{\|d_{k}\|^2}
+  .\] 
+
+  From Armijo's condition:
+  \begin{align*}
+    f(x_{k + 1}) - f(x_{k}) &\le m\alpha_{k}f'(x_{k})d_{k} \\
+                               &\le \frac{m(m' - 1)}{M}
+                               \frac{(f'(x_{k})d_{k})^2}{\|d_{k}\|^2}\\
+                               &= \frac{m(m'-1)}{M}\|\nabla f(x_{k})\|^2
+                               \cos(\theta_{k})^2
+  .\end{align*}
+
+  Then, we have:
+  \begin{align*}
+    &\cos (\theta_{k})^2\|\nabla f(x_{k})\|^2 \le \frac{M}{m(1 - m')}
+    (f(x_{k}) - f(x_{k + 1}))\\
+    \implies 0 \le &\sum_{k \ge 0} \cos(\theta_{k})^2 \|\nabla f(x_{k})\|^2 \le
+    \frac{M}{m(1-m')}(f(x_{0}) - \lim_{k \to \infty} f(x_{k})) < +\infty
+  .\end{align*}
+\end{proof}
+
+% subsection Convergence theorems (end)
+
+% section Convergence and convergence complexity (end)
 
 % chapter Unconstrained Nonlinear Programming (end)

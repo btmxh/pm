@@ -870,22 +870,70 @@ Finally, we arrive at the definition of a convex function.
 \end{definition}
 
 Equivalently, \( f \) is (finitely) convex iff \( f(\lambda x + (1-\lambda)y) \le \lambda
-f(x) + (1 - \lambda)f(y) \) for all \( x, y \in A, \lambda \in [0, 1] \).
-There are a few problems with infinite sets, but we
-will ignore them for now.
+f(x) + (1 - \lambda)f(y) \) for all \( x, y \in A, \lambda \in [0, 1] \). This
+can be proven using induction (wrt \( |A| \)).
 
-A basic property of convex function \( f \) is that its epigraph, \(
-\operatorname{epi}(f) = \{(x, y), f(x) \le  y\}   \) is a convex set. Moreover,
-let \( L_{\alpha}(f)= \{x, f(x) \ge  \alpha\}   \) be the lower level set of \(
-f\) wrt \( \alpha \), then \( f \) is convex iff \( L_{\alpha}(f) \) is convex
-for all \( \alpha \)
+One can expand the domain of convex sets, i.e. for every convex function \( D
+\subseteq \mathbb{R}^{n} \to  \mathbb{R} \), there exists a function \( f^{*}:
+\mathbb{R}^{n} \to  \mathbb{R} \cup  \{+\infty\}   \)
+defined as:
+\[
+  f^{*}(x) = \begin{cases}
+    f(x), &\text{ if } x \in D\\
+    +\infty, & \text{otherwise}
+  \end{cases}
+,\] which is also convex. Hence, we will only consider convex functions \( f:
+\mathbb{R}^{n} \to  \mathbb{R} \cup \{+\infty\}   \) from now on, since every
+convex function on Euclidean space can be turned into this form. Also, we will
+denote \( \overline{\mathbb{R}} = \mathbb{R} \cup  \{+\infty\}    \) to make
+things less mouthful.
 
-Convexness is also "closed" under conical combination, i.e. \( A \) is a
-collection of convex functions then \( \mathfrak{C}(A, \lambda) \) is also a
-convex function. Additionally, the function \( f(x) = \max A(x) \) is also a
-convex function.
+From a collection of fundamental convex functions like \( f(x) = x^{n} \) or \(
+f(x) = \|x\|\), we can combine them to get more complicated one. The types of
+combination are listed in the following theorem:
 
-After all of that theory about convex functions, we have the following theorem,
+\begin{theorem}[Operations on convex functions]
+\label{thr:Operations on convex functions}
+  Let \( f_{i}: \mathbb{R}^{n} \to  \overline{\mathbb{R}} , i \in I \) be a
+  (potentially-uncountable infinite) family of convex functions. Then, the
+  following functions are convex:
+  \begin{itemize}
+  \item (Convex conical combination) \( f = \sum_{i \in I} \alpha^{i}f_{i}  \),
+    with \( \alpha \ge 0 \) and \( I \) is finite.
+  \item (Supremum and maximum) \( f(x) = \sup_{i \in I} f_{i}(x)
+    \) (even when \(  I\) is uncountable infinite). When \( I \) is finite, \(
+    f(x) = \max_{i \in I} f_{i}(x) \).
+  \item (Precomposition with an affine function) Let \( g(x) = Tx + b \) be an
+    affine function, then \( f = f_{i} \circ g \) is a convex function for all \( i
+    \in I\).
+  \item (Postcomposition with an monotonic increasing convex function) Let \(
+    g: \mathbb{R} \to  \overline{\mathbb{R}}  \) be an increasing function,
+    then \( f = g \circ f_{i} \) is a convex function for all \( i \in I \).
+  \end{itemize}
+\end{theorem}
+
+\begin{proof}
+  \begin{itemize}
+  \item \( f(\mathcal{C}(A, \lambda)) = \alpha^{i}f_{i}(\mathcal{C}(A, \lambda))
+    \le \alpha^{i}\mathcal{C}(f_{i}(A), \lambda) \le
+    \mathcal{C}(\alpha^{i}f_{i}(A), \lambda)=\mathcal{C}(f(A), \lambda)\).
+  \item A satisfying way to solve this is to use epigraphs. However, we will
+    delay that until we have defined that. For now, we have \( f(\mathcal{C}(A,
+    \lambda)) \le \sup_{i \in I} f_{i}(\mathcal{C}(A, \lambda) \le
+    \sup_{i \in I} \mathcal{C}(f_{i}(A), \lambda) = \mathcal{C}(\sup_{i \in I}
+    f_{i}(A),     \lambda) = \mathcal{C}(f(A), \lambda)\), which proves that \(
+    f\) is convex.
+  \item \( f(\mathcal{C}(A, \lambda)) = f_{i}(T\mathcal{C}(A,
+    \lambda) + b) = f_{i}(\mathcal{C}(TA + b, \lambda)) \le
+    \mathcal{C}(f_{i}(TA+b), \lambda) = \mathcal{C}(f(A), \lambda) \)
+  \item \( f(\mathcal{C}(A, \lambda)) = g(f_{i}(\mathcal{C}(A, \lambda))) \le
+    g(\mathcal{C}(f_{i}(A), \lambda)) \) (since \( g \) is increasing), and \(
+    g(\mathcal{C}(f_{i}(A), \lambda)) \le \mathcal{C}(g(f_{i}(A)), \lambda) =
+    \mathcal{C}(f(A), \lambda) \) (since \( g \) is convex).
+  \end{itemize}
+\end{proof}
+
+After all of this theory about convex functions, we have the following theorem,
 which states a valuable property about convex minimization problems.
 
 \begin{theorem}
