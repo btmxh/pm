@@ -1,0 +1,522 @@
+%! TEX root = mira/main.tex
+\chapter{Riemann Integration}
+
+\section{Exercises 1A} % (fold)
+\label{sec:Exercises 1A}
+
+\begin{enumerate}[label=\textbf{1A.\arabic*}]
+  \item Denote the partitioning points of \( P \) be \( a = x_{0} < x_{1} <
+    \ldots  < x_{n} = b \), then we have:
+    \begin{align*}
+      0 = U(f, P, [a, b]) - L(f, P, [a, b]) &= \sum_{i = 1}^{n} (x_{i} -
+      x_{i-1})
+      \left( \sup_{x \in [x_{i-1}, x_{i}]} f(x) - \inf_{x \in [x_{i-1}, x_{i}]}
+      f(x) \right) \ge 0
+    .\end{align*}
+    Equality only holds if all of the terms \( (x_{i} -
+      x_{i-1})
+      \left( \sup_{x \in [x_{i-1}, x_{i}]} f(x) - \inf_{x \in [x_{i-1}, x_{i}]}
+      f(x)  = 0\right) \) for all \( i \in 1..n \). This is equivalent to:
+      \[
+        \sup_{x \in [x_{i-1}, x_{i}]} f(x) - \inf_{x \in [x_{i-1}, x_{i}]} f(x),
+        \forall  i \in 1..n
+      ,\] or \( f \) is constant on the closed intervals \( [x_{i-1}, x_{i}] \)
+      for all \( i \in 1..n \).
+
+    This implies \( f \) is a constant function on \( [a, b] \).
+  \item \label{1A2} Consider the two partitions:
+    \begin{align*}
+      P_{1}(\varepsilon)&: a < s - \varepsilon < t + \varepsilon < b\\
+      P_{2}(\varepsilon)&: a < s + \varepsilon < t - \varepsilon < b
+    ,\end{align*} defined for small \( \varepsilon \in [0, \varepsilon_{0}] \).
+
+    Then, we can evaluate:
+    \begin{align*}
+      U(f, P_{1}(\varepsilon), [a, b]) &= t - s + 2\varepsilon \\
+      L(f, P_{2}(\varepsilon), [a, b]) &= t - s - 2\varepsilon
+    .\end{align*}
+
+    Letting \( \varepsilon \to 0\) yields the following:
+    \begin{align*}
+      U(f, [a, b]) &\le \inf_{\varepsilon \in [0, \varepsilon_{0}]} U(f,
+      P_{1}(\varepsilon), [a, b]) = \inf_{\varepsilon \in [0, \varepsilon_{0}]}
+      (t-s+2\varepsilon) = t - s\\
+      L(f, [a, b]) &\ge \sup_{\varepsilon \in [0, \varepsilon_{0}]} L(f,
+      P_{2}(\varepsilon), [a, b]) = \sup_{\varepsilon \in [0, \varepsilon_{0}]}
+      (t-s-2\varepsilon) = t - s
+    .\end{align*}
+    Hence, \( U(f, [a, b]) \le t - s \le L(f, [a, b]) \implies L(f, P) = U(f, P) = t -s
+    \), QED.
+  \item \label{1A3} If \( f \) is Riemann integrable on \( [a, b] \), assuming
+    \( U(f, [a, b]) > L(f, [a, b]) \), then for every \(
+    0\le  \varepsilon < U(f, [a, b]) - L(f, [a, b]) \), there exists some
+    partition \( P
+    \) such that:
+    \begin{gather*}
+    U(f, P, [a, b]) - L(f, P, [a, b]) < \varepsilon < U(f, [a,
+    b]) - L(f, [a, b])\\
+    \implies U(f, P, [a, b]) - U(f, [a, b]) < L(f, P, [a, b]) - L(f, [a, b]).
+    \end{gather*}
+    This contradicts with the definitions of \( U(f, [a, b]) \) and \( L(f, [a,
+    b]) \), since LHS is non-negative and RHS is non-positive.
+
+    If \( U(f, [a, b]) = L(f, [a, b]) \), then for every \( \varepsilon_{1},
+    \varepsilon_{2} > 0 \), there exists two partitions \( P_{1} \) and \( P_{2}
+    \) such that:
+    \begin{alignat*}{2}
+      0 &\le L(f, P_{1}, [a, b]) - L(f, [a, b]) &\le \varepsilon_{1} \\
+      0 &\le U(f, [a,b]) - U(f, P_{2}, [a, b]) &\le \varepsilon_{2}
+    .\end{alignat*}
+    Then, consider the partition \( P \) formed by combining the partition points of \(
+    P_{1} \) and \( P_{2} \). By Theorem 1.5 of MIRA, we have:
+    \[
+      L(f, P_{1}, [a, b]) \le L(f, P, [a, b]) \le U(f, P, [a, b]) \le U(f,
+      P_{2}, [a, b])
+    ,\] implying:
+    \begin{align*}
+      0 \le U(f, P, [a, b]) - L(f, P, [a, b]) &\le U(f, P_{2}, [a, b]) - L(f,
+      P_{1}, [a, b])\\
+                                              &\le U(f, [a, b]) - L(f, [a,
+                                              b]) + (\varepsilon_{1} +
+                                              \varepsilon_{2})\\
+                                              &=  \varepsilon_{1} + \varepsilon_{2}
+    .\end{align*}
+    Since \( \varepsilon_{1} \) and \( \varepsilon_{2} \) can be arbitrarily
+    chosen, we can pick them such that \( \varepsilon_{1} + \varepsilon_{2} =
+    \varepsilon \), QED.
+  \item \label{1A4}
+    First, consider an interval \( I \) in the domain of \( f + g \). For every
+    \( x_{0} \in I \), we have:
+    \[
+      f(x_{0}) + g(x_{0}) \le \sup_{x \in I} f(x) + \sup_{x \in I} g(x)
+    .\] 
+    Hence, RHS is an upper bound on \( (f + g)(x), x \in I \). By the definition
+    of supremums, we have:
+    \[
+      \sup_{x \in I} (f+g)(x) \le \sup_{x \in I} f(x) + \sup_{x \in I} g(x)
+    .\] 
+    Consider the partition \( P: a = x_{0} < x_{1} < x_{2} < \ldots <x_{n} =
+    b\), then:
+    \[
+      \sup_{x \in [x_{i-1}, x_{i}]}
+      f(x) +
+      \sup_{x \in [x_{i-1}, x_{i}]}
+      g(x) \ge 
+      \sup_{x \in [x_{i-1}, x_{i}]}
+      (f+g)(x), \forall i \in 1..n
+    ,\] 
+    which implies:
+    \[
+      U(f, P, [a, b]) + U(g, P, [a, b]) \ge U(f + g, P, [a, b])
+    .\] 
+    Similarly, we have:
+    \[
+      L(f, P, [a, b]) + L(g, P, [a, b]) \le L(f + g, P, [a, b])
+    .\]
+    Hence,
+    \[
+      (U - L)(f+g, P, [a, b]) \le (U-L)(f, P, [a, b]) + (U-L)(g, P, [a,b])
+    .\] 
+    Now, from the definition of the Riemann integral, for every \(
+    \varepsilon_{1}, \varepsilon_{2} > 0 \), there exists two partitions \(
+    P_{1} \) and \( P_{2} \) such that:
+    \begin{alignat*}{4}
+      U(f, P_{1}, [a, b]) - \varepsilon_{1} &< U(f, [a, b]) &&= \int_{a}^{b} f 
+                                            && =
+      L(f, [a, b]) &&< L(f, P_{1}, [a, b]) + \varepsilon_{1}\\
+      U(g, P_{2}, [a, b]) - \varepsilon_{2} &< U(g, [a, b]) &&= \int_{a}^{b} g
+                                            && =
+      L(g, [a, b]) &&< L(g, P_{2}, [a, b]) + \varepsilon_{2}
+    .\end{alignat*}
+    Hence, we have:
+    \[
+      (U - L)(f+g, P, [a, b]) \le 2(\varepsilon_{1}+\varepsilon_{2})
+    .\] 
+    RHS is arbitrarily small, so by \ref{1A3}, \( f + g \) is Riemann integrable
+    on \( [a, b] \). To calculate \( \int_{a}^{b} (f+g) \), one just needs:
+    \begin{align*}
+      U(f+g, P, [a, b]) &\le U(f, P, [a, b]) + U(g, P, [a, b])\\
+                        &\le \int_{a}^{b} f  + \int _{a}^{b} g +
+                        (\varepsilon_{1} + \varepsilon_{2})
+    ,\end{align*}
+    and similarly,
+    \[
+      L(f+g, P, [a, b]) \ge \int _{a}^{b} f + \int _{a}^{b} g - (\varepsilon_{1}
+      + \varepsilon_{2})
+    .\] 
+    Hence, \( I = \int _{a}^{b} (f + g) \) has to be \( I' = \int _{a}^{b} f + \int
+    _{a}^{b} \). If not, assuming \( I < I' \), then pick some \(
+    \varepsilon_{1}, \varepsilon_{2} > 0 \) such that \( I' - I >\varepsilon_{1}
+    + \varepsilon_{2}\), then:
+    \[
+      L(f+g, P, [a, b]) \ge I' - (\varepsilon_{1}+\varepsilon_{2}) > I = L(f+g,
+      [a, b])
+    ,\] contradicting the definition of \( L(f+g, [a, b]) \).
+  \item \label{1A5} This is a direct result of the following equalities:
+    \begin{align*}
+      L(-f, P, [a, b]) &=  -U(f, P, [a, b])\\
+      U(-f, P, [a, b]) &= -L(f, P, [a, b])
+    .\end{align*}
+    We will prove the first equality, as the second one could be similarly
+    derived. Let \( P: a = x_{0} < x_{1} < x_{2} < \ldots  <x_{n} = b \), then:
+    \begin{align*}
+      L(-f, P, [a, b]) &= \sum_{i = 1}^{n} (x_{i} - x_{i-1})\inf_{x \in
+      [x_{i-1}, x_{i}]} (-f)(x)\\
+                       &= \sum_{i = 1}^{n} (x_{i} - x_{i-1})\sup_{x \in
+                       [x_{i-1}, x_{i}]} f(x) \\
+                       &= U(f, P, [a, b])
+    .\end{align*}
+    From here, we have \( L(-f, [a, b]) = -U(f, [a, b]) \) and \( U(-f, [a, b])
+    = -L(f, [a, b])\). From here, one could simply use the definition of Riemann
+    integrals to achieve the result.
+  \item Let \( h = g - f \), then \( h(x) = 0 \) at infinitely many \( x \in
+    [a, b]\). This is a specific case of the exercise when \( f = 0 \), so we
+    expect \( \int_{a}^{b} h = 0 \). If we have that, by problem \ref{1A4}, we
+    have:
+    \[
+      \int _{a}^{b} g = \int _{a}^{b} f + \int _{a}^{b} h = \int _{a}^{b} f
+    ,\] which is QED.
+
+    So, we just need to solve the problem in the simpler case \( f = 0 \). Now,
+    let \( y_{1} < y_{2} < \ldots < y_{k} \) be the finitely many values of \( x
+    \) such that \( g(x) \neq 0 \). Since \( k \) is finite, we can see that the
+    image of \( g \) is bounded in \( [-M, M] \), with \( M = \max_{i \in 1..k}
+    |g(y_{i})|\).
+
+    Now, one can simply use an equally spaced partitions \( P_{n} \) with \(
+    x_{i} = a + \frac{b - a}{n} i \). Then,
+    \[
+      U(f, P_{n}, [a, b]) = \sum_{i = 1}^{n} (x_{i} - x_{i-1})\sup_{x \in [x_{i
+      - 1}, x_{i}]} g(x)
+    .\] 
+    
+    Since we have \( k \) values \( y_{1}, y_{2}, \ldots ,y_{k} \), each could
+    at most be in two intervals \( [x_{i-1}, x_{i}] \) twice (if it is the
+    endpoint of the interval), so there will be at most \( 2k \) intervals \(
+    [x_{i-1}, x_{i}] \)such that \( (x_{i} - x_{i - 1})\sup_{x \in [x_{i-1},
+    x_{i}]} g(x) \neq  0\). Since \( g(x) \le M \) for all \( x \in [a, b] \),
+    this term, when it is non-zero, would be at most \( M(x_{i} - x_{i-1}) \) or
+    \( \frac{M(b-a)}{n} \).
+
+    Hence, the upper Darboux sum \( U(g, P_{n}, [a, b]) \) could be at most \(
+    \frac{2kM(b-a)}{n} \). Let \( n \to +\infty \), we have \( U(g, [a,
+    b]) \le 0 \).
+
+    Similarly, we also have \( L(g, P_{n}, [a, b]) \ge - \frac{2kM(b-a)}{n} \)
+    and therefore \( L(g, [a, b]) \ge 0 \). Hence, \( L(g, [a, b]) = U(g, [a,
+    b]) = 0 \) and \( \int _{a}^{b} g = 0 \)
+  \item \label{1A7} First, note that \( P_{n} \) become increasingly finer as \( n \)
+  increases, so the sequence \( L(f, P_{n}, [a, b]) \) is 
+  non-decreasing and \( U(f, P_{n}, [a, b]) \) is non-increasing. \( L(f, P_{n},
+  [a, b]) \) has an upper bound \( U(f, P_{n}, [a, b]) \) and vice versa, so
+  these two sequences converges:
+  \begin{align*}
+    \lim_{n \to \infty} L(f, P_{n}, [a, b]) = L \le U = \lim_{n \to \infty}
+    U(f,  P_{n}, [a, b])
+  .\end{align*}
+  Now, we will focus on the sequence \( L(f, P_{n}, [a, b]) \). If \( L = L(f,
+  [a, b]) \), then we are done. Assuming otherwise, since \( L(f, [a, b]) \le
+  L(f, P_{n}, [a, b]) \) for all \( n \in \mathbb{N} \), we must have \( L >
+  L(f, [a, b]) \). By the definition of \( L(f, [a, b]) \), there exists some
+  partition \( P' \) such that \( L(f, [a, b]) < L(f, P', [a, b]) \le L \).
+
+  Let \( Q_{n} \) be the result of combining the partitions \( P_{n} \) and \(
+  P' \). Because \( Q_{n} \) is finer than both \( P_{n} \) and \( P' \), we
+  have:
+  \[
+    L(f, P_{n}, [a, b]) \ge L > L(f, P', [a, b]) \ge  L(f, Q_{n}, [a, b]) \ge  L(f,
+    [a, b])
+  .\] 
+  We will consider the difference of \( L(f, P_{n}, [a, b]) \) and \(
+  L(f, Q_{n}, [a, b]) \). The idea here is to let \( n \to +\infty \) while the
+  number of intervals in \( P' \) stay fixed. First, write \( P_{n}: a = x_{0} <
+  x_{1} < \ldots < x_{2^{n}} = b\) and \( Q_{n}: a = x_{0}' < x_{1}' < \ldots <
+  x_{N}' = b\). Then, for every interval \( [x_{i-1}, x_{i}] \), there exists
+  \( k_{i} \in 0..<N \) and \( m_{i} \in \mathbb{N}^{*} \) such that \( x_{i-1} =
+  x_{k_{i}}' < x_{k_{i}+1}' < \ldots  < x_{k_{i} + m_{i}}' = x_{i} \). We have:
+  \begin{align*}
+    LP_{i} &= (x_{i} - x_{i-1}) \inf_{x \in [x_{i-1}, x_{i}]} f(x) \\
+           &= \sum_{j = 1}^{m_{i}} (x_{k_{i}+j}'-x_{k_{i}+j-1}') f(x^{*}_{i}) \\
+    LQ_{i} &= \sum_{j = 1}^{m_{i}} (x_{k_{i}+j}'-x_{k_{i}+j-1}') \inf_{x \in[x_{k_{i}
+  + j - 1}', x_{k_{i}+j}']} f(x) \\
+    &= \sum_{j = 1}^{m_{i}} (x_{k_{i}+j}'-x_{k_{i}+j-1}') f(x_{i,j}^{*}) \\
+        \implies LP_{i} - LQ_{i} &= \sum_{j = 1}^{m_{i}}
+        (x_{k_{i}+j}'-x_{k_{i}+j-1}')
+        \left( f(x_{i}^{*}) - f(x_{i,j}^{*}) \right) 
+  .\end{align*}
+  Here, \( x^{*}_{i} \) and \( x_{i, j}^{*} \) are values such that:
+  \begin{align*}
+    f(x^{*}_{i}) &= \inf_{x \in [x_{i-1}, x_{i}]} f(x)\\
+    f(x^{*}_{i,j}) &= \inf_{x \in [x_{k_{i}+j-1}', x_{k_{i}+j}']} f(x)
+  .\end{align*}
+  Now, looking at the expression for \( LQ_{i} - LP_{i} \), we see that the sum
+  always have a \( 0 \) term. We can also find an upper bound for the non-zero
+  terms (the lower bound is \( 0 \)), which is \( \frac{1}{2^{n}}(M - m) \),
+  with \( M = \sup_{x \in [a, b]} f(x), m = \inf_{x \in [a, b]} f(x) \). Hence,
+  we have \( 0 \le LP_{i} - LQ_{i} \le \frac{(m_{i} - 1)(M - m)}{2^{n}} \).
+
+  Taking the sum as \( i \in 1..2^{n} \), we have:
+  \begin{align*}
+    L(f, P_{n}, [a, b]) - L(f, Q_{n}, [a, b]) &= \sum_{i = 1}^{n} (LP_{i} -
+    LQ_{i}) \\
+    &\le \frac{M - m}{2^{n}}\sum_{i = 1}^{2^{n}} (m_{i} - 1) \\
+    &= \frac{M - m}{2^{n}} \left( \sum_{i = 1}^{2^{n}} m_{i} - 2^{n} \right)  \\
+  .\end{align*}
+  Now, returning back, we have \( x_{i - 1} = x_{k}' \) and \( x_{k_{i} +
+  m_{i}}' = x_{i}\), which implies that \( k_{i + 1} = k_{i} + m_{i} \) and \(
+  k_{1} = 0 \). Hence, it is trivial to see that the sum \( \sum_{i = 1}^{2^{n}}
+  m_{i} \) is simply \( k^{2^{n}} = N \), the number of intervals in \( Q_{n}
+  \).
+
+  Hence, one can now see that the term \( \sum_{i = 1}^{2^{n}} m_{i} - 2^{n} \)
+  is the difference in the number of intervals between \( Q_{n} \) and \( P_{n}
+  \), which has an upper bound since \( P' \) does not depend on \( n \). Let \(
+  n \to  +\infty \), we can see that the RHS of the above inequality tends
+  to \( 0 \). By the squeeze theorem, one can see that:
+  \[
+    \lim_{n \to \infty} L(f, Q_{n}, [a, b]) = L
+  ,\] which contradicts with the chain of inequalities further above.
+
+  A similar proof can be used to prove that \( U = U(f, [a, b]) \).
+\item \label{1A10} Denote \( P_{n} \) as the uniform partition with \( n \)
+  intervals, then we have:
+  \[
+    L(f, P_{n}, [a, b]) \le \frac{b-a}{n}\sum_{i = 1}^{n} f\left( a +
+    \frac{b-a}{n}i \right)  \le U(f, P_{n}, [a, b])
+  .\]
+  Here, we will prove that both \( L(f, P_{n}, [a, b]) \) and \( U(f, P_{n}, [a,
+  b]) \) converges to \( \int _{a}^{b} f \), using a similar method as in
+  problem \ref{1A7}. Consider a partition \( P' \) such that \( L(f, P', [a, b])
+  = \int _{a}^{b} f + \varepsilon\) and let \( Q_{n} \) be the combination of \(
+  P_{n}\) and \( P' \). Then, \( L(f, Q_{n}, [a, b]) \le \int _{a}^{b} f +
+  \varepsilon \) and:
+  \[
+    L(f, P_{n}, [a, b]) - L(f, Q_{n}, [a, b]) \le \frac{M - m}{n} \left( \sum_{i
+    = 1}^{n} m_{i} - n\right) \le \frac{C}{n}
+  ,\] with \( M, m, m_{i} \) defined similarly to problem \ref{1A7}. \( C \)
+  here is an upper bound for the (almost) constant term \( (M - m) \left( \sum_{i =
+  1}^{n} m_{i} - n   \right)  \).
+
+  Hence, we have:
+  \[
+    L(f, P_{n}, [a, b]) \le \frac{C}{n} + \int _{a}^{b} f +\varepsilon
+  ,\] for all \( n \in \mathbb{N}^{*} \). Letting \( n \to +\infty \) and \(
+  \varepsilon \to 0 \), we trivially have \( \lim_{n \to \infty} L(f, P_{n}, [a,
+  b]) = \int _{a}^{b} f \). Similarly, we have the upper Darboux limit: \(
+  \lim_{n \to \infty} U(f, P_{n}, [a, b]) = \int _{a}^{b} f \), and therefore,
+  by the squeeze theorem, one arrives at:
+  \[
+    \int _{a}^{b} f = \frac{b-a}{n} \sum_{i = 1}^{n} f \left( a + \frac{b-a}{n}i
+  \right)   .\] 
+\item \label{1A9} Let \( P_{0} \) be the partition \( a \le c < d \le b \). By \ref{1A3},
+  since \( f \) is Riemann integrable on \( [a, b] \), for every \( \varepsilon
+  > 0\), there exists a partition
+  \( P_{1} \) such that:
+  \[
+    (U - L)(f, P_{1}, [a, b]) \le \varepsilon
+  .\] 
+  Let \( P \) be the combined partition of \( P_{0} \) and \( P_{1} \), then we
+  have:
+  \[
+    (U - L)(f, P, [a, b]) \le (U - L)(f, P_{1}, [a, b]) \le \varepsilon
+  .\] 
+  Now, assuming that \( P \) can be written as \( a = x_{0} < x_{1} < \ldots
+  x_{k} = c < \ldots  < x_{l} = d < \ldots  < x_{n} = b \), with \( 0 < i < j <
+  n\), we will expand \( (U - L)(f, P, [a, b]) \) as:
+  \begin{align*}
+    (U - L)(f, P, [a, b]) &= \sum_{i = 1}^{n} (x_{i} - x_{i - 1}) \Delta_{i}  \\
+    &\ge \sum_{i = k + 1}^{l} (x_{i} - x_{i - 1}) \Delta_{i} \\
+    &= (U - L)(f, P^{*}, [c, d])
+  ,\end{align*} with \( \Delta_{i} = \sup_{x \in [x_{i-1},x_{i}]} f(x) -
+  \inf_{x\in [x_{i-1},x_{i}]} f(x) \) and \( P^{*} \) be the partition \(
+  c = x_{0}' < x_{1}' < \ldots  < x_{l - k}' = d \), \( x_{i}' = x_{k + i} \) of
+  \( [c, d] \).
+  Hence, for every \( \varepsilon > 0 \), we just found a partition \( P^{*} \)
+  such that:
+  \[
+    (U - L)(f, P^{*}, [c, d]) \le \varepsilon
+  ,\] and by \ref{1A3}, \( f \) is Riemann integrable on \( [c, d] \).
+\item Let \( P_{0}: a < c < b \) the partition \( a < c < b \), then since \( f
+  \) is Riemann integrable on \( [a, c] \) and \( [c, b] \), for every \(
+  \varepsilon_{1}, \varepsilon_{2} > 0\), there exists:
+  \begin{alignat*}{2}
+    L(f, P_{1}, [a, c]) + \varepsilon_{1} &\le \int _{a}^{c} f &&\le U(f, P_{1},
+    [a, c]) - \varepsilon_{1}\\
+    L(f, P_{2}, [c, b]) + \varepsilon_{2} &\le \int _{c}^{b} f &&\le U(f, P_{2},
+    [c, b]) - \varepsilon_{2}
+  .\end{alignat*}
+  Combining \( P_{1} \) and \( P_{2} \) yields \( P \), which satisfies:
+  \begin{alignat*}{2}
+    L(f, P, [a, c]) + \varepsilon_{1} &\le \int _{a}^{c} f &&\le U(f, P,
+    [a, c]) - \varepsilon_{1}\\
+    L(f, P, [c, b]) + \varepsilon_{2} &\le \int _{c}^{b} f &&\le U(f, P,
+    [c, b]) - \varepsilon_{2}
+  .\end{alignat*}
+  Adding the two inequalities yields:
+  \[
+    L(f, P, [a, b]) + (\varepsilon_{1} + \varepsilon_{2}) \le \int _{a}^{c} f +
+    \int _{c}^{b} f \le U(f, P, [a, b]) -  (\varepsilon_{1} + \varepsilon_{2})
+  .\] 
+  By \ref{1A3} (\( \varepsilon = 2(\varepsilon_{1} + \varepsilon_{2}) \)), \( f
+  \) is Riemann integrable on \( [a, b] \), and letting \( \varepsilon_{1},
+  \varepsilon_{2} \to 0 \), we have \( U(f, [a, b]) \le \int _{a}^{c} f +
+  \int _{c}^{b} f \le  L(f, [a, b]) \), which means that:
+  \[
+    \int _{a}^{b} f = \int _{a}^{c} f + \int _{c}^{b} f
+  .\] 
+\item Note that \( F \) is well-defined by \ref{1A9}, to prove \( F \) is
+  continuous on \( [a, b] \), we need to prove the following:
+  \begin{itemize}
+    \item \( F \) is right-continuous at \( a \): By \ref{1A10}, we have:
+      \[
+        \lim_{x \to a^{+}} (F(x) - F(a)) = \lim_{x \to a^{+}}  \int _{a}^{x} f
+      ,\] 
+      The RHS integral is bounded by \( \pm(x - a)M \), with \( M = \sup_{x \in [a,
+      b]} |f(x)| \), so by the squeeze theorem, the limit can be easily shown to
+      be \( 0 \).
+    \item \( F \) is continuous at \( c \in (a, b) \). This can be similarly
+      shown by looking at the limit:
+      \[
+        \lim_{x \to c} (F(x) - F(c)) = \lim_{x \to  c} \begin{cases}
+          \int _{c}^{x} f, &\text{ if } c < x\\
+          \int _{x}^{c} f, &\text{ if } x > c
+        \end{cases}
+      .\] 
+      Here, we split into two cases due to the fact that Riemann integrals are
+      only defined for \( a < b \). Note that here, we did not take account for
+      the case \( x = c \), since the limit does not care about the value here.
+
+      Anyways, in both cases, the limit is bounded by a similar term \( \pm M|x
+      - c| \), so one arrives at the same conclusion regardless.
+    \item \( F \) is left-continuous at \( b \). This is exactly the same thing
+      as proving \( F \) is right-continuous at \( a \).
+  \end{itemize}
+\item First, note that:
+  \[
+    \sup_{x \in I} f(x) - \inf_{x \in I} f(x) \ge  \sup_{x \in I} |f(x)| -
+    \sup_{x \in I} |f(x)|
+  .\] 
+  From this, it is trivial to show that \( (U - L)(f, P, [a, b]) \ge (U -
+  L)(|f|, P, [a, b]) \), and using problem \ref{1A3}, \( |f| \) is Riemann
+  integrable.
+
+  To prove the integral inequality, a simple way is to use the result that the
+  Riemann integral of a non-negative (Riemann integrable) function is always
+  non-negative. Here, let \( g = |f| - f \) and \( h = |f| + f \), both are
+  both non-negative and Riemann integrable (due to \ref{1A4} and \ref{1A5}), so
+  we have:
+  \begin{align*}
+    \int _{a}^{b} |f| &= \int _{a}^{b} f + \int _{a}^{b} g \ge \int _{a}^{b} f\\
+    \int _{a}^{b} |f| &= \int _{a}^{b} h - \int _{a}^{b} f \le -\int _{a}^{b} f
+  .\end{align*}
+  Combining the two inequalities, we arrives at:
+  \[
+    \left| \int _{a}^{b} f \right| \le \int _{a}^{b} |f|
+  .\] 
+\item The fact that \( f \) is increasing makes it very easy to write the
+  difference between upper and lower Darboux sums:
+  \[
+    (U - L)(f, P, [a, b]) = \sum_{i = 1}^{n} (x_{i} - x_{i-1})(f(x_{i}) - f(x_{i
+    - 1}))
+  .\] 
+  To make things simpler, let \( x_{i} - x_{i - 1} = \frac{b - a}{n} \) stays
+  constant, we will have:
+  \begin{align*}
+    (U - L)(f, P, [a, b]) &= \frac{b-a}{n}\sum_{i = 1}^{n} (f(x_{i}) - f(x_{i-1})) \\
+    &= \frac{b-a}{n} (f(b) - f(a)) \\
+  .\end{align*}
+  Let \( n \to +\infty \), we can make RHS arbitrarily small, so by \ref{1A3},
+  \( f \) is Riemann integrable on \( [a, b] \).
+\item For every \( \delta > 0 \), there exists an \( n_{0} \in
+  \mathbb{N}^{*} \)  such that \( \sup_{x \in [a, b]} |f_{n} - f|(x) <
+  \delta, \forall  n > n_{0} \).
+  Then, for every partition \( P \), we have:
+  \begin{align*}
+    (U - L)(f - f_{n}, P, [a, b]) &= \sum_{i = 1}^{n} (x_{i} -
+    x_{i-1})(f-f_{n})(x^{*}_{i}) \\
+                                  &\le \delta(b-a)
+                                ,\end{align*} with \( (f-f_{n})(x^{*}_{i}) =
+                                \sup_{x \in[x_{i-1}, x_{i}]} (f-f_{n})(x) -
+                                \inf_{x \in[x_{i-1}, x_{i}]} (f-f_{n})(x)\)
+  Hence,
+  \[
+    (U - L)(f, P, [a, b]) \le (U - L)(f_{n}, P, [a, b]) + \varepsilon(b-a)
+  .\] 
+  RHS can be arbitrarily small (pick \( \varepsilon \), then \( n \) and \( P
+  \)), so by \ref{1A3}, \( f \) is Riemann integrable.
+
+  The integral limit can be easily derived from the squeeze theorem:
+  \begin{align*}
+    0\le \left| \int _{a}^{b} f - \int _{a}^{b} f_{n} \right| &=
+    \left| \int _{a}^{b} (f - f_{n})\right| \\
+&\le \int _{a}^{b} |f - f_{n}|\\
+&\le \varepsilon(b - a) \to 0, \text{ as } \varepsilon \to 0
+  .\end{align*}
+\end{enumerate}
+
+% section Exercises 1A (end)
+
+\section{Exercises 1B} % (fold)
+\label{sec:Exercises 1B}
+
+\begin{enumerate}[label=\textbf{1B.\arabic*}]
+  \item \label{1B1}
+    Sort the rational numbers in \( [0, 1] \) decreasing by \( f \) , yields
+    this sequence of rationals, denoted as \( q_{i} \):
+    \[
+      0, 1, \frac{1}{2}, \frac{1}{3}, \frac{2}{3}, \frac{1}{4}, \frac{3}{4}, \ldots 
+    .\] 
+    Now, consider the upper Darboux sum of an uniform partition with \( N \)
+    intervals, one can see that every values on the list could only be \(
+    \sup_{x \in [x_{i-1}, x_{i}]} f(x) \) at most twice, so the upper Darboux
+    sum has an upper bound of \( \frac{f(q_{1}) + f(q_{2}) + \ldots + f(q_{N})}{N} \).
+
+    The sequence \( f(q_{n}) \) is like this:
+    \[
+      1, 1, \frac{1}{2}, \frac{1}{3}, \frac{1}{3}, \frac{1}{4}, \frac{1}{4}, \ldots 
+    .\] 
+    Basically, it's two \( 1 \)'s, then \( \varphi(2) = 1 \) \( \frac{1}{2} \)'s, \( \varphi(3)
+    = 2\) \( \frac{1}{3} \)'s, \( \varphi(4) = 2 \) \( \frac{1}{4} \)'s, and so
+    on, with \( \varphi \) being Euler's totient function. The occurrence of
+    this function makes thing harder to manage, so we will replace \( f(q_{n})
+    \) by a sequence \( f_{n} \) including two \( 1 \)'s, three \( \frac{1}{2}
+    \)'s, four \( \frac{1}{3} \)'s, and so on. We can trivially see that \(
+    f(q_{n}) < f_{n} \), and for \( N \) in the form \( 2 + 3 + 4 + \ldots  + s
+    = \frac{s(s+3)}{2}\), we can easily calculate \( \frac{f_{1} + f_{2} +
+    \ldots + f_{N}}{N} \) as:
+    \[
+      \frac{2}{s(s+3)}\sum_{i = 1}^{s} \frac{s + 1}{s} < \frac{4s}{s(s+3)} =
+      \frac{4}{s + 3}
+    .\] 
+    Now, the only thing left to do is to let \( s \to +\infty \), and \( U(f, P,
+    [a, b]) \to 0 = L(f, [a, b]) \). Hence, \( f \) is Riemann integrable on \(
+    [a, b]\) and \( \int _{a}^{b} f = 0 \).
+  \item This is trivial, since \( L(-f, [a, b]) = -U(f, [a, b]) \).
+  \item This is proven in \ref{1A4}.
+  \item Take \( g = 1 -f \), \( f \) is the Dirichlet function, then we have:
+    \[
+      U(f, [0, 1]) = U(g, [0, 1]) = U(f + g, [0, 1]) = 1
+    .\]
+  \item Take:
+    \[
+      f_{k} = \begin{cases}
+        k, &\text{ if } 0 < x \le \frac{1}{k}\\
+        0, & \text{ otherwise}
+      \end{cases}
+    ,\] then \( \int _{0}^{1} f_{k} = 1 \) for all \( k \in \mathbb{N}^{*} \)
+    and:
+    \begin{gather*}
+      x = 0, f_{k}(0) = 0, \forall k \in \mathbb{N}^{*} \implies f(0) = \lim_{k \to
+      \infty} f_{k}(0) = 0
+      x > 0, f_{k}(x) = 0, \forall k > \frac{1}{x} \implies f(x) = \lim_{k \to
+      \infty} f_{k}(x) = 0
+    \end{gather*}
+    Hence, \( f_{k} \) converges pointwise to \( 0 \), a continuous function
+    with integral \( 0 \), so:
+    \[
+      \int _{0}^{1} f = 0 \neq 1 = \lim_{k \to \infty} \int _{0}^{1} f_{k}
+    .\] 
+\end{enumerate}
+
+% section Exercises 1B (end)
+

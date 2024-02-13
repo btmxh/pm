@@ -1,0 +1,654 @@
+\chapter{Integration} % (fold)
+\label{cha:Integration}
+
+\section{Exercises 3A} % (fold)
+\label{sec:Exercises 3A}
+
+\begin{enumerate}[label=\textbf{3A.\arabic*}]
+  \item Otherwise, the partition \( P = \{E, X \setminus E\}   \) will have
+    lower Lebesgue sum \( \mathcal{L}(f, P) \ge \mu (E) \inf f(E) = \infty \), which
+    contradicts with \( \int f d\mu  < \infty \).
+  \item 
+    For all partition \( P = \{A_{1}, A_{2}, \ldots , A_{n}\}   \), there exists
+    exactly one set \( A_{k} \) that contains \( c \). Hence, the lower Lebesgue
+    sum of this partition with relative to \( f \) is:
+    \[
+      \mathcal{L}(f, P) = \sum_{i = 1}^{\infty} \delta_{c} (A_{i}) \inf f(A_{i}) = \inf
+      f(A_{k})
+    .\] 
+    From this, we have:
+    \[
+      \int f d \delta_{c} = \sup _{c \in A \in \mathcal{S}} \inf f(A) \ge f(c)
+    .\] 
+    Consider this sequence of sets:
+    \[
+      A_{n} = f^{-1}(B(c, \varepsilon_{n})) \in \mathcal{S}
+    ,\] which all contains \( c \) and having \( \inf f(A_{n}) \ge f(c) -
+    \varepsilon_{n} \). Now, pick \( \varepsilon_{n} > 0 \) such that \(
+    \varepsilon_{n} \to 0 \), then we have:
+    \[
+      \lim_{n \to \infty} \inf f(A_{n}) = f(c)
+    .\] From this, we can conclude:
+    \[
+      \int fd \delta_{c} = f(c)
+    .\] 
+  \item If \( \int fd\mu > 0 \), then there exists some partition \( P = \{A_{1},
+    A_{2}, \ldots , A_{n}\}   \) such that \( \mathcal{L}(f, P) > 0 \). On the other hand,
+    this sum is equal to:
+    \[
+      \mathcal{L}(f, P) = \sum_{k = 1}^{n} \mu(A_{k}) \inf f(A_{k}) \ge 
+    .\] 
+    Denote \( J  =\{k: \inf f(A_{k}) > 0\}   \), then \( \mathcal{L}(f, P) =
+    \sum_{k \in J} \mu (A_{k}) \inf f(A_{k}) \le \mu (A)\max_{1 \le k \le n}
+    \inf f(A_{k})  \), with \( A
+    = \bigcup_{k \in J} A_{k}\). From this, we have:
+    \[
+      \mu (A) \ge \frac{\mathcal{L}(f, P)}{\max\limits_{1\le k\le n} \inf f(A_{k})} > 0
+    ,\] and \( A \subseteq \{x \in X: f(x) > 0\}   \). From monotonicity of
+    measures, we have \( \mu (\{x \in X: f(x) > 0 )\}  ) > 0 \)
+  \item Consider the function \( f \):
+    \[
+      f(x) = \begin{cases}
+        \frac{1}{q}, &\text{ if } x = \frac{p}{q} \text{ and } p, q \text{
+        coprime}\\
+        \infty, &\text{ otherwise}
+      \end{cases}
+    .\] 
+    Here, \( \infty \) can be replaced by any positive real number greater than
+    \( 1 \) (strictly speaking, we need the codomain of \( f \) to be \( (0,
+    \infty) \)), but \( \infty \) is more natural here. Then, we can see that
+    the lower Darboux sum of \( f \) is equal to that of the function in Problem
+    \ref{1B1}.
+
+  \item Taking \( P = \{\{1\}, \{2\} , \ldots    \}   \) yields a lower bound
+    for \( \int f d \mu  \):
+    \[
+      \int f d\mu \ge \sum_{k \in \mathbb{Z}^{+}} \mu(\{k\}  ) \inf \{f(k)\}   =
+      \sum_{k \in \mathbb{Z}^{+}} f(k)
+    .\] 
+    Now, it suffices to prove that this lower bound is also an upper bound.
+    Consider a \( 2^{\mathbb{Z}^{+}} \)-partition \( P = \{A_{1}, A_{2}, \ldots ,
+    A_{n}\}   \), then:
+    \[
+      \sum_{k  = 1}^{n} \mu (A_{k}) \inf f(A_{k}) = \sum_{k = 1}^{n} \sum_{i \in
+      A_{k}} \inf f(A_{k}) \le \sum_{k = 1}^{n} \sum_{i \in A_{k}} f(i) =
+      \sum_{i \in A} f(i) \le \sum_{i \in \mathbb{Z}^{+}} f(i)
+    ,\] with \( A = \bigcup_{k = 1}^{n} A_{k} \).
+
+    From this, we must have:
+    \[
+      \int f d\mu  = \sum_{k \in \mathbb{Z}^{+}} f(k)
+    .\] 
+  \item For every \( A' \in P' \), there exists an unique \( A \in P \) such that
+    \( A' \subseteq A \). Then, one can write:
+    \begin{align*}
+      \mathcal{L}(f, P') &= \sum_{A' \in P'} \mu (A') \inf f(A')  \\
+                         &= \sum_{A \in P}
+      \sum_{\substack{A' \in P'\\A' \subseteq A}} \mu (A') \inf f(A')\\
+                         &\ge \sum_{A \in P} \inf f(A)\sum_{\substack{A' \in
+                         P'\\A'\subseteq A}} \mu (A')\\
+                         &= \sum_{A \in P} \mu (A) \inf f(A)\\
+                         &= \mathcal{L}(f, P)
+    .\end{align*}
+    It suffices to prove that \( \{A' \in P', A' \subseteq A\}   \)
+    covers of \( A \). Assuming \( x \in A \), then since \( x \in X \), there
+    exists some \( A' \in P' \) containing \( x \). If \( x' \subseteq B \in P
+    \), then \( B \cap A \neq \varnothing \), which can only happen in the case
+    \( B = A \). Hence, there exists some \( A' \in P', A' \subseteq A \) such
+    that \( x \in A' \).
+  \item We have:
+    \[
+      \int f d\mu \ge \sup_{E \subseteq X}  L(f, \{\{x\} : x \in E \}  ) = \sup
+      _{E \subseteq_{f} X} \sum_{x \in E} w(x)f(x) = \sum_{x \in X} w(x)f(x)
+    ,\] with \( A \subseteq_{f} B \) denoting \( A \subseteq B \) and \( A \) is
+    a finite set.
+
+    Now, it suffices to prove the other way around. Consider a \( \mathcal{S}
+    \)-partition \( P = \{A_{1}, A_{2}, \ldots , A_{n}\}   \) of \( X \). Then:
+    \begin{align*}
+      \sum_{k = 1}^{n} \mu (A_{k}) \inf f(A_{k}) &= \sum_{k = 1}^{n} \inf
+      f(A_{k})\sum_{x \in A_{k}} w(x) = \sum_{x \in X} w(x) \inf f(A(x))
+      \le \sum_{x \in X} w(x) f(x)
+    ,\end{align*} with \( A(x) \) being the set \( A_{k} \in P \) that contains \( x
+    \).
+    \begin{quote}
+      Justification for switching the order of summation:
+      \begin{align*}
+        \sum_{k = 1}^{n} \inf f(A_{k}) \sum_{x \in A_{k}} w(x) &= \sum_{k =
+        1}^{n} \sup _{E_{k} \subseteq_{f} A_{k}}
+        \left( \sum_{x \in E_{k}} w(x) \inf f(A_{k}) \right) \\
+        &= \sup _{\substack{E_{k} \subseteq_{f} A_{k}\\\forall k \in \{1, 2,
+        \ldots , n\}  }} 
+        \left( \sum_{k = 1}^{n} \sum_{x \in E_{k}} w(x) \inf f(A_{k}) \right) \\
+        &= \sup _{E \subseteq_{f} X} \left( \sum_{x \in E} w(x) \inf f(A(x))
+        \right), \left(\text{with }E = \bigcup_{k = 1}^{n} E_{k} \text{ or
+          } E_{k} = E \cap A_{k}\right) \\
+        &= \sum_{x \in X} w(x) \inf f(A(x))
+      .\end{align*}
+    \end{quote}
+  \item Consider the function \( g(x, \alpha) \):
+    \[
+      g(x, \alpha) = \begin{cases}
+        \frac{1}{\sqrt{x} }, &\text{ if } 0 < x \le \alpha\\
+        0, &\text{ otherwise}
+      \end{cases}
+    .\] 
+    Here, classical integration\footnote{Technically unproven, but it will be
+    proven in the following sections of MIRA} wrt \( x \) yields:
+    \[
+      \int g(x, \alpha) d\lambda = \int _{0}^{\alpha} \frac{1}{\sqrt{x} } =
+      2\sqrt{\alpha} 
+    .\] 
+    The idea here is to let \( f_{n}(x) = \frac{\sqrt{n} }{2}g \left( x,
+    \frac{1}{n} \right)  \), then \( \int f_{n}d\lambda = 1 \), but its
+    pointwise limit, \( f(x) = \lim_{n \to \infty} f_{n}(x) = 0 \forall  x \in
+    \mathbb{R} \). For completeness' sake, \( f_{n} \) is Borel measurable,
+    since they are piecewise continuous.
+  \item Basically, it boils down to proving:
+    \[
+      \sum_{n = 1}^{\infty} \int \chi_{A_{n}} f d\mu = \int \chi_{A} fd \mu,
+      \text{ with } A = \bigcup_{n = 1}^{\infty} A_{n}
+    ,\] which follows from:
+    \[
+      \chi_{A} = \sum_{k = 1}^{\infty} \chi_{A_{k}}
+    .\] 
+  \item Letting \( g_{n} = \sum_{k = 1}^{n} f_{k} \) and this is simply the Monotone
+    Convergence Theorem (MCT) and additivity of the Lebesgue integral.
+  \item \label{3A11}
+    WLOG assuming that \( f_{k} \ge 0 \) for all \( k \in \mathbb{N}^{*} \).
+    From the MCT, we have:
+    \[
+      \int f d\mu  = \int \sum_{k = 1}^{\infty} f_{k}d\mu < \infty
+    .\] 
+    On the other hand, we have:
+    \[
+      \infty = \int fd\mu \ge \int f\chi_{f^{-1}(\{\infty\}  )}d\mu = \infty \cdot \mu
+      (f^{-1}(\{\infty\}  ))
+    ,\] so \( \mu (f^{-1}(\{\infty\}  )) = 0 \). Then, if we take \( E =
+    f^{-1}(\mathbb{R}) \):
+    \[
+      \mu (\mathbb{R} \setminus E) = \mu (f^{-1}(\{\infty\}  )) = 0
+    ,\] and from the n-th term test, then if \( f(x) = \sum_{k = 1}^{n} f_{k}(x)
+    \) converges, then \( \lim_{n \to \infty} f_{n}(x) = 0 \).
+  \item Let \( q_{n} \) be an enumeration of the rationals in \( [0, 1] \).
+    Define:
+    \[
+      f_{k}(x) = \frac{2^{-k}}{\sqrt{|x-q_{k}|}}
+    ,\] then:
+    \[
+      \int \chi_{[a, b]}f_{k}(x) d\lambda = 2^{1-k} \left( \sqrt{b - q_{k}} -
+        \sqrt{a - q_{k}} \right)  \le  2^{1-k}b
+    ,\] and:
+    \[
+      \sum_{k = 1}^{\infty} \int \chi_{[a, b]}f_{k} d\lambda \le  b\sum_{k =
+      1}^{\infty} 2^{1-k} = 2b
+    .\] 
+    From problem \ref{3A11}, the function:
+    \[
+      f(x) = \sum_{k = 1}^{\infty} f_{k}(x)
+    ,\] converges for all \( x \in E \), for some set \( E \subseteq \mathbb{R}
+    \) such that \( \lambda (\mathbb{R} \setminus E) = 0 \), and since it is an
+    infinite sum
+    of Borel measurable functions, it must be Borel measurable.
+
+    Now, if one defines:
+    \[
+      g(x) = \chi_{E}(x) f(x)^2
+    ,\] then we have \( \int \chi_{I}g(x) d \lambda = \int \chi_{I \cap E}
+    f^2d\lambda \ge \int \chi_{I \cap E}
+    \frac{2^{-2k}}{|x-q_{k}|} d\lambda \) Since \( \lambda (I \setminus E) = 0 \), this
+    integral is equal to \( \int \chi_{I} \frac{2^{-2k}}{|x-q_{k}|} d\lambda = \infty \)
+    , with \( k \) being the index of the rational number \( q_{k} \in I \).
+    Hence,
+    \[
+      \int \chi_{I}g(x) d\mu  = \infty, \text{ for all intervals } I \subseteq
+      [0, 1]
+    .\] 
+    Extending this to \( I \subseteq \mathbb{R} \) can be done by constructing a
+    periodic function \( h(x) = g(x - \lfloor x\rfloor) \).
+  \item \label{3A13} Let \( f_{n} = -\chi_{\mathbb{R} \setminus [-n, n]} \)  then \(
+    f_{n} \to 0 \) but \( \int f_{n}d\mu = -\infty \) for all \( n \in
+    \mathbb{N}^{*} \).
+  \item Let \( f_{n} = \chi_{\mathbb{R} \setminus [-n, n]} \)  then \(
+    f_{n} \to 0 \) but \( \int f_{n}d\mu = \infty \) for all \( n \in
+    \mathbb{N}^{*} \)\footnote{Fun fact:
+      The example from problem \ref{3A13} was motivated from
+    this example, which was motivated from problem \ref{3A20}.}
+  \item Trivial. Simply transform the sets in \( P \) (scaling or translating)
+    and using the properties of the outer measure.
+  \item \label{3A16}
+    We trivially have:
+    \[
+      \int f d\mu_{2} \ge \int f d \mu_{1}
+    .\] 
+    Consider a \( \mathcal{T} \)-partition \( P = \{  A_{1}, A_{2}, \ldots,
+    A_{n} \} \), then:
+    \[
+      \mathcal{L}(f, P) = \sum_{k = 1}^{n} \mu_{2}(A_{k}) \inf f(A_{k})
+    .\] 
+    Now, let \( c_{k} = \inf f(A_{k}) \) and for convenience, let \( c_{n + 1} =
+    \infty\). WLOG, assuming that \( c_{1} \le  c_{2} < \ldots \le  c_{n} \).
+    Denoting \( A'_{k} = f^{-1}([c_{k}, c_{k + 1})) \), then \(
+    P' = \{A'_{k}: 1 \le k \le n\}   \) forms a \( \mathcal{S} \)-partition of
+    \( X \). We will prove that \( P' \) yields a larger lower Lebesgue sum than
+    \( P \).
+
+    First, consider the intersection of \( A_{k} \) and \( A'_{m} \). If \( x \)
+    belong to this set, then \( f(x) \ge \inf f(A_{k}) = c_{k} \) and \( c_{m}
+    \le f(x) < c_{m + 1} \). From this, \( c_{m + 1} > c_{k} \), or equivalently
+    \( m \ge k \). Hence, if \( m < k \), \( A_{k} \cap A'_{m} = \varnothing \).
+    With this, we have:
+    \begin{align*}
+      \mathcal{L}(f, P) &= \sum_{k = 1}^{n} \mu (A_{k}) c_{k}\\
+      &= \sum_{k = 1}^{n} \sum_{m = k}^{n} \mu (A_{k} \cap A'_{m}) c_{k} \\
+      &= \sum_{m = 1}^{n} \sum_{k = 1}^{m} \mu (A_{k} \cap A'_{m}) c_{k} \\
+      &\le \sum_{m = 1}^{n} \mu (A'_{m})c_{m} = \mathcal{L}(f, P')
+    .\end{align*}
+  \item \begin{enumerate}[label=(\alph*)]
+      \item The function \( g_{k}(x) = \inf_{m \ge k} f_{m}(x) \) is the infimum
+        of \( \mathcal{S} \)-measurable functions, therefore \( \mathcal{S}
+        \)-measurable. \( f \) is the limit of \( g_{k} \) as \( k \to \infty
+        \), so it is also \( \mathcal{S} \)-measurable.
+      \item From the MCT, we have:
+        \begin{align*}
+          \int f d\mu &= \int \lim_{n \to \infty} g_{n} d\mu \\
+                      &= \lim_{n \to \infty} \int g_{n}d\mu\\
+                      &= \lim_{n \to \infty} \int \inf _{m \ge n} f_{m} d\mu\\
+                      &\le \lim_{n \to \infty} \inf _{m \ge n} \int f_{m}d\mu\\
+                      &= \liminf_{n \to \infty} \int f_{n}d\mu
+        .\end{align*}
+      \item Take \( X = [0, 1], \mu = \lambda \), the Lebesgue measure. 
+        Let \( f_{n} \) be defined as:
+        \[
+          f_{n} = \begin{cases}
+            1_{\left[ 0, \frac{1}{2} \right] }, &\text{ if } n \text{ is odd}\\
+            1_{\left( \frac{1}{2}, 1 \right] }, & \text{ otherwise}
+          \end{cases}
+        .\] 
+        Then \( f = 0 \), but \( \int f_{n}d\lambda = \frac{1}{2} \) for all \(
+        n \in \mathbb{N}^{*} \).
+  \end{enumerate}
+  \item The idea is to use a conditionally convergent series. There are plenty
+    of those, for example \( x_{k} = \frac{(-1)^{k}}{k} \). Then, \( \int xd\mu
+    \) is not defined, since \( \int |x| d\mu = \sum_{k = 1}^{n} |x_{k}| =
+    \infty \) (due to \( x_{k} \) not converging absolutely).
+  \item The left side is done. Now we focus on the right side.
+
+    \begin{enumerate}[label=(\alph*)]
+    \item
+      If \( \mu (X) = \infty \), then the inequality is trivial if \( \sup f(X)
+      > 0\). In the other case, \( f(X) = \{0\}   \), so the integral is \( 0
+      \).
+    \item If \( \mu (X) = 0 \), then the integral is \( 0 \), done.
+    \item If \( 0< \mu (X) < \infty \) and \( \sup f(X) = \infty \), then the
+      inequality is trivial.
+    \item If \( 0 < \mu(X) < \infty \) and \( \sup f(X) = S < \infty \), then
+      define \( g = S - f \).
+
+      From the left side of the inequality, we have:
+      \begin{align*}
+        \mu (X) \inf g(X) &\le \int gd\mu\\
+        \implies \mu (X) (S - \sup f(X)) &\le \mu (X)S - \int fd\mu \\
+        \implies \mu (X) \sup f(X) &\ge \int fd\mu 
+      .\end{align*}
+    \end{enumerate}
+  \item First, we transform this into the problem for \( f^{+} \) and \( f^{-}
+    \). Consider the \( f_{n} \) is increasing case (the other case one can
+    proceed similarly), then \( f^{+} \) is increasing and \( f^{-} \) is
+    decreasing. By flipping signs, these cases can be reduced into the two cases:
+    \begin{enumerate}[label=\alph*]
+      \item If \( f_{n}  \) is increasing and \( f_{n} \ge 0 \), then this is
+        the MCT.
+      \item If \( f_{n} \) is decreasing and \( f_{n} \ge 0 \), then one uses
+        MCT on the functions \( g_{n} = f_{1} - f_{n} \). The condition \( \int
+        |f_{1}| d\mu  < \infty\) here ensures that one can write \( \int
+        g_{n}d\mu  = \int f_{1}d\mu  - \int f_{n}d\mu  \) or similar without
+        having to care about \( \infty - \infty \).
+    \end{enumerate}
+  \item As one can see from problem \ref{3A16}, "most optimal"\footnote{In the
+    sense that any partition can be "optimized" by constructing a
+    corresponding partition of this type.} partitions to take
+    the lower Lebesgue sum is the partition \( P = \{f^{-1}([c_{k}, c_{k + 1})):
+    0 \le k \le n\}   \), with \( c_{k} \) being a increasing sequence of real
+    numbers (and \( \infty \)) such that \( c_{0} = -\infty \) and \( c_{n} =
+    \infty \). In the discrete case, the intervals \( [c_{k}, c_{k + 1}) \)
+    is reduced to a singleton \( \{c_{k}\}   \). The set \( f^{-1}(\{c_{k}\}  )
+    \) corresponds to the heap of coins with value \( c_{k} \).
+
+    The explanation for the Riemann integral is left as an exercise for the
+    reader kek.
+\end{enumerate}
+
+% section Exercises 3A (end)
+
+\section{Exercises 3B} % (fold)
+\label{sec:Exercises 3B}
+
+\begin{enumerate}[label=\textbf{3B.\arabic*}]
+  \item Let \( f_{k} = \chi_{\{k\}  } \), then we have \( \int f_{k}d\mu = \mu
+    (\{k\}  ) = 1 \), but \( \lim_{m \to \infty} f_{k}(m) = 0, \forall m \in
+    \mathbb{Z}^{+} \).
+  \item Let \( f_{k}(x) = \frac{x}{k} \), then \( \lim_{k \to \infty} f_{k}(x) =
+    0, \forall  x \in \mathbb{R}\), but \( \int f_{k}d\lambda  = \infty, \forall k
+    \in \mathbb{Z}^{+} \).
+  \item For \( x, x_{0} \in \mathbb{R} \), we have:
+    \[
+      |f(x)-f(x_{0})| = \left| \int _{x_{0}}^{x} fd\lambda \right| \le \int
+      _{x_{0}}^{x} |f|d\lambda
+    .\] 
+    Consider the sequence of step functions \( s_{1}, s_{2}, \ldots  \) such
+    that \( \lim_{n \to \infty} \|f - s_{n}\|_{1} = 0 \). Then, for every \(
+    x_{0}  \in \mathbb{R} \) and \( x \in \mathbb{R} \), we have:
+    \[
+      \|f-s_{n}\|_{1} \ge \int _{x_{0}}^{x} |f-s_{n}|d\lambda \ge 
+      \left| \left| \int _{x_{0}}^{x} fd\lambda \right|
+      - \left|  \int _{x_{0}}^{x} s_{n}d\lambda \right| \right| 
+      \ge 0
+    .\] Note that here, \( \int _{x_{0}}^{x} |f|d\lambda < \int |f|d\lambda <
+    \infty \). From this, we have:
+    \[
+      0 \le \left| \int _{x_{0}}^{x} fd\lambda \right| \le
+      \|f-s_{n}\|_{1}+\left| \int _{x_{0}}^{x}s_{n}d\lambda \right| 
+    .\] This effectively reduced the problem to the case that \( f \) is a step
+    function. Assuming that we already got that special case out of the way, we
+    can proceed as follows. Recall that \( f \) is uniformly continuous if:
+    \[
+      \lim_{\delta \to  0^{+}} \sup _{|x-x_{0}|<\delta} \left| \int _{x_{0}}^{x}
+      fd\lambda\right|  = 0
+    .\] 
+    By the squeeze theorem, this is implied by:
+    \[
+      \lim_{n \to \infty} \left( \lim_{\delta \to  0^{+}} \sup
+      _{|x-x_{0}|<\delta} \left( \|f-s_{n}\|_{1} + \left| \int _{x_{0}}^{x}
+    s_{n}d\lambda \right|  \right)  \right)  = 0
+    .\] 
+    This limit can be evaluated as follows:
+    \begin{align*}
+      &\lim_{n \to \infty} \left( \lim_{\delta \to  0^{+}} \sup
+      _{|x-x_{0}|<\delta} \left( \|f-s_{n}\|_{1} + \left| \int _{x_{0}}^{x}
+    s_{n}d\lambda \right|  \right)  \right)  \\
+      = &\lim_{n \to \infty}  
+    \|f-s_{n}\|_{1} + \lim_{n \to \infty}
+        \lim_{\delta \to  0^{+}} \sup _{|x-x_{0}| < \delta}
+    \left| \int _{x_{0}}^{x} s_{n}d\lambda \right| = 0
+    .\end{align*}
+
+    Now, we will prove the special case when \( f \) is a step function.
+
+    Assuming that \( f = \sum_{k = 1}^{m} c_{k}\chi_{[a_{k},
+    b_{k}]} \), then one can integrate \( f \):
+    \[
+      F(x)= \int _{-\infty}^{x}fd\lambda = \sum_{k = 1}^{m} c_{k}
+      \operatorname{clamp}(x, a_{k}, b_{k})
+    ,\] with \( \operatorname{clamp}(x, a, b) \) defined as follows:
+    \[
+      \operatorname{clamp}(x, a, b) = \begin{cases}
+        0, &\text{ if }x < a\\
+        1, &\text{ if }x > b\\
+        x, &\text{ otherwise}
+      \end{cases}
+    .\]
+    This function has the following property:
+    \[
+      0\le |\operatorname{clamp}(x_{1}, a, b) - \operatorname{clamp}(x_{2}, a, b)|
+      \le |x_{1}-x_{2}|
+    .\] 
+    Using this, we can conclude that \( S_{n} \) is uniformly continuous, since:
+    \[
+      0 \le \sup _{|x-x_{0}| < \delta} |S(x)-S(x_{0})| \le \delta
+      \sum_{k = 1}^{m} c_{k} \to 0, \text{as } \delta \to
+      0^{+}
+    .\] 
+  \item \begin{enumerate}[label=(\alph*)]
+    \item
+    This follows from additivity of the Lebesgue integral and \( \mu  \):
+    \[
+      \int fd\mu = \int \sup f(X)d\mu - \int (\sup f(X) - f)d\mu
+    .\] Here, \( \mu (X) < \infty \) and \( f \) being bounded is used to ensure
+    that \( \int \sup f(X)d\mu < \infty \) and that \( \sup f(X) - f \) is well
+    defined.
+    \item
+      Let \( f(x) = \frac{\chi_{(0, 1)}(x)}{\sqrt{x} } \), then we have \( \int
+      fd\lambda = 2 \), but for every \( \mathcal{S} \)-partition \( A_{1},
+      A_{2}, \ldots , A_{m} \) of \( \mathbb{R} \), we can prove that the upper
+      Lebesgue sum of \( f \) is \( \infty \):
+
+      First, letting \( U_{k} = A_{k} \cap (0, 1) \) yields a partition \( U_{1},
+      U_{2}, \ldots , U_{m}\) of \( (0, 1) \). Then \( \sum_{k = 1}^{m} \lambda
+      (A_{k}) \sup f(A_{k}) = \sum_{k = 1}^{m} \lambda(U_{k}) \sup f(U_{k}) \).
+      Assuming that this sum is less than \( \infty \), then every \( U_{k} \)
+      with \( \inf U_{k} = 0 \) has to satisfy \( \lambda(U_{k}) = 0 \).
+
+      Consider the set \( U = \bigcup_{\substack{1 \le k \le m\\ \inf (U_{k}) >
+      0}} U_{k} \), then \( \lambda(U) = \lambda((0, 1)) = 1 \). If \( l = \inf
+      U\), then \( U \subseteq (l, 1) \), and therefore \( \lambda((l, 1)) \ge
+      \lambda(U) = 1 \), so \( l = 0 \). But this contradicts with \( \inf U =
+      \min_{\substack{1 \le k \le m\\\inf (U_{k}) > 0}} \{\inf U_{k}\}  > 0 \).
+    \item Take \( f(x) = \frac{\chi_{(1, +\infty)}(x)}{x^2} \), then we have \(
+      \int fd\lambda = 1 \). By similar reasonings like in (b), every \(
+      \mathcal{S} \)-partition \( U_{1}, U_{2}, \ldots, U_{m} \) of \( (1,
+      +\infty) \) has upper Lebesgue sum \( \infty \).
+\end{enumerate}
+
+\item \label{3B5} Consider the \( f \ge 0 \) case.
+  Letting \( f_{k} = \chi_{[-k, k]}f \), then \( f_{k} \) is an increasing
+  sequence of functions that converges to \( f \). Then, by the MCT, we have:
+  \[
+    \int f d\lambda = \lim_{ k \to \infty} \int f_{k}d\lambda = \lim_{ k \to
+    \infty} \int _{[-k, k]} fd\lambda
+  .\]
+
+  For the general case, we have:
+  \[
+    \int fd\lambda = \int f^{+}d\lambda - \int f^{-} d\lambda = \lim_{ k \to
+    \infty} \int _{[-k, k]}\left( f^{+}-f^{-} \right)d\lambda = \lim_{ k \to
+    \infty} \int _{[-k, k]} fd\lambda 
+  .\] 
+\item Denote \( H_{n} = \sum_{k = 1}^{n} \frac{1}{k} \). Then, \( H_{n} \to
+  \infty \) as \( n \to \infty \). Then, \( (1, +\infty) \) can be partitioned
+  into two sets \( A \) and \( B \):
+  \[
+    (1, +\infty) = \bigcup_{k = 1}^{\infty} (H_{k}, H_{k + 1}] =
+    \underbrace{\bigcup_{k = 1}^{\infty} \left( H_{k}, \frac{H_{k} + H_{k +
+    1}}{2} \right) }_{A} \cup 
+    \underbrace{\bigcup_{k = 1}^{\infty} \left(\frac{H_{k} + H_{k +
+    1}}{2}, H_{k +1} \right) }_{B}
+  .\] 
+  Define \( f \) as a simple function:
+  \[
+    f = \chi_{A} - \chi_{B}
+  .\] 
+  Then, \( \int f^{+}d\lambda = \int f^{-}d\lambda = \infty \), so \( \int
+  fd\lambda \) is undefined, but:
+  \[
+    \lim_{t \to \infty} \int _{0}^{t} fd\lambda = 0
+  .\]
+\item Denote \( S_{n} = \sum_{k = 1}^{n} 2^{-k} = 1 - 2^{-n} \), then we do the
+  same thing as above:
+  \[
+    (0, 1] = \bigcup_{k=1}^{\infty} (S_{k}, S_{k+1}]
+    = \bigcup_{k = 1}^{\infty} \underbrace{\left( S_{k}, \frac{S_{k} + S_{k +
+    1}}{2} \right) }_{A_{k}} \cup 
+    \bigcup_{k = 1}^{\infty} \underbrace{\left(\frac{S_{k} + S_{k +
+    1}}{2}, S_{k +1} \right) }_{B_{k}}
+  .\] 
+  Here, we can define \( f \) as:
+  \[
+    f = \sum_{k  =1}^{n} \left( \frac{3}{2} \right) ^{k}(\chi_{A_{k}}-\chi_{B_{k}})
+  .\] 
+  Then, \( \int f^{+}d\lambda = \int f^{-}d\lambda = \infty \), but
+  \[
+    \lim_{t \to \infty} \int _{t}^{1} fd\lambda = 0
+  .\]
+\item 
+  For an arbitrary \( x_{0} \in [a, b] \), denote \( J(x_{0}, n) \) as the
+  interval that \( g_{n}(x_{0}) \) and \( h_{n}(x_{0}) \) is the infimum and
+  supremum of.
+
+  Let \( y_{n}, z_{n} \in J(x_{0}, n) \) be a sequences such that \( f(y_{n}) =
+  \sup f(J(x_{0}, n)) \) and \( f(z_{n}) = \inf f(J(x_{0}, n)) \). Then, we
+  have:
+  \begin{align*}
+    f^{U}(x_{0}) &= \lim_{n \to \infty} f(z_{n})\\
+    f^{L}(x_{0}) &= \lim_{n \to \infty} f(y_{n})
+  .\end{align*}
+  The way that \( J(x_{0}, n) \) is defined makes sure that \( x_{0} \in
+  \operatorname{Int} J(x_{0}, n) \), and for every \( n \in \mathbb{Z}^{+} \),
+  there exists \( \varepsilon_{n} > 0 \) and \( \varepsilon'_{n} > 0 \) such
+  that:
+  \[
+    B(x_{0}, \varepsilon_{n}) \cap [a, b] \subseteq J(x_{0}, n) \subseteq
+    B(x_{0}, \varepsilon'_{n}) \cap [a, b]
+  .\] To make things easier, denote \( \mathcal{B}(x_{0}, \varepsilon) =
+  B(x_{0}, \varepsilon_{n}) \cap [a, b] \)
+  Then, we have:
+  \[
+    0 \le \sup_{y,z \in \mathcal{B}(x_{0}, \varepsilon_{n})}
+    |f(z)-f(y)| \le f(z_{n})-f(y_{n}) \le \sup _{y, z \in \mathcal{B}(x_{0},
+    \varepsilon'_{n})} |f(z)-f(y)|
+  .\] 
+  Since \( \varepsilon_{n}, \varepsilon'_{n} \to 0 \) as \( n \to \infty \),
+  letting \( n \to \infty \) yields:
+  \begin{align*}
+    &f \text{ is continuous at } x_{0}\\
+    \implies &\lim_{\varepsilon'_{n} \to 0} \sup _{y, z \in \mathcal{B}(x_{0},
+    \varepsilon'_{n})} |f(z)-f(y)| = 0\\
+    \implies &f^{L}(x_{0}) = f^{U}(x_{0})\\
+    \implies &\lim_{\varepsilon_{n} \to 0} \sup _{y, z \in \mathcal{B}(x_{0},
+    \varepsilon_{n})} |f(z)-f(y)| = 0\\
+    \implies &f \text{ is continuous at } x_{0}
+  .\end{align*}
+
+  Hence, \( f^{L}(x_{0})=f^{U}(x_{0}) \) is equivalent to the fact that \( f \)
+  is continuous at \( x_{0} \).
+\item This is simply:
+  \begin{align*}
+    \|f\|_{1} &= \int |f|d\mu\\
+            &= \int \sum_{k=1}^{n} |a_{k}|\chi_{E_{k}}d\mu  \\
+            &= \sum_{k=1}^{n} \int |a_{k}|\chi_{E_{k}}d\mu \\
+            &= \sum_{k=1}^{n} |a_{k}|\mu (E_{k})
+  .\end{align*}
+\item 
+  \begin{enumerate}[label=(\alph*)]
+    \item
+    We have \( 0 < f(x)^{p} < f(x)^{r} + 1 \) for all \( x \in X \). Then, since \(
+    \int (f^{r}+1)d\mu = \int f^{r}d\mu + \mu (X) < \infty\), then \( \int
+    f^{p}d\mu  < \infty \).
+    \item
+    Let \( f(x) = \frac{1}{x} \). Then, \( \int_{1}^{\infty} fd\lambda = \infty
+    \), but \( \int _{1}^{\infty} f^2d\lambda = 1 < \infty \) (\( p=1, r=2 \)).
+  \end{enumerate}
+\item Define \( J(\varepsilon) = \{x \in X: |f(x)| > \varepsilon\}   \), then we
+  have:
+  \[
+    \{x \in X: f(x) \neq 0\} = \bigcup_{n = 1}^{\infty} J \left( \frac{1}{n} \right) 
+  .\] 
+  For every \( \varepsilon > 0 \), we have \( J(\varepsilon) \) is finite
+  measure, since:
+  \[
+    \infty > \|f\|_{1} \ge \int _{J(\varepsilon)} |f|d\mu \ge \varepsilon \mu
+    (J(\varepsilon))
+  .\] 
+\item We have \( |f_{k}(x)| \le \frac{1}{\sqrt{x} } \) with \( \int _{0}^{1}
+  \frac{1}{\sqrt{x}} = 2 < \infty \), so using the DCT, we can compute the limit
+  by integrating \( f = \lim_{k \to \infty} f_{k} \) on \( [0, 1] \).
+
+  For every \( x \in (0, 1) \), we have:
+  \[
+    |f_{k}(x)| \le \frac{1}{\sqrt{x} }(1-x)^{k} \to 0, \text{ as } k \to \infty
+  .\]
+
+  Hence, \( f(x) = 0, \forall  x \in (0, 1) \), so \( \int _{0}^{1} fd\lambda =
+  \int _{(0, 1)} fd\lambda = 0 \). 
+\item For \( n \in \mathbb{N}^{*} \), consider \( f_{k,n} = \left( \frac{3}{2}
+  \right) ^{n} \chi_{[(k-1)2^{-n}, k 2^{-n}]}, \forall 1 \le k \le 2^{n} \).
+  Then, \( \sup _{1 \le k \le 2^{n}} f_{k,n}(x) = \left( \frac{3}{2} \right)^{n}
+  \), and \( \int _{0}^{1} f_{k,n} = \left( \frac{3}{4} \right) ^{n} \).
+  Flattening \( f \) (letting \( f_{1} = f_{1,1}, f_{2} = f_{2,1}, f_{3} =
+  f_{1,2}, f_{4} = f_{2,2}, f_{5} = f_{3,2}, \ldots  \)) yields the sequence \(
+  f_{k}\) satisfying the given conditions.
+\item \begin{enumerate}[label=(\alph*)]
+    \item
+  By the MCT, we have \( \int_{[0, 1]} fd\lambda = \lim_{n \to \infty} \int
+  _{[1 /n, 1]} fd\lambda = \lim_{n \to \infty}\left( 2 - 2\sqrt{\frac{1}{n}}
+  \right)  = 2  \). Here, the second result follows from (proper) Riemann
+  integrability of \( \frac{1}{\sqrt{x} } \) on \(  \left[ \frac{1}{n}, 1
+  \right]  \).
+\item Similarly, this follows from Problem \ref{3B5}:
+  \[
+    \int fd\lambda = \lim_{ k \to \infty} \int _{[-k, k]}fd\lambda = 2 \lim_{ k
+    \to \infty}  \arctan k = \pi
+  .\]
+\item This improper Riemann integral converges:
+  \[
+    \int _{0}^{\infty} \frac{\sin x}{x}dx = \int _{0}^{1} \frac{\sin x}{x}dx -\int
+    _{1}^{\infty} \frac{1}{x} d(\cos x) = \int _{0}^{1} \frac{\sin x}{x}dx -
+    \left.\left( \frac{\cos x}{x} \right)\right|_{1}^{\infty} + \int _{1}^{\infty}
+    \underbrace{\frac{\cos x}{x^2}}_{\le 1 /x^2}dx
+  ,\] so the limit \( \lim_{t \to \infty} \int _{(0, t)} fd\lambda \) exists on
+  \( \mathbb{R} \).
+
+  However, we will prove that \( \int f^{+}d\lambda = \int f^{-}d\lambda =
+  \infty \). We will only do \( f^{+} \) here, but the \( f^{-} \) case can be
+  similarly proven. By the MCT, we have:
+  \[
+    \int _{0}^{\infty} fd\lambda = \int \left( \sum_{k =
+    0}^{\infty} \chi_{[k\tau, k\tau + \tau /2]} \right)  f d\lambda = \sum_{k =
+  0}^{\infty} \int_{k\tau }^{k\tau  + \tau /2} fd\lambda
+  .\] 
+  The integrals could be approximated as:
+  \[
+    \int _{k\tau }^{k\tau /2} fd\lambda \ge 
+    \int _{k\tau + \tau /8}^{k\tau +3\tau /8} fd\lambda 
+    \ge 
+    \int _{k\tau + \tau /8}^{k\tau +3\tau /8} \frac{1}{\sqrt{2} x} \ge
+    \frac{1}{\sqrt{2} }\ln \left( 1 + \frac{\tau /4}{k\tau +\tau /8}\right)
+    \ge \frac{\tau }{4\sqrt{2} (k\tau +\tau /8)}
+  .\] 
+  By the comparison test, we can see that the series above diverges to \( \infty
+  \).
+\item Consider a closed set with empty interior \( C \subseteq [0, 1] \). Then,
+  its complement, \( C^{c} = [0, 1] \setminus C \) is an open set with \(
+  \partial C^{c} = C^{c} \). The boundary of \( C^{c} \) is precisely the set of
+  all \( x_{0} \in [0, 1] \) that \( \chi_{C^{c}} \) is discontinous at, so \(
+  \chi_{C^{c}} \) is not Riemann integrable on \( [0, 1] \).
+  
+  For such an example of \( C \), see Problem \ref{2E12}.
+\end{enumerate}
+\item 
+  If \( f \) is continuous with compact support, then it is uniformly
+  continuous, and:
+  \[
+    0 \le |f(x)-f(x-t)| \le \underbrace{\sup _{|y-z| \le t}
+    |f(y)-f(z)|}_{\delta(t)} \to 0, \text{ as } t \to 0
+  .\] 
+  Since the support \( U \) of \( f \) is compact, it must have finite measure,
+  then we have:
+  \[
+    \|f-f_{t}\|_{1} \le \delta(t)\mu(\{x: f(x) \neq f_{t}(x)\}  ) \le
+    2\delta(t)\mu (U) \to 0, \text{ as } t\to 0
+  .\] 
+
+  For a general \( f \) and \( \varepsilon > 0 \), note that the function \( g
+  \) in Theorem 3.48 in MIRA has compact support, there exists some \( g \) such
+  that \( \|f-g\|_{1} < \frac{\varepsilon}{3} \). By the special case, there
+  exists some \( \delta > 0 \) such that \( \|g - g_{t}\|_{1} <
+  \frac{\varepsilon}{3}, \forall t \in (-\delta, \delta) \).
+
+  Then,
+  \begin{align*}
+    \|f-f_{t}\|_{1} &\le \|f - g\|_{1} + \|g -
+    g_{t}\|_{1} + \|g_{t}-f_{t}\|_{1}\\
+    &= 2\|f-g\|_{1} + \|g-g_{t}\| < \varepsilon
+  .\end{align*}
+  By definition of limits, we have:
+  \[
+    \lim_{t \to  0} \|f-f_{t}\|_{1}= 0
+  .\]
+
+  For (b), i dont fucking know i hate this problem fuck me.
+\end{enumerate}
+
+% section Exercises 3B (end)
+
+% chapter Integration (end)

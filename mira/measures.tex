@@ -1,0 +1,1969 @@
+\chapter{Measures} % (fold)
+\label{chap:Measures}
+
+\section{Exercises 2A} % (fold)
+\label{sec:Exercises 2A}
+
+\begin{enumerate}[label=\textbf{2A.\arabic*}]
+  \item \label{2A1}
+    This trivially follows from subadditivity:
+    \[
+      |A| \le |A \cup B| \le |A| + |B| = |A|
+    .\] 
+  \item If \( t = 0 \), then we have \( |0A| = 0 = 0 |A| \). Otherwise, we have:
+    \begin{align*}
+      |tA| &= \inf \{\sum_{k = 1}^{+\infty} \ell(I_{k}), I_{k \in
+      1..+\infty} \text{interval covers} tA\}  \\
+           &= |t|\inf \{\sum_{k = 1}^{+\infty} \ell\left( \frac{1}{t} I_{k} \right) , \frac{1}{t}I_{k \in 1..+\infty} \text{interval covers} A\}  \\
+           &= |t| |A|
+    .\end{align*}
+  \item This trivially follows from subadditivity: \( |A| + |B \setminus A| \ge
+    |B|\).
+  \item \textbf{Bounded}: Consider the open cover \( I_{k} = (-k, k) \) of \( \mathbb{R} \) (and
+    therefore \( F \)). Since this cover has a finite subcover for \( F \),
+    denote that subcover as \( I_{k_{1}}, I_{k_{2}}, \ldots , I_{k_{n}} \), we
+    can easily see that \( F \subseteq I_{K}\), with \( K = \max_{i \in 1..n}
+    k_{i} \). Hence, \( F \) is bounded.
+
+    \textbf{Closed}: Let \( x_{0} \in F^{c} \), we will prove that there exists
+    some \( \varepsilon > 0 \) such that \( B(x_{0}, \varepsilon) = (x_{0} -
+    \varepsilon, x_{0} + \varepsilon) \subseteq F^{c} \).
+
+    Consider the open cover \( I(x \in F) = B(x, \varepsilon(x)) \) of \( F \),
+    with \( \varepsilon(x) \) being a positive constant depending on \( x \).
+    Since \( F \) is compact, there exists finitely many \( x_{1}, x_{2}, \ldots
+    , x_{n}\) such that \( F \subseteq B(x_{1}, \varepsilon(x_{1})) \cup B(x_{2},
+    \varepsilon(x_{2})) \cup  \ldots  \cup B(x_{n}, \varepsilon(x_{n})) \).
+
+    Now, let \( d \) the minimum distance\footnote{The distance between two
+    real numbers \( a \) and \( b \) is defined as \( d(a, b) = |a - b| \)} of
+    \( x_{0} \) to the \( x_{i} \)'s.
+    Consider a point \( x \in F \), then there exists an \( i \in 1..n \) such
+    that: \( x \in B(x_{i}, \varepsilon(x_{i})) \) or \( d(x, x_{i}) <
+    \varepsilon(x_{i}) \). Then, by the triangle inequality, we have:
+    \[
+      d(x_{0}, x) \ge d(x_{0}, x_{i}) - d(x, x_{i}) > d(x_{0}, x_{i}) -
+      \varepsilon(x_{i})
+    .\] 
+    Now, if we pick \( \varepsilon(x_{i}) > 0 \) such that RHS is always greater
+    than \( 0 \), for example \( \varepsilon(x_{i}) = \frac{1}{2}d(x_{0}, x_{i})
+    \) (note that we obviously have \( x_{0} \neq  x_{i} \) for all \( i \in
+    1..n \)), then we have:
+    \[
+      d(x_{0}, x) > \min_{i \in 1..n} \{d - \varepsilon(x_{i})\} = r > 0, \forall x \in
+      F
+    .\]
+    From this, we see that \( B(x, r) \subseteq F^{c} \), therefore \( F^{c} \)
+    is open and \( F \) is closed.
+  \item \label{2A5} Let \( B \) be the bounded set in \( \mathcal{A} \), then we have:
+    \begin{align*}
+      \varnothing =  \bigcap_{F \in \mathcal{A}} F &= B \cap \left(
+      \bigcap_{F \in \mathcal{A} \setminus \{B\}  } F \right)  \\
+      &= B \cap \left( \mathbb{R} \setminus \bigcup_{F \in \mathcal{A} \setminus \{B\}
+      } (\mathbb{R}\setminus F) \right)  \\
+      &= B \setminus \bigcup_{F \in \mathcal{A} \setminus \{B\}  } (\mathbb{R} \setminus
+      F)
+    .\end{align*}
+    From this, we can see that \( (\mathbb{R} \setminus F)_{F \in \mathcal{A}\setminus
+    \{B\}  } \) is a cover of \( B \). And since \( F \) is closed for all \( F
+    \in A\), this is an open cover. Now, \( B \) is both closed and bounded,
+    implying that it must be compact, and hence, there is a finite subcover \(
+    \mathbb{R}\setminus F_{1}, \mathbb{R}\setminus F_{2}, \ldots , \mathbb{R}
+    \setminus F_{n} \) of \( B \). From this, we can proceed similarly to the
+    set manipulation above, but in reverse to get:
+    \[
+      B \cap  F_{1} \cap  F_{2} \cap  \ldots \cap  F_{n} = \varnothing
+    .\] 
+  \item This follows directly from problem \ref{2A1}.
+    \begin{alignat*}{3}
+      |(a, b)| &= |(a, b) \cup \{a, b\}  | &&= |[a, b]| &&= b - a\\
+      |(a, b]| &= |(a, b) \cup \{b\}  | &&= |[a, b]| &&= b - a\\
+      |[a, b)| &= |(a, b) \cup \{a\}  | &&= |[a, b]| &&= b - a
+    .\end{alignat*}
+    The sets \( \{a\} , \{b\}    \) and \( \{a, b\}   \), needless to say, has
+    outer measure \( 0 \) due to countability.
+  \item \label{2A7} WLOG assuming \( a \le c \).
+
+    If \( c \in (a, b) \), then \( (a, b) \cup (c, d) = \left( a, \max \{b,
+    d\}   \right)  \). The outer measure is therefore \( |(a, b) \cup (c, d)| =
+    \max \{b, d\}  - a < (b + d - c) - a = (b - a) + (d - c) \).
+    
+    If \( c \ge b \), then \( (a, b) \cup (c, d) =\varnothing \). From
+    subadditivity of outer measure, we have \( |(a, b) \cup (c, d)| \le (b - a)
+    + (d - c)\). To prove equality, an open interval cover \( \mathcal{A} \) of \( (a,
+    b) \cup  (c, d) \):
+    \begin{align*}
+      (a, b) \cup (c, d) &\subseteq \bigcup_{C \in \mathcal{A}} C
+    .\end{align*}
+    Then, we have two open interval covers of \( (a, b) \) and \( (c, d) \):
+    \begin{align*}
+      (a, b) &\subseteq \bigcup_{F \in \mathcal{A}} (F \cap (a, b))\\
+      (c, d) &\subseteq \bigcup_{F \in \mathcal{A}} (F \cap (c, d))\\
+    .\end{align*}
+    Note that here, we used the fact that the intersection of two open intervals
+    is always another open interval. Additionally, we have:
+    \[
+      \ell(C) \ge  \ell(C \cap (a, b)) + \ell(C \cap (c, d))
+    ,\] implying:
+    \[
+      \sum_{F \in \mathcal{A}} \ell(F) \ge 
+      \sum_{F \in \mathcal{A}} \ell(C\cap (a, b)) +
+      \sum_{F \in \mathcal{A}} \ell(C\cap (c, d))
+      \ge |(a, b)| + |(c, d)| = (b - a) + (d - c)
+    .\] 
+    Hence, we have \( |(a, b) \cup  (c, d)| \ge  (b - a) + (d - c) \). QED.
+
+    If \( c \le a \), then either \( d \le a \) (easily proven similarly to the
+    \( c \ge b \) case) or \( d > a \) (similarly to the \( c \in (a, b) \)
+    case).
+  \item \label{2A8} We proceed similarly to the second case of problem
+    \ref{2A7}. However,
+    there is a major difference: the fact that \( F \cap  (\mathbb{R}
+    \setminus (-t, t)) \) is not necessarily an open interval. However, we can
+    circumvent this problem by:
+    \begin{align*}
+      F \cap  (\mathbb{R} \setminus (-t, t)) = (F \cap (-\infty, -t]) \cup  (F \cap
+      [t, +\infty))
+    .\end{align*}
+    RHS is the union of two (may be half-closed) intervals. So, we need to also
+    tweak the definition for the outer measure:
+    \[
+      |A| = \inf \left\{ \sum_{n=1}^{\infty} \ell(I_{n}),
+      I_{1..+\infty} \text{ is an interval cover of } A
+    \right\}
+    .\] 
+    We can show that this definition is in fact equivalent to the original one.
+    For every interval \( I \), there always exists some open interval \( o(I,
+    \varepsilon) \) containing \( I \) such that \( \ell(o(I, \varepsilon)) <
+    \ell(I) + \varepsilon \).  Then, suppose \( I_{1..+\infty} \) is an interval
+    cover of \( A \), we can "cover this cover" by the open interval cover \(
+    \ell(I_{k}, \varepsilon_{k})_{k \in 1..+\infty} \). We pick \(
+    \varepsilon_{k} \) such that the series \( \sum_{k=1}^{\infty}
+    \varepsilon_{k} \) converges to some \( \varepsilon_{0} \), then we have:
+    \[
+      \sum_{n = 1}^{+\infty} \ell(I_{n})
+      >
+      \sum_{n = 1}^{+\infty} \ell(o(I_{n}, \varepsilon_{n})) - \sum_{n =
+      1}^{\infty} \varepsilon_{n} = \sum_{n = 1}^{+\infty} \ell(o(I_{n},
+      \varepsilon_{n}))  - \varepsilon_{0} > |A| -\varepsilon_{0}
+    ,\] here \( |A| \) denotes the original definition for the outer measure of
+    \( A \).
+
+    Letting \( \varepsilon_{0} \to 0 \), we have:
+    \[
+      |A|' = \inf \left\{ \sum_{n=1}^{\infty} \ell(I_{n}),
+      I_{1..+\infty} \text{ is an interval cover of } A  \right\} \ge |A|
+    .\] 
+    Needless to say, \( |A| \le |A|' \) due to the condition of \( |A|' \)
+    being less strict than \( |A| \). Hence, the two definitions are equivalent.
+
+    For the sake of completeness, we will sketch a proof for the original
+    problem. Let \( \mathcal{A} \) be an open interval cover of \( A \), then we
+    can find two interval covers of \( A \cap (-t, t) \) and \( A \cap
+    (\mathbb{R} \setminus (-t, t)\):
+    \begin{align*}
+      A \cap (-t, t) &\ge \bigcup_{F \in \mathcal{A}} (F \cap (-t, t))\\
+      A \cap (\mathbb{R} \setminus (-t, t)) &= \bigcup_{F \in \mathcal{A}} \left(
+      (F \cap  (-\infty, -t] \cup 
+      (F \cap  (t, +\infty]
+    \right) 
+    ,\end{align*} satisfying:
+    \[
+      \ell(F) = \ell(F \cap (-t, t)) + \ell(F \cap (-\infty, -t)) + \ell(F \cap
+      (t, +\infty)), \forall  F \in \mathcal{A}
+    .\] 
+    Hence, we end up with the inequality:
+    \[
+      |A| \ge |A \cap (-t, t)| + |A \cap (\mathbb{R} \setminus (-t, t))|
+    ,\] and by subadditivity of the outer measure, we have equality.
+  \item \label{2A9}
+    Take any sequence \( t_{n} \) that converges to \( +\infty \) as \( n \to
+    +\infty \). Denote \( A_{n} = A \cap (-t_{n}, t_{n}) \), \( B_{n} = A_{n} \setminus
+    A_{n - 1}\), we have:
+    \begin{align*}
+      |A_{n}| &=  \left| \bigcup_{k = 1}^{n} B_{k} \right| \\
+      &= \left| \bigcup_{k = 1}^{n} B_{k} \cap (-t_{n-1}, t_{n-1}) \right| 
+      + \left| \bigcup_{k = 1}^{n} B_{k} \setminus (-t_{n-1}, t_{n-1}) \right|\\
+      &= \left|  \bigcup_{k=1}^{n-1} B_{k} \right| + |B_{n}|\\
+      &= |A_{n-1}| + |B_{n}|
+    .\end{align*}
+    From this recurrence relation, we have:
+    \[
+      |A_{n}| = \sum_{k = 1}^{n} |B_{k}|
+    .\] 
+    Letting \( n \to \infty \), we have:
+    \[
+      \lim_{n \to \infty} |A_{n}| = \sum_{k = 1}^{+\infty} |B_{k}|
+    .\] 
+    Now, note that \( (B_{k})_{k \ge 1} \) is a cover of \( A \), so by
+    subadditivity, we have:
+    \[
+      \lim_{n \to \infty} |A_{n}| = \sum_{k \ge 1} |B_{k}| \ge |A|
+    .\] 
+    On the other hand, \( \lim_{n \to \infty} |A_{n}| \le |A| \) due to the fact
+    that \( A_{n} \subseteq A \) for all \( n \in \mathbb{N} \).
+
+    Hence, we have:
+    \[
+      \lim_{n \to \infty} |A \cap (-t_{n}, t_{n})| = |A|
+    ,\] for all \( t_{n} \to +\infty \), or in other words:
+    \[
+      \lim_{t \to \infty} |A \cap (-t, t)| = |A|
+    .\] 
+\item
+  We knew \( |\mathbb{Q}| = 0 \), so \( |\mathbb{Q} \cap [0, 1]| = 0 \).
+
+  Letting \( A = Q \cap [0, 1] \) and \( B = Q \setminus [0, 1] \) in problem
+  \ref{2A1}, we have QED.
+\item 
+  Consider an interval cover \( (C_{k})_{k \in \mathbb{N}^{*}} \) of \( S =
+  \bigcup_{k=1}^{+\infty} I_{k}  \). Denote \( C^{m}_{k} = C_{k} \cap I_{m} \),
+  then, by intuition, we must have:
+  \[
+    \sum_{m = 1}^{+\infty} \ell(C^{m}_{k}) = \ell(C_{k})
+  .\] 
+  Note that both \( C_{k} \) and \( C^{m}_{k} \) are open intervals, so this
+  identity is totally unrelated to the outer measure. Proving this rigorously
+  could be done by looking at the boundary points of the intervals \( C_{m} \)
+  and \( I_{k} \).
+
+  From this, we must have:
+  \begin{align*}
+    \sum_{k = 1}^{+\infty} \ell(C_{k}) &= \sum_{k = 1}^{+\infty} \sum_{m =
+    1}^{+\infty} \ell(C^{m}_{k}) \\
+    &= \sum_{m = 1}^{+\infty} \sum_{k = 1}^{+\infty} \ell(C^{m}_{k}) \\
+    &\ge \sum_{m = 1}^{+\infty} |I_{m}| \text{, (since } C^{m \in 1..+\infty}_{k}
+    \text{is an open interval cover of } I_{m} \text{)} \\
+    &= \sum_{k = 1}^{+\infty} \ell(I_{m})
+  .\end{align*}
+  Here, switching the order of summation is justified by Tonelli's theorem.
+
+  We have equality if \( C_{k} = I_{k}, \forall k \in \mathbb{N}^{*} \). Hence,
+  infimum of the LHS, i.e. \( |S| \), must be:
+  \[
+    |S| = \sum_{k = 1}^{+\infty} \ell(I_{m})
+  .\] 
+\item \label{2A12}
+    \begin{enumerate}[label=(\alph*)]
+      \item We need to prove that the set:
+        \[
+          F^{c} = \bigcup_{k = 1}^{\infty} \left( r_{k} - \frac{1}{2^{k}}, r_{k}
+          + \frac{1}{2^{k}}\right) 
+        \] is an open set. This is trivial, since it is a (countable) union of
+        open sets. For completeness sake, consider \( x_{0} \in F^{c} \), then
+        there exists some \( k \) such that \( x_{0} \in \left( r_{k}-2^{-k},
+        r_{k}+2^{-k} \right)  \), which is an open set. Hence, there exists some
+        \( \varepsilon > 0 \) such that \( B(x_{0},\varepsilon) \subseteq
+        (r_{k}-2^{-k}, r_{k}+2^{-k}) \subseteq F^{c} \). Therefore \( F^{c} \)
+        is open and \( F \) is closed.
+    \item Every non-degenerate interval (intervals with non-zero outer measure)
+      could be shown to contain a rational number. This can be easily proven by
+      consider an arbitrary interval \( I \) with \( |I| > 0 \) and a closed
+      interval \( [a, b] \subseteq I \) such that \( a < b \).
+      By the fact that \( \mathbb{Q} \) is a
+      dense subset of \( \mathbb{R} \), there exists some \( q \in \mathbb{Q} \)
+      such that \( q \in [a, b] \), and therefore \( q \in I \).
+
+      Hence, if some interval \( I \) with non-zero outer measure is contained
+      in \( F \), then \( \exists q \in \mathbb{Q} \) such that \( q \in F \).
+      This contradicts with the fact that \( r_{1..+\infty} \) is an enumeration
+      of \( \mathbb{Q} \).
+    \item By subadditivity, we have:
+      \[
+        |F^{c}| \le \sum_{k =1}^{+\infty} \left| (r_{k}-2^{-k}, r_{k}+2^{-k})
+        \right| = \sum_{k =1 }^{+\infty} 2^{1-k} = 2
+      .\] 
+      If \( F \) has finite outer measure, then:
+      \( +\infty > |F| + |F^{c}| \ge |\mathbb{R}| \), which contradicts with \(
+      |\mathbb{R}| = +\infty\). Hence, \( |F| = +\infty \).
+    \end{enumerate}
+
+  \item \( F \) could be taken as a restricted version of the \( F \) in problem
+    \ref{2A12}:
+    \[
+      F = [0, 1] \setminus \bigcup_{k = 1}^{\infty} \left( r_{k} -
+      \frac{\varepsilon}{N 2^{k}}, r_{k} + \frac{\varepsilon}{N 2^{k}} \right) 
+    ,\] with \( r_{1..+\infty} \) is an enumeration of \( [0, 1] \cap \mathbb{Q}
+    \).
+
+    By the same logic, \( F \) is closed, contains no irrational numbers, and
+    its complement has outer measure at most \( \frac{2\varepsilon}{N} \).
+
+    Hence,
+    \[
+      |F| \ge |[0, 1]| - |F^{c}| \ge 1 - \frac{2\varepsilon}{N}
+    .\] 
+
+    To make \( 1 - \frac{2\varepsilon}{N} > 1 - \varepsilon \), one simply takes
+    \( N = 3 \).
+\item We will go straight to (f). The reason why the result differs is that the
+  colored region is not a triangle:
+  \[
+    \frac{11}{5} \neq \frac{20}{9} \neq \frac{20 - 11}{9 - 5}
+  .\] 
+  There are plenty of videos that explain this "paradox" (The Infinite Chocolate
+  Paradox), so we will only leave it at that.
+\end{enumerate}
+
+% section Exercises 2A (end)
+
+\section{Exercises 2B} % (fold)
+\label{sec:Exercises 2B}
+
+\begin{enumerate}[label=\textbf{2B.\arabic*}]
+  \item Let \( I(K) = \bigcup_{n e K} (n, n + 1] \). Then, we trivially have:
+    \begin{itemize}
+      \item \( \varnothing = I(\varnothing) \);
+      \item \( I(K)^{c} = I(K^{c}) \);
+      \item \( \bigcup_{k = 1}^{\infty} I(K_{k}) = I \left( \bigcup_{k =
+        1}^{\infty} K_{k} \right)  \) for \( K_{1}, K_{2}, \ldots \subseteq
+        \mathbb{Z} \).
+    \end{itemize}
+  \item 
+    \begin{itemize}
+    \item 
+    Consider \( E \subseteq X \) such that \( E \) is countable. Then, there
+    exists an enumeration \( x_{1}, x_{2}, \ldots  \) of \( E \), and we have:
+    \[
+      E = \bigcup_{k = 1}^{\infty} \{x_{k}\}
+    .\] 
+    Since \( \{x_{k}\} \in \mathcal{A}, \forall k \in \mathbb{N}^{*}  \), \( E
+    \in \mathcal{A} \).
+
+    On the other hand, \( \mathcal{A} \) is a \( \sigma \)-algebra, so \( X
+    \setminus E \in \mathcal{A} \). Hence, \( \mathcal{A} \) contains all
+    subsets \( E \) of \( X \) such that \( X \setminus E \) or \( E \) is
+    countable.
+
+    In the previous example, we proved that \( \mathcal{A}' \), the set of all
+    \( E \) such that \( E \) or \( X \setminus E \) is countable, is a \(
+    \sigma \)-algebra. Hence, by the minimality of \( \mathcal{A} \), we must
+    have \( \mathcal{A} = \mathcal{A}' \).
+
+  \item Trivial (but tedious).
+    \end{itemize}
+
+  \item \label{2B3}
+    Consider \( a \in \mathbb{R} \), if we can prove that \( (a, +\infty) \in
+    \mathcal{S} \), then \( \mathcal{S} \) is the collection of Borel subsets of
+    \( \mathbb{R} \).
+
+    Since \( a \in \mathbb{R} \), there exists an increasing sequence of
+    rationals \( q_{1}, q_{2}, \ldots  \) that converges to \( a \). Then, we
+    have:
+    \[
+      (a, +\infty) = \bigcap_{n = 1}^{\infty} (q_{n}, q_{n} + n]
+    ,\] and therefore \( (a, +\infty) \in \mathcal{S} \).
+  \item This trivially follows from:
+    \[
+      (r, s] = (r, n) \setminus (s, n)
+    ,\] with \( r, s \in \mathbb{Q} \), \( n \) is an arbitrary integer that is
+    greater than \( r \) and \( s \).
+  \item In problem \ref{2B3}, we have:
+    \[
+      (a, +\infty) = \bigcap_{n = 1}^{\infty} (q_{n}, q_{n} + n] = \bigcap_{n =
+      1} \bigcup_{k = 2}^{2n} \left( q_{n} + \frac{k}{2} - 1, q_{n} + \frac{k}{2}
+      \right) \in \mathcal{S}
+    .\]
+  \item This is even easier than the previous problem:
+    \[
+      (a, +\infty) = \bigcap_{n = 1}^{\infty} [q_{n}, +\infty)
+    .\]
+  \item \label{2B7}
+    Let \( \mathcal{B} \) be the \( \sigma \)-algebra of Borel subsets of \(
+    \mathbb{R}\). Then, consider \( \mathcal{B}' = \{A \in \mathcal{B}, A +
+    \{t\} \in \mathcal{B} \} \subseteq \mathcal{B}  \). We have:
+    \[
+      (a, +\infty) = (a - t, +\infty)  + \{t\} \subseteq \mathcal{B}' 
+    ,\] so to prove \( \mathcal{B} = \mathcal{B}' \), we just need to prove that
+    \( B'\) is a \( \sigma \)-algebra:
+    \begin{itemize}
+    \item \( \varnothing = \varnothing + \{t\} \in \mathcal{B}  \), so \(
+      \varnothing \in B' \).
+    \item If \( E \in \mathcal{B}' \), then \( \mathbb{R} \setminus E \in
+      \mathcal{B} \) and \( (\mathbb{R} \setminus E) + \{t\} = \mathbb{R}
+      \setminus (E + \{t\}  ) \subseteq \mathcal{B}  \). Therefore, \(
+      \mathbb{R} \setminus E \in \mathcal{B}' \).
+    \item If \( E_{1}, E_{2}, \ldots \in \mathcal{B}' \), then the countable
+      union of \( E_{1}, E_{2}, \ldots  \) is in \( \mathcal{B}' \) and:
+      \[
+        \left( \bigcup_{n = 1}^{\infty} E_{n} \right) + \{t\}   = \bigcup_{n =
+        1}^{\infty} \left( E_{n} + \{t\}   \right) \in \mathcal{B}'
+      .\] Hence, \( \bigcup_{n = 1}^{\infty} E_{n} \in \mathcal{B}' \).
+    \end{itemize}
+  \item Proceed similarly as in problem \ref{2B7}.
+  \item Consider any non-Borel set \( A \). Then,
+    \[
+      f(x) = \begin{cases}
+        1, &\text{ if } x \in A\\
+        -1, & \text{ otherwise }
+      \end{cases}
+    ,\] has \( |f|(x) = 1 \) for all \( x \in \mathbb{R} \), which is
+    measurable.
+
+    Meanwhile, \( f^{-1}((0, +\infty)) = A \), which is not a Borel set, so \( f
+    \) is not a measurable function.
+  \item 
+    Let \( E \) be the set of real numbers that have a decimal expansion with
+    the digit \( 5 \) appearing infinitely often. Denote \( E_{+} = E \cap [0,
+    +\infty), E_{-} = E \cap (-\infty, 0]   \), then \( E_{-} = (-1)E_{+} \), so
+    if \( E_{+} \) is a Borel set, \( E_{-} \) is also a Borel set and therefore
+    \( E = E_{+} \cup E_{-} \) is a Borel set.
+
+    Let \( E_{k} \) be the set of positive real numbers with the \( k \)-th digit
+    after the decimal point being \( 5 \). Then, \( E_{k} \) could be written in
+    the form:
+    \[
+      E_{k} =  \frac{1}{10^{k-1}}\bigcup_{n \in \mathbb{N}}\left[ n + 0.5, n +
+      0.6 \right) = \frac{1}{10^{k-1}}E_{1} \in \mathcal{B}
+    .\] 
+    Then, \( \mathbb{R} \setminus E_{+} \), the set of all positive real numbers
+    with finitely many \( 5 \) in their decimal representation, could be written
+    as:
+    \[
+      \mathbb{R} \setminus E_{+} = \bigcup_{S \in F(\mathbb{N}^{*})} \left( 
+        \bigcap_{k \in S} E_{k} \setminus \bigcup_{k \in S^{c}} E_{k}
+      \right)
+    ,\] with \( F(\mathbb{N}^{*}) \) denoting the set of all finite subsets of
+    \( \mathbb{N} \), which is countable (such a set \( S = \{s_{1}, s_{2},
+    \ldots, s_{k} \}   \) could be uniquely identified as
+    the natural number \( p_{1}^{s_{1}}p_{2}^{s_{2}}\ldots p_{k}^{s_{k}} \),
+    with \( p_{1}, p_{2}, \ldots  \) are the prime numbers).
+
+    Hence, \( \mathbb{R} \setminus E_{+} \) is a Borel set, and therefore \( E_{+}
+    \) and \( E \) are also a Borel sets.
+  \item \begin{enumerate}[label=(\alph*)]
+    \item Denote \( \mathcal{S}' = \{F \cap X: F \in \mathcal{T}\}   \). We will
+      prove \( \mathcal{S} = \mathcal{S}' \) by proving \( \mathcal{S}
+      \subseteq \mathcal{S}' \) and \( \mathcal{S}' \subseteq \mathcal{S}\).
+      
+      First, for every \( E \in \mathcal{S} \), we have \( E \in \mathcal{T} \)
+      and \( E \subseteq X \). Hence, \( E = E \cap X \), and thus \( E \in
+      \mathcal{S}' \).
+
+      Secondly, for every \( F \in \mathcal{T} \), denote \( E = F \cap X \).
+      Then, \( E \subseteq X \), so to prove \( E \in \mathcal{S} \), one only
+      needs \( E \in \mathcal{T} \). This trivially follows from the fact that
+      \( E = F \cap X \), with \( F \) and \( X \) are both in the \( \sigma
+      \)-algebra \( \mathcal{T} \).
+    \item This trivially follows from:
+      \begin{itemize}
+        \item \( X \subseteq X \) and \( X \in \mathcal{T} \) implies \( X \in
+          \mathcal{S} \).
+        \item If \( E \in \mathcal{S} \), then \( X \setminus E \in \mathcal{T}
+          \) and \( X \setminus E \subseteq X \), therefore \( X \setminus E \in
+          \mathcal{S}\).
+        \item If \( E_{1}, E_{2}, \ldots  \in \mathcal{S} \), then \( E =
+          \bigcup_{k = 1}^{\infty} E_{k} \) is both a subset of \( X \) and a
+          set in \( \mathcal{T} \), hence \( E \in \mathcal{S} \).
+    \end{itemize}
+  \end{enumerate}
+\item 
+  \begin{enumerate}[label=(\alph*)]
+    \item Let \( a \) be an arbitrary element of \( G_{k} \). We will prove that
+      there exists some \( \varepsilon > 0 \) such that \( B(a, \varepsilon)
+      \subseteq G_{k} \).
+
+      First, since \( a \in G_{k} \), there exists some \( \delta \) such that
+      \( \sup_{x, y \in B(a, \delta)} |f(x)-f(y)| < \frac{1}{k} \). This
+      property also holds for subsets of \( B(a, \delta) \), i.e. for every \( S
+      \subseteq B(a, \delta)\), we have: \( \sup_{x, y \in S} |f(x)-f(y)| <
+      \frac{1}{k} \).
+
+      Hence, if we pick \( \varepsilon < \delta \), for every \( a' \in B(a,
+      \varepsilon) \) has some \( \delta' = \delta - \varepsilon \) such that \(
+      B(a', \delta') \subseteq B(a, \delta)\) and therefore \( \sup_{x, y \in
+      B(a', \delta')} |f(x)-f(y)| < \frac{1}{k} \). Hence, \( a' \in G_{k} \).
+
+      Therefore, \( G_{k} \) contains a neighborhood of all \( a \in G_{k} \),
+      making it an open set.
+    \item \( f \) is continuous at \( x_{0} \) is equivalent to:
+      \[
+        \lim_{x \to x_{0}} f(x) = f(x_{0})
+      ,\] or equivalently:
+      \[
+        \lim_{x \to x_{0}} |f(x)-f(x_{0})| = 0
+      .\] 
+      Using the \( \varepsilon-\delta \) definition of limits, this is
+      equivalent to the fact that for every \( \varepsilon > 0 \), there exists
+      some \( \delta > 0 \) such that \( \sup_{x \in B(x_{0}, \delta)}
+      |f(x)-f(x_{0})| < \varepsilon \). By the triangle inequality, this
+      implies:
+      \[
+        \sup_{x, y \in B(x_{0}, \delta)} |f(x)-f(y)| < 2\varepsilon
+      .\] 
+      Take \( \varepsilon = \frac{1}{2k} \), then the existence of \( \delta \)
+      implies that \( x_{0} \in G_{k} \). Then, we must have \( x_{0} \in
+      \bigcap_{k \in \mathbb{N}^{*}} G_{k} \).
+
+      Now, if \( x_{0} \in G_{k} \) for all \( k \in \mathbb{N}^{*} \), then for
+      every \( k \in \mathbb{N}^{*} \), there exists some \( \delta_{k} > 0 \) such
+      that:
+      \[
+        \sup_{x, y \in B(x_{0}, \delta_{k})} |f(x)-f(y)| < \frac{1}{k}
+      ,\] which implies:
+      \[
+        \sup_{x \in B(x_{0}, \delta_{k})} |f(x)-f(x_{0})| < \frac{1}{k}
+      .\] 
+
+      Hence, for every \( \varepsilon > 0 \), there always exists some \( k \in
+      \mathbb{N}^{*}\)
+      such that \( \frac{1}{k} < \varepsilon \) and \( \delta = \delta_{k} \)
+      satisfies:
+      \[
+        \sup_{x \in B(x_{0}, \delta)} |f(x)-f(x_{0})|< \frac{1}{k} < \varepsilon
+      .\] 
+      Hence, \( f \) is continuous at \( x_{0} \).
+    \item Since \( G_{k} \) are all open sets, they are also Borel sets. The
+      intersection of such sets is also a Borel set. Hence, the set of points at
+      which \( f \) is continuous, \( \bigcap_{k \in \mathbb{N}^{*}} G_{k} \),
+      is a Borel set.
+  \end{enumerate}
+
+\item Since \( c_{1}, c_{2}, \ldots, c_{n}  \) are pairwise distinct, we must
+  have:
+  \[
+    f^{-1}(\{c_{k}\}  ) = E_{k}
+  .\] 
+  Hence, if \( f \) is measurable, then \( E_{k} \in \mathcal{S} \) for all \( k
+  \in 1..n\).
+
+  On the other hand, if \( E_{k} \in \mathcal{S} \) for all \( k \in 1..n \),
+  then:
+  \[
+    f^{-1}(A) = \bigcup_{c_{k} \in A} E_{k} \in \mathcal{S}
+  ,\] for all \( A \subseteq \mathbb{R} \) (not necessarily a Borel set).
+\item Let \( S \) be the complicated set:
+  \[
+    S = \bigcap_{n=1}^{\infty} \bigcup_{j=1}^{\infty} \bigcap_{k=j}^{\infty}
+    (f_{j}-f_{k})^{-1}\left( \left( -\frac{1}{n}, \frac{1}{n} \right)  \right) 
+  .\] 
+  We have:
+  \begin{align*}
+    x \in S &\iff x \in \bigcup_{j=1}^{\infty} \bigcap_{k=j}^{\infty}
+    (f_{j}-f_{k})^{-1}\left( \left( -\frac{1}{n}, \frac{1}{n} \right)  \right) ,
+    \forall n \in \mathbb{N}^{*}\\
+            &\iff \forall n \in \mathbb{N}^{*}, \exists j \in \mathbb{N}^{*}:
+            \forall  k \ge j,
+            |f_{j}-f_{k}|(x) <  \frac{1}{n}
+  .\end{align*}
+  The statement "\( \exists j \in \mathbb{N}^{*}: \forall k \ge j,
+  |f_{j}-f_{k}|(x) < \frac{1}{n} \)" implies "\( \exists N \in \mathbb{N}^{*},
+  \sup_{u, v \ge  N} |f_{u}-f_{v}|(x) < \frac{2}{n} \)", since with \( N = j \):
+  \[
+    \sup_{u, v \ge N} |f_{u}-f_{v}|(x) \le  \sup_{u\ge N}|f_{j}-f_{u}|(x) +
+    \sup_{v\ge N}|f_{j}-f_{v}|(x) < \frac{2}{n}
+  .\] 
+  Hence, \( x \in S \) implies \( \forall n \in \mathbb{N}^{*}, \exists  N \in
+  \mathbb{N}^{*}, \sup_{u, v \ge  N} |f_{u}-f_{v}|(x) < \frac{2}{n} \). Replacing
+  \( n \) with \( \varepsilon \) yields the usual \( \varepsilon-\delta \)
+  definition for Cauchy sequence, therefore \( f_{n}(x) \) is a Cauchy sequence.
+  This is equivalent with the fact that \( f_{n}(x) \) converges.
+
+  On the other hand, if \( f_{n}(x) \) converges, one can just work backwards
+  like in the previous problem. From the statement "\( \exists N \in
+  \mathbb{N}^{*}: \sup_{u,v \ge N} |f_{u}-f_{v}|(x) \)",
+  one could only recover an weaker original statement: "\( \exists j \in
+  \mathbb{N}^{*}: \forall k \ge j, |f_{j}-f_{k}|(x) < \frac{2}{n} \)". However,
+  we have this equivalence:
+  \[
+            \forall n \in \mathbb{N}^{*}, \exists j \in \mathbb{N}^{*}:
+            \forall  k \ge j,
+            |f_{j}-f_{k}|(x) <  \frac{1}{n}
+            \iff
+            \forall n \in \mathbb{N}^{*}, \exists j \in \mathbb{N}^{*}:
+            \forall  k \ge j,
+            |f_{j}-f_{k}|(x) <  \frac{2}{n}
+  ,\] so we still can deduce back \( x \in S \).
+
+  From this, we can trivially see why \( S = \{x \in X: x_{1},x_{2}, \ldots
+  \text{converges}\}   \) is a \( \mathcal{S} \)-measurable subset of \( X \).
+\item \( \mathcal{S} \) is a \( \sigma \)-algebra due to the following:
+  \begin{itemize}
+  \item \( \varnothing = \bigcup_{k \in \varnothing} E_{k} \in \mathcal{S} \).
+  \item \( X \setminus \bigcup_{k \in K} E_{k} = \bigcup_{k \in \mathbb{Z}^{+}
+    \setminus K} E_{k} \in \mathcal{S} \).
+  \item \( \bigcup_{n=1}^{\infty} \bigcup_{k\in K_{n}} E_{k} = \bigcup_{k \in K}
+    E_{k} \in \mathcal{S}\), with \( K = \bigcup_{n =1}^{\infty} K_{n} \).
+  \end{itemize}
+
+  Consider \( f: X \to  \mathbb{R} \).
+  \begin{itemize}
+  \item If \( f \) is constant on \( E_{k} \) for all \( k \in \mathbb{Z}^{+}
+    \), then \( f^{-1}(A) = \bigcup_{f(E_{k}) \subseteq A} E_{k} \in \mathcal{S}
+    \). Hence, \( f \) is measurable.
+  \item If \( f \) is measurable, then let \( e \in E_{n} \), we must have:
+    \[
+      f^{-1}(\{f(e)\} = \bigcup_{k \in K} E_{k}  
+    ,\] since the LHS is in \( \mathcal{S} \). We trivially have \( n \in K \),
+    so LHS must also include \( E_{k} \). Hence, \( f(x) = f(e), \forall x \in
+    E_{k} \), and \( f \) is constant on \( E_{k} \) for all \( k \in
+    \mathbb{Z}^{+} \).
+  \end{itemize}
+
+\item
+  \begin{enumerate}[label=(\alph*)]
+    \item Trivial
+    \item If \( f \) is constant on \( A \), then \( f^{-1}(Y) \) is either \(
+      \varnothing \in \mathcal{S}_{A} \) or \( X \in \mathcal{S}_{A} \). Hence,
+      \( f \) is measurable wrt \( \mathcal{S}_{A} \).
+
+      If \( f \) is measurable wrt \( \mathcal{S}_{A} \), then we will proceed
+      as follows. If \( A \) is empty, then \( f \) is constant on \( A \) is
+      vacuously true. Otherwise, take \( y \in f(A) \neq  \varnothing \), then
+      the set \( f^{-1}(\{y\}  ) \in \mathcal{S}_{A} \) must have at least one
+      element of \( A \), therefore we must have \( A \subseteq f^{-1}(\{y\}  )
+      \), i.e. \( f(A) = \{y\}   \). Hence, \( f \) is constant on \( A \).
+  \end{enumerate}
+
+\item We prove that \( A = f^{-1}((a, +\infty)) \) is a Borel set. 
+  Denote \(
+  D\) as the countable set \( \{x \in X: f\text{ is discontinuous at } x\}   \).
+  Then, if \( x \in X \setminus D \), then we can write:
+  \[
+    A = \underbrace{(A \cap D)}_{\text{countable}} \cup (A
+    \setminus D)
+  .\] 
+  Now, we only need to prove that \( A\setminus D \) is a Borel set. We can
+  proceed similarly to the proof of Theorem 2.41.
+
+  If \( x_{0} \in A \setminus D \), then \( f \) is continuous at \( x_{0} \).
+  Then, we have two cases:
+  \begin{itemize}
+  \item If \( f(x_{0}) \le  a \), then \( x_{0} \not\in A \setminus D \)
+  \item Otherwise, if \( f(x_{0}) > a \), then there exists some neighborhood \(
+    B(x_{0}, \varepsilon_{x_{0}}\) such that \( f(x) > a, \forall x \in B(x_{0},
+    \varepsilon_{x_{0}}) \).
+  \end{itemize}
+  Hence, we can write \( A\setminus D \) as:
+  \[
+    A \setminus D = \bigcup_{x \in A} B(x_{0}, \varepsilon_{x_{0}})
+  .\] 
+  Note that this is a Borel set because it is open, not because it is a
+  uncountable union of Borel sets.
+
+  From here, it is trivial to conclude that \( A \) is a Borel set.
+\item The derivative \( f' \) of \( f \) is simply the limit:
+  \[
+    f'(x) = \lim_{h \to 0} \frac{f(x+h)-f(h)}{h} = \lim_{n \to \infty} \frac{f
+    \left( x +  \frac{1}{n} \right) - f(x) }{\frac{1}{n}}
+  .\] 
+  Here, we transform the original limit into the limit wrt \( n \) to have a
+  sequential limit instead of an \( \varepsilon-\delta \) one. Define \(
+  f_{n}(x) = n \left( f \left( x + \frac{1}{n} \right) - f(x) \right)  \), then
+  \( f_{n} \to  f \) as \( n \to \infty \), and since all \( f_{n} \) are Borel
+  measurable, \( f' \) must also be Borel measurable.
+
+\item Let \( f: X \to \mathbb{R} \) be a \( \mathcal{S} \)-measurable function.
+  First, we know \( f^{-1}((-\infty, a)), f^{-1}([a, +\infty)) \) is a partition
+  of \( X \), so either set has to be countable. Denote \( I_{1}, I_{2} \) as
+  follows:
+  \begin{align*}
+    I_{1} &= \{a \in f(X): f^{-1}((-\infty, a)) \text{ is countable}\}   \\
+    I_{2} &= \{a \in f(X): f^{-1}([a, +\infty)) \text{ is countable}\}
+  .\end{align*}
+  Then, \( I_{1} \cap I_{2} = \varnothing \) and \( I_{1} \cup I_{2} = f(X) \).
+  Now, take \( u \in I_{1}, v \in I_{2} \). If \( u > v \), then \(
+  f^{-1}((-\infty, u)) \) and \( f^{-1}([v, +\infty) \) are countable, and
+  hence:
+  \[
+    X = f^{-1}((-\infty, u)) \cup f^{-1}([u, +\infty))
+    \subseteq f^{-1}((-\infty, u)) \cup f^{-1}([v, +\infty))
+  \] is countable.
+
+  Now, if \( X \) is countable, then any function \( f: X \to
+  \mathbb{R}\) would be measurable, so that's the trivial case. Hence, we are
+  only interested in the other case, when \( X \) is uncountable, which
+  contradicts with the above statement.
+
+  Hence, the \( u > v \) case could not happen, so \( u < v, \forall u \in
+  I_{1}, v \in I_{2} \). This implies that there must be a point \( s \)
+  separating the two sets, i.e.
+  \[
+    (-\infty, s) \subseteq I_{1} \text{ and } (s, +\infty) \subseteq I_{2}
+  ,\] Here, \( s \) may be \( \pm \infty \), so either \( I_{1} \) or \( I_{2}
+  \) may be empty. \( s \) could also be explicitly defined as \( s = \sup I_{1} =
+  \inf I_{2} \). However, looking at these cases carefully, for example if \(
+  s \) is \( +\infty \), then \( I_{1} = X \), so \( f^{-1}((-\infty, a) \) is
+  countable for all \( a \in f(X) \). Then, we must have:
+\( X = \bigcup_{n \in \mathbb{N}} f^{-1}((-\infty, n)) \) is countable, which
+  contradicts with what we assumed above. Similarly, \( s \) could not be \(
+  -\infty \) either, so \( s \in \mathbb{R} \).
+
+  Now, consider the two sets:
+  \begin{align*}
+    S_{1} &= \bigcup_{n \in \mathbb{N}^{*}} f^{-1} \left( \left( -\infty, s -
+    \frac{1}{n} \right)  \right) = f^{-1}((-\infty, s) ,\\
+        S_{2} &= \bigcup_{n \in \mathbb{N}^{*}} f^{-1} \left( \left( s +
+        \frac{1}{n}, +\infty \right)  \right)  = f^{-1}((s, +\infty)
+  .\end{align*}
+  Since they are countable union of countable sets, they must be countable.
+  Hence, \( S_{1} \cup  S_{2} \) is also countable. This is equivalent with the
+  fact that \( f^{-1}(\mathbb{R} \setminus \{s\}  ) \) is countable. Hence, \( f
+  \) is constant except on countably many points.
+
+  In the \( X \) is countable case, every function \( f \) is also constant
+  except on countably many points. Hence, we have proven for all case, \( f \)
+  is measurable on \( \mathcal{S} \) if and only if it is constant except on
+  countably many points. We can trivially verify that \( f^{-1}(S) \) is either
+  countable or has its complement countable for all \( S \subseteq \mathcal{S}
+  \):
+  \begin{align*}
+    f^{-1}(S) &\subseteq \mathbb{R} \setminus f^{-1}(\{s\}  )  \text{ is
+    countable, if } s \not\in S\\
+    \mathbb{R} \setminus f^{-1}(S) &\subseteq \mathbb{R} \setminus f^{-1}(\{s\}  )  \text{ is countable, if } s \in S
+  .\end{align*}
+\item We have \( f(x)^{g(x)} = \exp (g(x) \ln f(x)), \forall  x \in X \). RHS is
+  well-defined, as \( f(x) > 0 \) for all \( x \in X \). Now, we simply use
+  Theorem 2.44 and 2.46 in MIRA to see that the function on RHS is measurable.
+  The elementary functions \( \exp \) and \( \ln  \) are measurable as a result
+  of their property of being continuous on their respective domains.
+\item Trivial, as the set \( \{ (a, +\infty] \}   \) generates the \( \sigma
+  \)-algebra of Borel subsets of \( [-\infty, +\infty] \).
+\item 
+  If one takes \( B = \mathbb{R} \setminus \mathbb{Q} \), then if \( f(x) = x,
+  \forall x \in B \), which is obviously increasing, then \( f \) is not
+  continuous at every \( x_{0} \in B \), since \( x_{0} \not\in
+  \operatorname{Int} B \).
+
+  Hence, the problem statement is somewhat ill-formed, and we might modify it to
+  be: "proof that \( f \) is continuous at every element of \(
+  \operatorname{Int} B \) except for a countable subset of \( \operatorname{Int}
+  B\)". With this slight modification, we may assume \( B \) is open (consider
+  the restriction of \( f \) to \( \operatorname{Int} B \)).
+
+  Denote the set of discontinuities of \( f \) as \( D \subseteq B \).
+  Since \( f \) is increasing, the one-sided limits of \( f \) at every point \(
+  x_{0} \in B\) exist:
+  \begin{align*}
+    f_{+}(x_{0}) &= \lim_{x \to x_{0}, x > x_{0}} f(x) = \inf_{x \in B, x >
+    x_{0}} f(x) \ge f(x_{0})\\
+    f_{-}(x_{0}) &= \lim_{x \to x_{0}, x < x_{0}} f(x) = \sup_{x \in B, x <
+    x_{0}} f(x) \le f(x_{0})
+  .\end{align*}
+  The two limits are equal if and only if \( f \) is continuous at \( x_{0} \).
+  Hence, for all \( x_{0} \in D \), we must have \( f_{+}(x_{0}) > f_{-}(x_{0})
+  \).
+
+  Consider \( x_{1}, x_{2} \in D \), \( x_{1} \neq x_{2} \). We will prove that
+  \( I(x_{1}) \) and \( I(x_{2}) \) does not have an intersection, with \(
+  I(x_{0}) = (f_{-}(x_{0}), f_{+}(x_{0})) \). Assuming \( x_{1} < x_{2} \), then
+  we must have:
+  \[
+    f_{+}(x_{2}) > f_{-}(x_{2}) \ge f(x_{1} + \varepsilon) \ge f_{+}(x_{1}) >
+    f_{-}(x_{1})
+  ,\] with \( \varepsilon \) being some small positive number such that \( x_{2}
+  > x_{1} + \varepsilon\) and \( B(x_{1}, \varepsilon) \subseteq B \). Such \(
+  \varepsilon \) always exists since \( B \) is open.
+
+  Hence, every discontinuity \( x \) of \( f \) corresponds to an unique
+  interval \( I(x) \). Since \( I(x) \) is nonempty, there exists some rational
+  \( q(x) \in I(x) \). Since the intervals \( I(x) \) do not intersect, \( q(x)
+  \) is unique for every \( x \in D \). Hence, \( q \) is an injection from \( D
+  \) to \( \mathbb{Q} \), which suggests that \( |D| \le |\mathbb{Q}| \). Hence,
+  \( D \) must be countable.
+  
+\item 
+  First, we can trivially see that \( g = f^{-1} \) must be an increasing function.
+  Hence, \( f^{-1} \) have one-sided limits.
+
+  For every \( y_{0} \in f(\mathbb{R}) \), there exists \( x_{0} = f^{-1}(y_{0})
+  \). Then, to prove \( f^{-1} \) is continuous at \( y_{0} \), we need to prove
+  that:
+  \[
+    f^{-1}_{+}(y_{0}) = f^{-1}_{-}(y_{0}) = f^{-1}(y_{0}) = x_{0}
+  .\] 
+  Unpacking this, first considering \( f^{-1}_{+}(y_{0}) \), we need to prove:
+  \[
+    x_{0} = \inf_{y \in f(\mathbb{R}), y > y_{0}} f^{-1}(y) = \inf_{x \in
+    \mathbb{R}, f(x) > y_{0}} x
+  ,\] or \( x_{0} \) is the largest lower bound of the set \( \{x \in
+  \mathbb{R}: f(x) > y_{0}\}   \). It is trivially a lower bound, so assuming
+  the lower bound is \( L > x_{0} \). Now,
+  consider some \( x_{1} \in (x_{0}, L) \), We have \( f(x_{1}) > f(x_{0}) >
+  y_{0} \), so \( x_{1} \) is in the aforementioned set, but it is smaller than
+  \( L \), which is a contradiction. Hence, \( L = x_{0} \), and therefore \(
+  f^{-1}_{+}(y_{0}) =x_{0} \). Similarly, we have \( f^{-1}_{-}(y_{0}) = x_{0}
+  \), and therefore \( f^{-1} \) is continuous at \( y_{0} \) for every \( y_{0}
+  \in f(\mathbb{R})\).
+
+\item 
+  Denote \( \mathcal{B} \) as the \( \sigma \)-algebra containing all Borel
+  subsets of \( \mathbb{R} \). Then, let \( \mathcal{S} = \{B \in \mathcal{B}:
+  f(B) \in \mathcal{B}\}   \). We will prove that \( \mathcal{S} = \mathcal{B}
+  \), by proving that \( \mathcal{S} \) is a \( \sigma \)-algebra containing all
+  open intervals.
+
+  \begin{itemize}
+  \item \( \varnothing \in \mathcal{S} \), since \( \varnothing = f(\varnothing)
+    \).
+  \item If \( A \in \mathcal{S} \), then since \( f \) is injective, we must
+    have \( f(\mathbb{R} \setminus A) = f(\mathbb{R}) \setminus f(A) \). Since
+    \( \mathbb{R} \) is an open interval (\( (-\infty, \infty) \)), we can defer
+    the proof of \( f(\mathbb{R}) \) until we prove all open intervals of \(
+    \mathbb{R} \) is in \( \mathcal{S} \).
+  \item If \( A_{1}, A_{2}, \ldots \in \mathcal{S} \), then \( \bigcup_{k =
+    1}^{\infty} f(A_{k}) = f \left( \bigcup_{k = 1}^{\infty} A_{k} \right) \in
+    \mathcal{B}  \), so \( \bigcup_{k = 1}^{\infty} A_{k} \in \mathcal{S} \).
+  \end{itemize}
+
+  Finally, we need to prove that \( \mathcal{S} \) contains all open intervals (note
+  that \( \mathcal{S} \) being a \( \sigma \)-algebra depends on this claim, so
+  we can't use the fact that \( \mathcal{S} \) is a \( \sigma \)-algebra here).
+
+  Consider an open subset \( I \) of \( \mathbb{R} \) (yes, this argument not
+  only works for open intervals, but also arbitrary open sets as well).
+  First, consider the equivalence relation \( \sim  \)
+  defined as:
+  \[
+    x \sim y \iff [x, y] \in \mathbb{R} \setminus f(I)
+  .\] 
+  This equivalence relation forms a partition of \( \mathbb{R} \setminus f(I)
+  \). Consider an equivalence class \( C \), with \( u = \inf C, v = \sup C \),
+  then for every \( \varepsilon > 0 \), \( u +\varepsilon, v - \varepsilon \in C
+  \), and \( [u+\varepsilon, v - \varepsilon] \subseteq C \). Letting \(
+  \varepsilon \to 0 \), we see that \( (u, v) \subseteq C \). Hence, \( C \)
+  must be an (open, closed, half-open or half-closed) interval with endpoints \(
+  u \) and \( v \).
+  
+  Consider the degenerate case when \( C \) is a singleton (\( u = v \)), \( C =
+  \{u\}  \).
+
+  For every \( \varepsilon > 0 \), consider the two sets \( B = (u - \varepsilon,
+  u] \) and \( f(I) \). If the intersection \( B \cap f(I) \) is empty, then \(
+  B \subseteq \mathbb{R} \setminus f(I)\). Then \( B \) must be a subset of the
+  equivalence class of \( \sim  \) containing \( u \), or in other words \( B =
+  (u - \varepsilon, u] \subseteq C = \{u\}  \), which is a contradiction.
+
+  Hence, for every \( \varepsilon > 0 \), the intersection of \( (u -
+  \varepsilon, u] \) with \( f(I) \) is non-empty, so one can always construct a
+  increasing sequence \( x_{n} \in f(I) \) that converges to \( u \). Similarly,
+  there exists a decreasing sequence \( y_{n} \in f(I) \) that also converges to
+  \( u \):
+  \[
+    x_{1} < x_{2} < \ldots < u < \ldots < y_{2} < y_{1}
+  .\] 
+  Then, we must have:
+  \[
+    f^{-1}(x_{1}) < f^{-1}(x_{2}) < \ldots  < f^{-1}(y_{2}) < f^{-1}(y_{1})
+  .\] 
+  Note that here \( f^{-1}(x_{n}) \) and \( f^{-1}(y_{n}) \) exists due to \(
+  x_{n}, y_{n} \in f(I) \). \( f^{-1}(u) \) does not exist so we did not
+  include it here. However, this showed that the sequences \( f^{-1}(x_{n}) \)
+  and \( f^{-1}(y_{n}) \) are monotonic and bounded, therefore converges:
+  \begin{align*}
+    a &= \lim_{n \to \infty} f^{-1}(x_{n})\\
+    b &= \lim_{n \to \infty} f^{-1}(y_{n})
+  .\end{align*}
+  Now, note that \( y = \sup_{n \in \mathbb{N}^{*}} f(x_{n}) \le \sup_{n \in
+  \mathbb{N}^{*}} f(a) = f(a) \), due to \( a \ge  x_{n} \) for all \(  n \in
+  \mathbb{N}^{*} \), and similarly \( y \ge f(b) \). On the other hand, we must
+  have \( a \le b \) since \( f^{-1}(x_{m}) < f^{-1}(y_{n}), \forall m, n \in
+  \mathbb{N}^{*} \). Hence:
+  \[
+    f(a) \ge y \ge f(b) \ge f(a)
+  .\] 
+  And therefore \( a = b = f^{-1}(y) \). Note that \( a, b \in I \) since \( I
+  \) is open (this is the only place that the openness of \( I \) is used),
+  which contradicts with \( y \in \mathbb{R} \setminus f(I) \).
+
+\item
+  Simply define \( f_{k} \) as the linear interpolation between \( f \) and a
+  strictly increasing function:
+  \[
+    f_{k}(x) = \frac{1}{2k}x + \left( 1 - \frac{1}{2k} \right) f(x)
+  ,\] for all \(  k\in \mathbb{N}^{*} \).
+\item The idea to construct \( g \) is as follows. For any \( x \notin B \), we
+  find \( x_{1} \) and \( x_{2} \) in \( B \) which are closest to \( x \) from
+  above or below, i.e.
+  \begin{align*}
+    x_{1} &= \sup \left( B \cap (-\infty, x) \right)  \\
+    x_{2} &= \inf (B \cap (x, +\infty))
+  .\end{align*}
+  If \( x_{1}, x_{2} \) are both real, then we can define \( g(x) \) as the
+  linear interpolation of \( f_{+}(x_{1}) \) and \( f_{-}(x_{2}) \):
+  \[
+    g(x) = \frac{x - x_{1}}{x_{2} - x_{1}}(f_{-}(x_{2}) - f_{+}(x_{1})) + f_{+}(x_{1})
+  .\] 
+  In the case \( x = x_{1} = x_{2} \), we can let the result of the division \(
+  \frac{x - x_{1}}{x_{2} - x_{1}} = \frac{0}{0}\) to be any real number in \(
+  (0, 1) \).
+
+  To resolve the \( x_{1}, x_{2} = \pm  \infty\) case, consider a strictly increasing
+  function \( h: \mathbb{R} \cup \{\pm \infty\} \to \mathbb{R}  \). For example,
+  \( h = \arctan  \) is such a function, but any other \( h \)
+  could work as well. Replacing the weight \( \frac{x - x_{1}}{x_{2}-x_{1}}
+  \) as \( \frac{h(x) - h(x_{1})}{h(x_{2}) - h(x_{1})} \), and we are done:
+  \[
+    g(x) = \frac{h(x) - h(x_{1})}{h(x_{2}) -
+    h(x_{1})}(f_{-}(x_{2})-f_{+}(x_{1})) + f_{+}(x_{1})
+  .\] 
+  The values of \( f_{+}(-\infty) \) and \( f_{-}(+\infty) \) could be taken as
+  \( -M \) and \( M \), with \( M \) being an arbitrary bounding value of \( f \):
+  \[
+    f(x) < M, \forall x \in \mathbb{R}
+  .\] 
+
+\item Simply let:
+  \[
+    f(x) = \begin{cases}
+      +\infty, &\text{ if } x \in B\\
+      -\infty, &\text{ otherwise}
+    \end{cases}
+  \] for any non-Borel set \( B \), and we are done.
+\item This trivially follows from:
+  \[
+    g^{-1}(I) = \begin{cases}
+      f^{-1}(I) \cup (R \setminus B), &\text{ if } 0 \in I\\
+      f^{-1}(I), &\text{ otherwise}
+    \end{cases}
+  .\] 
+\item Simply take:
+  \[
+    f_{t}(x) = \begin{cases}
+      1, &\text{ if } x = t \text{ and } t \in B\\
+      0, &\text{ otherwise}
+    \end{cases}
+  ,\] and then:
+  \[
+    f(x) = \begin{cases}
+      1, &\text{ if } x \in B\\
+      0, &\text{ otherwise}
+    \end{cases}
+  \] is trivially non-measurable for any non-Borel set \( B \).
+\item If \( x \) is rational, then for all large \( j \), we must have \( 2 \mid
+  j!x \in \mathbb{Z}\), then \( \cos (j!\pi x) = 1 \) and therefore the limit is
+  \( 1 \):
+  \[
+    \lim_{j \to \infty} \lim_{k \to \infty} (\cos (j!\pi x))^{2k} = \lim_{j \to
+    \infty} \lim_{k \to \infty} 1^{2k} = 1
+  .\] 
+  If \( x \) is irrational, then \( j!x \) is non-integral for all \( j \in
+  \mathbb{Z} \). Hence, \( -1 < \cos (j!\pi x) < 1 \) for all \( j \in
+  \mathbb{Z} \), and therefore the inner limit \( \lim_{k \to \infty} (\cos
+  (j!\pi x))^{2k} \) is zero. Then, we have:
+  \[
+    \lim_{j \to \infty} \lim_{k \to \infty} (\cos (j!\pi x))^{2k} = \lim_{j \to
+    \infty} 0 = 0
+  .\] 
+\end{enumerate}
+
+% section Exercises 2B (end)
+
+\section{Exercises 2C} % (fold)
+\label{sec:Exercises 2C}
+
+
+\begin{enumerate}[label=\textbf{2C.\arabic*}]
+  \item \( \mu (S) \ge \mu (E) \) for all \( E \subseteq S \), so \( S = \max
+    \{\mu (E): E \subseteq S\} = \max [0, 1)  \), which is undefined. Hence,
+    contradiction.
+  \item \( w_{k} \) is trivially defined as \( w_{k} = \mu (\{k\}  ) \).
+  \item \label{2C3} Simply define \( \mu \) such that \( \mu (k) = 2^{-k} \), then we
+    must have \( \mu (E) \le \mu (\mathbb{Z}^{+}) = \sum_{k = 1}^{\infty} 2^{-k}
+    = 1\). To prove that \( \mu (E) \) can take any value \( r \in [0, 1] \) is
+    more trickier. First, the case \( r = 1 \) is done, so we would be only
+    interested in the case \( r \in [0, 1) \). Then, take the \( r \) binary
+    expansion of \( r \) and we are done:
+    \[
+      r = \sum_{k \in \mathbb{Z}} 2^{k}b(r, k) = \mu (\{k: b(r, -k) = 1\}  )  
+    ,\]
+  \item Consider the \( \sigma \)-algebra \( \mathcal{S} \) containing all sets
+    \( E(K, B) = \left(   \bigcup_{k \in K} (-3(k + 1), -3k) \right) \cup B \),
+    with \( K \subseteq \mathbb{N} \), \( B \) is a Borel subset of \( (0, 1)
+    \). 
+
+    We first start with proving \( \mathcal{S} \) is a \( \sigma \)-algebra:
+    \begin{itemize}
+    \item \( \varnothing = E(\varnothing, \varnothing) \).
+    \item Take \( X = E(\mathbb{N}, (0, 1)) \), then \( X \setminus E(K, B) =
+      E(\mathbb{N} \setminus K, (0, 1) \setminus B) \in \mathcal{S}\).
+    \item The union of \( E(K_{1}, B_{1}), E(K_{2}, B_{2}), \ldots  \) is the
+      set:
+      \[
+        \bigcup_{k = 1}^{\infty} E(K_{k}, B_{k}) = E \left( \bigcup_{k =
+      1}^{\infty} K_{k}, \bigcup_{k = 1}^{\infty} B_{k} \right)
+      .\]
+    \end{itemize}
+
+    We can let \( \mu  \) be the outer measure, but for a more simpler and more
+    straightforward approach, we define:
+    \[
+      \mu (E(K, B)) = 3n(K) + |B|
+    ,\] with \( n(K) \) denoting the cardinality of \( K \)\footnote{Commonly
+    written as \( |B| \), but that notation was already used for the outer
+  measure}.
+
+  Then, it is trivial to verify that \( \mu  \) is a measure:
+  \begin{itemize}
+  \item \( \mu (\varnothing) = \mu (E(\varnothing, \varnothing)) =
+    3n(\varnothing) + |\varnothing| = 0 \)
+  \item If \( E(K_{1}, B_{1}), E(K_{2}, B_{2}), \ldots  \in \mathcal{S} \),
+    are pairwise disjoint, then \( K_{1}, K_{2}, \ldots  \) and \( B_{1}, B_{2},
+    \ldots \) are also two pairwise disjoint sequences of sets.
+    Then:
+    \begin{align*}
+    \mu \left( \bigcup_{k = 1}^{\infty} E(K_{k}, B_{k}) \right) 
+    &= \mu \left( E \left( \bigcup_{k = 1}^{\infty} K_{k}, \bigcup_{k =
+    1}^{\infty} B_{k} \right)  \right)\\
+    &= 3n \left( \bigcup_{k = 1}^{\infty} K_{k} \right) + \left| \bigcup_{k =
+    1}^{\infty} B_{k} \right|   \\
+    &= 3\sum_{k = 1}^{\infty} n(K_{k}) + \bigcup_{k = 1}^{\infty} |B_{k}|\\
+    &= \sum_{k = 1}^{\infty} \mu (E(K_{k}, B_{k}))
+    .\end{align*}
+  \end{itemize}
+
+  To conclude, we just need to show the following:
+  \begin{itemize}
+  \item \( \mu (E(K, B)) = 3n(K) + |B| \in \{\infty\} \cup \bigcup_{k =
+    0}^{\infty} [3k, 3k + 1]  \) for all \( K \subseteq \mathbb{N} \) and Borel
+    \( B \subseteq (0, 1) \).
+  \item \( \mu (E(\mathbb{N}, (0, 1))) = \infty \).
+  \item For \( r \in [3k, 3k + 1] \) for some \( k \in \mathbb{N} \), just take
+    \( K = \{1, 2, 3, \ldots, k\}   \) and \( B = (0, r - 3k) \), then \( \mu
+    (E(K, B)) = 3k + r - 3k = r \).
+  \end{itemize}
+  
+  So basically, we have shown that \( \{\mu (E): E \in \mathcal{S}\} =
+  \{\infty\} \cup \bigcup_{k = 1}^{\infty} [3k, 3k + 1]    \).
+
+\item We have:
+  \[
+    \infty > \mu (X) \ge \mu \left( \bigcup_{A \in \mathcal{A}} A \right) =
+    \sum_{A \in \mathcal{A}} \mu (A)
+  .\] 
+  Define \( S(\varepsilon) = \{A \in \mathcal{A}: \mu (A) > \varepsilon\}   \)
+  Then, we have:
+  \[
+    \mu (X) \ge \sum_{A \in \mathcal{A}} \mu (A) \ge 
+    \ge \sum_{A \in S(\varepsilon)} \mu (A) \ge \varepsilon n(S(\varepsilon))
+  ,\] for all \( \varepsilon > 0 \).
+  Hence, \( S(\varepsilon) \le \frac{\mu (X)}{\varepsilon} < \infty \). Hence,
+  \( S(\varepsilon) \) are finite for all \( \varepsilon > 0 \).
+
+  Therefore,
+  \[
+    \mathcal{A} = \bigcup_{n = 1}^{\infty} S \left( \frac{1}{n} \right) 
+  ,\] must be countable.
+
+\item We have \( c = \mu (S) < \infty \), and:
+  \[
+    \{\mu (E): E \in \mathcal{S}\} = \{\mu (S \setminus E): E \in \mathcal{S}\}
+    = c - \{\mu (E): E \in \mathcal{S}\}  
+  ,\] so \( S \) must be "symmetric". Then, it is trivial to show that \( c = 4
+  \) is the only value that satisfies this condition.
+
+  To construct \( (X, \mathcal{S}, \mu ) \), we can let:
+  \begin{itemize}
+    \item X = \( (0, 4) \)
+    \item \( \mathcal{S} = \{B, B \cup \{\infty\}: B \text{ is a Borel set of }
+      (0, 1)\}  \)
+    \item \( \mu (B) = |B|, \mu (B \cup \{\infty\}) = 3 + |B|   \)
+  \end{itemize}
+  Then, this forms a measure satisfying \( \{\mu (E): E \in \mathcal{S}\} = [0,
+  1] \cup [3, 4]  \). We will not get into details why, but one can
+  trivially verify the conditions.
+\item From
+  \footnote{\href{https://math.stackexchange.com/q/4122427}{https://math.stackexchange.com/q/4122427}}:
+  See problem
+  \ref{2C12}. Here, we let \( X = \mathbb{R} \) and:
+  \[
+    f(x) = \begin{cases}
+      x, &\text{ if } x \ge 3\\
+      2^{-x}, &\text{ if } x \in \mathbb{Z}_{-}\\
+      0, &\text{ otherwise}
+    \end{cases}
+  .\] 
+  Then using the binary expansion trick in problem \ref{2C3}, for all \( r \in
+  [0, 1] \), we can construct \( E \) such that \( \mu (E) = r \).
+
+  If \( r \in [3, \infty]   \), simply take \( E = \{r\}   \) (if \( r \) is
+  finite) or \( E = \mathbb{R} \) (if \( r = \infty \)).
+
+  We can also easily show that \( \mu (E) \in [0, 1] \cup [3, +\infty] \) for all \(
+  E \in \mathcal{S}\). That conclude our example.
+\item From
+  \footnote{\href{https://math.stackexchange.com/a/90820}{https://math.stackexchange.com/a/90820}}:
+  Consider the \(
+  \sigma \)-algebra of \( X = \{a, b, c\}, \mathcal{S} = P(X)  \), and a measur
+  \( \mu  \) such that:
+  \[
+    \mu (\{a, b, c\}  ) = \mu (\{a, b\}  ) = \mu(\{b, c\}  ) = 1
+  .\] with \( \mathcal{A} = \{\{a, b\}, \{a, c\}      \}   \). Then, either:
+  \begin{itemize}
+  \item \( \mu (\{a\}) = \mu(\{c\}) = 1, \mu(\{b\}  ) = 0   \), or
+  \item \( \mu (\{a\}  )=\mu (\{c\}  ) = 0, \mu (\{b\}  ) = 1   \),
+  \end{itemize}
+  or neither of those cases. Picking \( \mu  \) and \( \nu  \) as the two
+  measures defined by the two cases, we have the desired example.
+\item Trivial.
+\item Take \( E_{k} = (-\infty, -k) \cup (k, +\infty) \), then:
+  \[ 
+    \mu (E_{k}) = \infty \implies
+    \lim_{k \to \infty} \mu (E_{k}) = \infty
+  ,\] but:
+  \[
+    \mu \left( \lim_{k \to \infty} E_{k} \right)  = \mu (\varnothing) = 0
+  .\] 
+\item Trivial:
+  \[
+    \mu (C \cup D \cup E) = \mu (C) + \mu (D) + \mu (E) - \mu (C \cap D) - \mu
+    (D \cap E) - \mu (C \cap E) + \mu (C \cap D \cap E)
+  .\] 
+\item \label{2C12} All measures of \( (X, \mathcal{S}) \) could be uniquely
+  identified as a mapping \( f: X \to  [0, \infty]\):
+  \[
+    \mu (A) = \begin{cases}
+      L - \mu (X \setminus A), &\text{ if } A \text{ is uncountable}\\
+      \sum_{x \in X} f(x), & \text{ otherwise}
+    \end{cases}
+  ,\] 
+  with \( L \) being an arbitrary value such that:
+  \[
+    L \ge \sum_{x \in X} f(x)
+  .\] 
+  (Equality is forced in the case \( X \) is countable.)
+\end{enumerate}
+
+% section Exercises 2C (end)
+
+\section{Exercises 2D} % (fold)
+\label{sec:Exercises 2D}
+
+\begin{enumerate}[label=\textbf{2D.\arabic*}]
+  \item By similar reasoning as in the Cantor set section in MIRA, we have the
+    following lemma:
+
+    \textbf{Lemma.} The set of all real numbers in \( [0, 1] \) not containing
+    the digit \( 0 < d < n \) in its base \( n \) representation is a Borel set
+    with Lebesgue measure 0. Equivalently, the set of all real numbers in \( [0, 1] \)
+    containing \( d \) in its base \( n \) representation is also a Borel set,
+    but with Lebesgue measure 1.
+
+    Here, we will consider the case when \( d = 444\ldots 4 \) and \( n =
+    10^{100} \).
+    This is basically decimal, but the decimal digits are grouped in groups of
+    100 digits. Despite not every 100 consecutive 4s belong to the same group
+    and forming the digit \( d \), but if the digit \( d \) appears in the base
+    \( n \) representation of some number \( r \in [0, 1] \), that number must
+    contains 100 consecutive 4s in decimal representation.
+
+    The set of such \( r \), by the above lemma, already has Lebesgue measure 1,
+    so its superset, the set containing all numbers in \( (0, 1) \) containing
+    100 consecutive 4s, must also has Lebesgue measure 1.
+
+    This set is a Borel set, since it is the union of all \( B_{n} \), \( n \in
+    \mathbb{N}\), with \( B_{n} \) denoting the set of real numbers in \(
+    (0, 1) \) with the \( (n+1), (n+2), \ldots, (n + 100) \)-th digits being \(
+    4 \)s. The sets \( B_{n} \) are union of finitely many closed intervals, and
+    therefore Borel.
+
+    \item If \( A \) is a Lebesgue measurable set, then there exists closed \( F
+      \) such that \( |A  \setminus F| < \varepsilon = 1 \), then \( |F| \ge |A|
+      - 1\), which contradicts with what we wanted. Hence, \( A \) must be a
+      Lebesgue non-measurable set.
+
+      Take the set from Theorem 2.18 in MIRA, which is called a
+      \textbf{Vitali set}. To recap, a Vitali set \( V \subseteq (0, 1) \) is a
+      set such that for every \( r \in \mathbb{R} \), there exists only one
+      element \( v \in V \)
+      such that \( r - v \in \mathbb{Q} \). The construction of \( V \) depends
+      on the Axiom of Choice.
+
+      Then, we have:
+      \[
+        \bigcup_{q \in [-1, 1] \cap \mathbb{Q}} \left( q  + V  \right) \subseteq
+        [-2, 2]
+      ,\] with the union on the LHS is an union of disjoint sets.
+
+      Now, if \( F \) is a Borel set, and \( F \subseteq V \), then:
+      \[
+        \bigcup_{q \in [-1, 1] \cap \mathbb{Q}} \left( q  + F  \right) \subseteq
+        \bigcup_{q \in [-1, 1] \cap \mathbb{Q}} \left( q  + V  \right) \subseteq
+        [-2, 2]
+      .\] 
+      Note that here, the union on the LHS is a disjoint union of Borel sets, so
+      we must have:
+      \[
+        \sum_{q \in [-1, 1] \cap \mathbb{Q}} |q + F| \le |[-2, 2]| = 4
+      .\] 
+      From this, and the fact that \( |q + F| = |F| \) for all \( q  \in
+      \mathbb{R} \), proved that \( |F| = 0 \).
+
+      Meanwhile, \( |V| > 0 \), since it's not a Lebesgue measurable set, so we
+      must have:
+      \[
+        |V \setminus F| = |V|  - |F| = |V|, \forall \text{closed } F \subseteq
+        V
+      .\]
+      Adding a scaling factor \( s > \frac{1}{|V|} \), we have:
+      \[
+        |sV \setminus F| = s \left| V \setminus \frac{1}{s}F \right|  = s|V| >
+        1, \forall \text{closed } F \subseteq sV
+      .\] 
+      From this, we can simply take \( A = sV \).
+\item Using the idea from the previous problem, first, we will consider the set
+  \( V^{c} = [0, 1] \setminus V \). For every open set \( G \) containing \(
+  V^{c}\), we must have:
+  \[
+    |G \setminus V| \ge |(G \cap [0, 1]) \setminus V| = |V^{c} \setminus 
+    \underbrace{
+    ([0, 1] \setminus G)
+    }_{\text{closed}}| = |V^{c}| > 0
+  .\] 
+  Here, the outer measure of \( V^{c} \) is positive, since if it is zero, then
+  \( V^{c} \) and therefore \( V \) are both Lebesgue measurable.
+
+  To make this infinity, consider the set \( A \) defined as:
+  \[
+    A = \bigcup_{k = 1}^{\infty} (2k + V^{c})
+  .\] 
+  \( A \) is constructed from translating \( V^{c} \) so that they are
+  completely separated. Intuitively, if we accept the following lemma:
+
+  \textbf{Lemma.} If \( A \) and \( B \) are separated, i.e.
+  \[
+    \inf_{a \in A, b \in B} |b - a| > 0
+  ,\] 
+  then \( |A \cup B| = |A| + |B| \).
+
+  We have, for every open \( G \) containing \( A \),
+  \[
+    |G \setminus A| \ge  \sum_{k = 1}^{\infty} |(G \setminus A) \cap [2k, 2k +
+    1]|
+    \ge \sum_{k = 1}^{\infty} |V^{c}| = \infty
+  .\] 
+The lemma could be proven easily by looking at an arbitrary open interval cover
+of \( A \cup B \). We can avoid proving this by repeatedly using the result from
+problem \ref{2A8} with \( t = \frac{3}{2}, \frac{5}{2}, \ldots, k + \frac{1}{2},
+\ldots \).
+
+\item \label{2D4}
+  Once we have (a), the rest is easy.
+  Since \( V \) is a countable union
+  of intervals, it must be a Borel set. And since a set \( X \) can be written
+  as:
+  \[
+    X = \bigcup_{x \in X} [x, x]
+  ,\] one can simply takes \( X \) be any non-Borel set for the example of (c).
+
+  Now, we will focus on (a). First, we will do the easier case for open
+  intervals.
+  Let \( F \) be a family of non-trivial open intervals.
+
+  Denote the union of all intervals in \( F \) as \( V \), then for every \( x
+  \in V \), there exists some open interval \( I(x) \in F \) containing \( x \).
+  From the definition of open sets, there exists an open ball \( B(x,
+  \varepsilon) \subseteq F \), but inside that open ball, there exists a
+  \textbf{rational}\footnote{An open ball with rational center and rational
+  radius. In the 1-dimensional case, it is an open interval with both endpoints
+being rational numbers. Since such an open ball can be described from rational
+numbers, there must be only an countable amount of them.} open ball \( \mathcal{B}(x) \subseteq B(x, \varepsilon)
+  \subseteq I(x) \subseteq V \).
+
+  We can summarize what we've found here:
+% https://q.uiver.app/#q=WzAsNCxbMCwwLCJWIl0sWzIsMCwiQihWKSBcXHN1YnNldGVxIFxcbWF0aGNhbHtCfV9cXG1hdGhiYntRfSJdLFsxLDAsIkYiXSxbMywwXSxbMCwyLCJJIl0sWzAsMSwiQiIsMix7ImN1cnZlIjoyfV0sWzEsMCwiQl57LTF9IiwyLHsiY3VydmUiOjN9XV0=
+\[\begin{tikzcd}[ampersand replacement=\&]
+	V \& F \& {B(V) \subseteq \mathcal{B}_\mathbb{Q}} \& {}
+	\arrow["I", from=1-1, to=1-2]
+	\arrow["B"', curve={height=18pt}, from=1-1, to=1-3]
+	\arrow["{B^{-1}}"', curve={height=18pt}, from=1-3, to=1-1]
+\end{tikzcd}\]
+  We also introduced the mapping \( B^{-1} \), taken as any right inverse of \( B
+  \), i.e. a mapping such that:
+  \[
+    b = B(B^{-1}(b)), \forall b \in B(V) \iff B \circ B^{-1} = Id
+  .\] 
+
+  Here, consider the composition of \( B^{-1} \) and \( I \). It maps a subset
+  \( B(V) \)
+  of \( \mathcal{B}_{\mathbb{Q}} \), the set of all rational intervals, which is
+  countable, to a subset \( F' = I(B^{-1}(B(V))) \) of the family \( F \). For
+  every \( x \in V \), \( B(x) \in B(V) \). Then, letting \( x' = B^{-1}(B(x))
+  \) (which in general, does not equal \( x \)), we have:
+  \[
+    B(x) = B(x') \implies x \in B(x) = B'(x) \subseteq I(x') = I(B^{-1}(B(x)))
+    \in F'
+  .\] 
+  Hence, \( x \) must be in the union of all sets in \( F' \), a countable
+  subset of \( F \).
+
+  Now, for the general case, first observing that all non-trivial intervals can
+  be written as an (countable, but that doesn't matter here) union of open
+  intervals. Specifically, let \( I \) be a non-trivial interval, then there
+  exists a family \( o(I) \) of open intervals such that:
+  \[
+    I = \bigcup_{J \in o(I)} J
+  .\] 
+
+  Now, consider the family \( F' = \bigcup_{I \in F} o(I) \). We have proven
+  that there exists a subset \( K' \subseteq F' \) such that:
+  \[
+    \bigcup_{I \in K'} I = \bigcup_{I \in F'} I
+  .\] 
+  Now, noting that every intervals in \( K' \) originates from an interval of \(
+  F\), or more specifically, there exists an "inverse" mapping \( o^{-1} \) such
+  that:
+  \[
+    \forall I \in K', \exists o^{-1}(I) \in F, I \in o(o^{-1}(I))
+  .\] 
+  By how we constructed \( o(I) \), we must have \( I \subseteq o^{-1}(I) \) for
+  all \( I \subseteq K' \).
+  Hence, we have:
+  \[
+    \bigcup_{I \in F'} I =
+    \bigcup_{I \in K'} I \subseteq \bigcup_{I \in K} o^{-1}(I) = \bigcup_{I \in
+    o^{-1}(K')} I
+    \subseteq
+    \bigcup_{I \in F'} I
+  .\] 
+  Taking \( K = o^{-1}(K') \subseteq F \), we can conclude that:
+  \[
+    \bigcup_{I \in K} I =
+    \bigcup_{I \in F} I
+  ,\] with some countable \( K \subseteq F \).
+\item 
+  \label{2D5}
+  Simply using Theorem 2.71 in MIRA (\( a \implies c \)), with the closed sets:
+  \[
+    F'_{k} = \bigcup_{n = 1}^{k} F_{k}
+  .\] 
+\item 
+  \begin{enumerate}[label=(\alph*)]
+    \item 
+  If for every \( \varepsilon > 0 \),
+  there exists some open set \( G \) such that:
+  \[
+    |G \setminus A| + |A \setminus G| < \frac{\varepsilon}{2} \implies |A
+    \setminus G|, |G \setminus A| < \frac{\varepsilon}{2}
+  .\] From the definition of outer measure, there exists some open interval
+  cover \( I_{1}, I_{2}, \ldots  \) of \( A \setminus G \), with outer measure
+  less than \( \frac{\varepsilon}{2} \). Let \( G' \) be the union of all \(
+  I_{k} \)'s, then \( G' \) must be open. Then, consider the set \( G \cup G'
+  \), which is a superset of \( A \), and:
+  \[
+    |(G \cup G') \setminus A| \le |G \setminus A| + |G' \setminus A| \le |G
+    \setminus A| + \frac{\varepsilon}{2} < \varepsilon
+  .\] 
+  From Theorem 2.71 in MIRA, \( A \) is Lebesgue measurable.
+
+  \item
+  Now, assuming \( A \) is Lebesgue measurable, then there exists a
+  sequence of open sets \( H_{n} \) all containing \( A \), such that:
+  \begin{equation}
+    \label{eq:2d8-1}
+    \lim_{n \to \infty} |H_{n} \setminus A| = 0.
+  \end{equation}
+  Now, let \( A_{m} = A \cap [-m, m] \) be a sequence of bounded sets that
+  covers \( A \), and since \( A_{m} \) is Lebesgue measurable, for every \( m
+  \), there must exists a sequence \( F^{m}_{k} \) of closed sets such that:
+  \begin{equation}
+    \label{eq:2d8-2}
+    \lim_{k \to \infty} |A_{m} \setminus F^{m}_{k}| = 0, \forall m \in
+    \mathbb{N}^{*} \implies \lim_{m, k \to \infty} (|A_{m}| \setminus
+    |F^{m}_{k}|) = 0.
+  \end{equation}
+  Then, since \( H_{n} \) is open, it could be written as:
+  \[
+    H_{n} = \bigcup_{x \in H_{an}} B_{n}(x)
+  ,\] for some open ball \( B_{n}(x) \) with radius depending on \( x \). Now,
+  \( B_{n}(x), x \in H_{n} \) forms an open cover of \( F^{m}_{k} \), so there
+  exists a finite subcover \( B_{n}(x), x \in H'_{n, m, k} \subseteq H_{n} \) (\(
+  H'_{n, m, k}
+  \) is finite for all \( n, m, k \in \mathbb{N}^{*} \)).
+
+  Letting \( G_{n, m, k} = \bigcup_{x \in H'_{n, m, k}} B_{n}(x) \), we have:
+  \begin{align*}
+    0 \le |G \setminus A| + |A \setminus G| &\le 2|H_{n} \setminus F^{m}_{k}| \\
+    &= 2(|H_{n}\setminus A| + |A \setminus A_{m}| + |A_{m} \setminus
+    F^{m}_{k}|)
+  .\end{align*}
+  Letting \( k \to \infty, n, m \to \infty \) (in that particular
+  order: \( \lim_{n,m \to \infty} \lim_{k \to \infty} \ldots  \)), and using the
+  results from problems \ref{2A8} and \ref{2A9}, the limit on the RHS is
+  \( 0 \). Unpacking this limit, we have for every \( \varepsilon > 0 \), there
+  exists some \( M_{1}, M_{2}(n, m) \) such that \( \forall n, m > M_{1}, k > M_{2}(n,
+  m), \)
+  \[
+    |A \setminus G_{n, m, k}| + |G_{n, m, k} \setminus A| < \varepsilon
+  .\] 
+  \end{enumerate}
+
+\item Similarly to problem \ref{2D5}, one simply uses Theorem 2.71.
+\item Using Theorem 2.71, if \( A \) is Lebesgue measurable, then there exists
+  a sequence \( G_{n} \) of open sets containing \( A \) such that:
+  \[
+    \lim_{n \to \infty} |G_{n} \setminus A| = 0
+  .\]
+  Since outer measure is translation invariant, the sequence \( t + G_{n} \)
+  satisfies:
+  \[
+    \lim_{n \to \infty} |(t + G_{n}) \setminus (t + A)| = 0
+  .\] 
+  From this, we can conclude that \( t + A \) is Lebesgue measurable.
+\item Since \( B \) is Lebesgue measurable, there exists some sequence \( F_{n}
+  \) of closed subsets of \( B \) such that \( \lim_{n \to \infty} |B \setminus
+  F_{n}| = 0\), or equivalently \( \lim_{n \to \infty} |F_{n}| = |B| \). Then:
+  \[
+    |A \cup B| \ge |A \cup F_{n}| = |A| + |F_{n}| \to |A| + |B|
+  ,\] as \( n \to \infty \). Combining this with the subadditivity of the outer
+  measure, we have:
+  \[
+    |A \cup B| = |A| + |B|
+  .\] 
+\item \label{2D12}
+  One side is trivial. We will focus on proving that \( A \) being
+  measurable can be implied from \( |A|+|(b,c) \setminus A| = c - b \). If
+  either \( b \) or \( c \) is \( \pm \infty \), the problem becomes trivial
+  (RHS is \( \infty \), and subadditivity becomes additivity in this case). For
+  the finite \( b, c \) case, we first prove the following lemma.
+
+  \textbf{Lemma.} For every subset \( S \) of \( \mathbb{R} \), there exists a
+  Borel set \( T \) such that \( S \subseteq T \) and \( |S| = |T| \). Note that
+  here \( |T| = |S| + |T \setminus S| \) is not necessarily true, in the case
+  that \( S \) may not be Lebesgue measurable.
+
+  \textbf{Proof.}
+  The \( |S| = \infty \) case is trivial (\( T = \mathbb{R} \)). If \( |S| \) is
+  finite, then by definition of the outer measure, we have:
+  \[
+    |S| = \inf \left\{ \sum_{k = 1}^{\infty} \ell(I_{k}): I_{1},I_{2},\ldots
+    \text{ is an open interval cover of } S \right\}  
+  .\] 
+  From this, for every \( \varepsilon = \frac{1}{m} > 0 \), there exists an open
+  interval cover \( I^{m}_{1}, I_{2}^{m}, \ldots  \) of \( S \) such that:
+  \[
+    |S| \le \sum_{k = 1}^{\infty} \ell(I_{k}^{m}) < |S| + \frac{1}{m}
+  .\] 
+  Then, \( T \) can be constructed as follows:
+  \[
+    T = \bigcap_{m = 1}^{\infty} \bigcup_{k = 1}^{\infty} I^{m}_{k}
+  .\] 
+  Here, the outer measure of \( T \) must be at most \( |\bigcup_{k =
+  1}^{\infty} I^{m}_{k}| < |S| + \frac{1}{m} \) for all \( m \in \mathbb{N}^{*}
+  \), which could only happen when \( |S| = |T| \).
+
+  \textbf{Going back}, consider some Borel set \( B \) that contains \( A \)
+  such that \( |A| = |B| \). To make sure that \( B_{1} \subseteq (b, c) \), one can
+  reassign \( B_{1} \coloneqq B \cap (b, c) \), which is Borel.
+
+  Doing the same thing to \( (b, c) \setminus A \), one ends up with a Borel set \(
+  B'_{2} \) containing \( (b, c) \setminus A \) with the same measure as \( (b,
+  c) \setminus A \). But since \( |A| + |(b, c) \setminus A| = c - b = |B_{2}'|
+  + |(b, c) \setminus B_{2}'|\), we must have \( |A| = |(b, c) \setminus B_{2}'|
+  \). Denoting \( B_{2} = (b, c) \setminus B_{2}' \), then one sees that \(
+  B_{2} \subseteq A \) and \( |B_{2}| = |A| \).
+
+  We don't have \( |B_{1}| = |A| + |B_{1} \setminus A| \), but we can get around
+  this using the set \( B_{1} \) defined above. We have:
+  \[
+    0 \le |B_{1} \setminus A| \le |B_{1} \setminus B_{2}| = |B_{1}| - |B_{2}| =
+    0
+  ,\] which implies \( |B_{1} \setminus A| = 0 \). From this, by Theorem 2.71,
+  \( A \) must be Lebesgue measurable.
+\item 
+  One side is trivial, we will only prove that \( A \) being Lebesgue measurable
+  is implied from the equalities.
+
+  Using problem \ref{2D12}, the equalities are equivalent to the fact that \(
+  A_{n} = A \cap [-n, n]
+  \) is Lebesgue measurable, \( \forall n \in \mathbb{N}^{*} \).
+  From that, for every \( n \in \mathbb{N}^{*} \), there exists a sequence \(
+  F^{n}_{k}\) of closed subsets of \( A_{n} \) such that:
+  \[
+    \lim_{k \to \infty} |A_{n} \setminus F^{n}_{k}| = 0, \forall n \in
+    \mathbb{N}^{*}
+  .\] 
+  Combining this with the result of problem \ref{2A8} and \ref{2A9}:
+  \[
+    \lim_{n \to \infty} |A \setminus [-n, n]| = 0
+  ,\] we have:
+  \[
+    0 \le |A \setminus F^{n}_{k}| \le |A_{n} \setminus F^{n}_{k}| + |A \setminus
+    [-n, n] \setminus F^{n}_{k}| \le |A_{n} \setminus F^{n}_{k}| + |A \setminus
+    [-n, n]|
+  .\] 
+  Letting \( k \to \infty, n \to \infty \) (\( \lim_{n \to \infty} \lim_{k \to
+  \infty}  \)), we have:
+  \[
+    \lim_{n \to \infty} \lim_{k \to \infty} |A \setminus F^{n}_{k}| = 0
+  .\] 
+  Hence, for every \( \varepsilon > 0 \), there exists some closed set \( F =
+  F^{n}_{k} \subseteq A \) such that \( |A \setminus F^{n}_{k}| < \varepsilon
+  \), so \( A \) must be a Lebesgue measurable set.
+\item Doing the division yields:
+  \begin{align*}
+    \frac{1}{4} &= 0.\overline{02}_{3}\\
+    \frac{9}{13} &= 0.\overline{200}_{3}
+  .\end{align*}
+\item Doing the division yields an approximate result of \( 0.2021221102 \),
+  so it must not be in the Cantor set\footnote{It also has no other base-3
+  expansions, but to be precise, one can just take the interval containing the
+number that was removed in \( G_{4} \)}.
+\item No.
+\item The set \( \frac{1}{2}C \) is the set containing all numbers which has a
+  base-3 expansion containing only 0s and 1s. Now, consider a real number \( r
+  \in [0, 1] \), with base-3 expansion \( (0.s_{1}s_{2}s_{3}\ldots )_{3} \). We
+  can explicitly construct the base-3 expansions of \( \frac{1}{2}x \) and \(
+  \frac{1}{2}y \) as follows:
+  \begin{align*}
+    s_{k} = 0 &\implies x_{k} = y_{k} = 0\\
+    s_{k} = 1 &\implies x_{k} = 1, y_{k} = 0\\
+    s_{k} = 2 &\implies x_{k} = y_{k} = 1\\
+    \text{with } x &= (0.x_{1}x_{2}\ldots )_{3}, y = (0.y_{1}y_{2}\ldots )_{3}
+  .\end{align*}
+
+  Needless to say, since \( C \subseteq [0, 1] \), we have \( \frac{1}{2}C +
+  \frac{1}{2}C \subseteq \frac{1}{2}[0, 1] + \frac{1}{2}[0, 1] = [0, 1] \).
+\item 
+  From every number \( x \in C \), one construct the sequence \( c(x)_{n} \) as
+  follows:
+  \[
+    c(x)_{n} = x \text{, but flipping the } n \text{-th digit after the
+      "decimal" point}
+  .\] 
+  Here, flipping is defined as simply replacing the digit \( 0 \) by \( 2 \) and
+  vice versa. We can easily see that \( c(x)_{n} \in C \) for all \( n \in
+  \mathbb{N}^{*} \), and all elements in this sequence is distinct.
+
+  This sequence converges to \( x \), since \( |x - x_{n}| = \frac{2}{3^{n}} \)
+  for all \( n \in \mathbb{N}^{*} \).
+
+  Now, assuming that the intersection of an open interval with \( C \) has at
+  least one element \( x \), then since the interval is open, there must be some
+  \( \varepsilon > 0 \) such that \( B(x, \varepsilon) \) is contained in this
+  interval. Hence, there exists some \( N > 0 \) such that \( c(x)_{n} \in B(x,
+  \varepsilon), \forall n > N\). Hence, the intersection must have infinitely
+  many elements.
+\item 
+  We have \( \Lambda (x) + \Lambda(1 - x)= 1 \) (trivial to prove).
+  From that, we have:
+  \[
+    \int_{0}^{1} \Lambda (x) = \int _{0}^{1} \Lambda (1 - x) = \frac{1}{2}
+  .\] 
+\item 
+  \( \Lambda \left( \frac{9}{13} \right)  = \Lambda(0.\overline{002}_{3}) =
+  0.\overline{001}_{2} = \frac{1}{7}\).
+
+  \( \Lambda(0.93) = \Lambda(0.221\ldots _{3}) = 0.111_{2} = \frac{7}{8} \).
+\item
+  \( \Lambda^{-1} \left( \left\{ \frac{1}{3} \right\}  \right) = \Lambda^{-1}
+  (\{0.\overline{01}_{2}\}  ) = \{ 0.\overline{02}_{3}\} = \left\{ \frac{1}{4}
+  \right\}  \).
+
+  For \( \Lambda^{-1} \left( \left\{ \frac{5}{16} \right\}  \right) =
+  \Lambda^{-1}(\{0.0101_{2}\}  )  \), it is a little bit more complicated.
+  Assuming that \( x = (0.s_{1}s_{2}s_{3}s_{4}\ldots )_{3} \) such that \(
+  \Lambda(x) = 0.0101_{2} \), then:
+\( s_{1} = 0, s_{2} = 2, s_{3} = 0 \). There are two cases for \( s_{4} \):
+\begin{itemize}
+\item If \( s_{4} = 2 \), then \( s_{5}=s_{6}=\ldots =0 \), so \( x = 0.0202_{3}
+  = \frac{20}{81}\). This is equivalent to the case \( s_{4} = 1, s_{5}
+  = s_{6} = \ldots  = 2\).
+\item If \( s_{4} = 1 \), then the digits from \( s_{5} \) can be arbitrary.
+  From that, \( x \) can be any value in the range \( [0.0201_{3}, 0.0202_{3}] \).
+\end{itemize}
+
+To conclude, \( \Lambda^{-1} \left( \left\{ \frac{5}{16} \right\}  \right) =
+[0.0201_{3}, 0.0202_{3}] = \left[ \frac{19}{81}, \frac{20}{81} \right]  \).
+
+\item Basically, the function preserves repeating decimal (although in different
+  bases), so it maps rationals to rationals.
+
+  However, the truncation behavior of inputs not in the Cantor set makes it able
+  to map an irrational number not in \( C \) to a rational number.
+
+\item 
+  We can encode any \( k \)-ary string by a real number \( x \) with fractional
+  parts \( (0.s_{1}s_{2}\ldots)_{k} \). Now, using this, one can encode any
+  expression as a real number, and given any prefix, one can always find a
+  suffix such that the expression becomes an arbitrary real number.
+
+  More specifically, the \textbf{Conway base 13 function} uses 10 base-10
+  digits, and symbols \( + \), \( - \) and \( . \) in its encoding.
+
+\item 
+  \begin{enumerate}[label=(\alph*)]
+    \item 
+  If \( A \) is Lebesgue measurable, then there exists some sequence \(
+  F_{n} \subseteq A \) of closed sets such that:
+  \[
+    \lim_{n \to \infty} |A \setminus F_{n}| = 0 \implies \lim_{n \to \infty}
+    |F_{n}| = |A|
+  .\] 
+  Hence, the inner measure of \( A \) is at least \( \sup_{n \to \infty} |F_{n}|
+  = |A|\).
+
+\item 
+  First, we will limit ourself to some large Borel subset \( X \) of \( \mathbb{R} \)
+  with finite measure. For any set \( A \subseteq X \) and closed, bounded
+  subset \( F \subseteq A \subseteq X \), we have:
+  \[
+    |F| = |X| - |X \setminus F|
+  .\] 
+  Since \( X \setminus F \) is an open set\footnote{And thus, can be written as
+  the union of countably many open intervals.} containing \( X  \setminus A \),
+  the infimum of \( |X \setminus F| \) is \( |X \setminus A| \). From this, we
+  have:
+  \[
+    m(A) = |X| - |X \setminus A|
+  .\] 
+  Assuming the inner measure is additive.
+  Consider two arbitrary subsets \( A, B \subseteq X \). We have:
+  \begin{align*}
+    |A| + |B| - |A \cup B| &= 2|X| - |X \setminus A| + |X \setminus B| + |X| + |X
+    \setminus (A \cup B)|\\
+    &= m(X) - m(A^{c}) - m(B^{c}) + m(A^{c} \cap B^{c}) \\
+    &= 0
+  ,\end{align*} with \( A^{c} = X \setminus A, B^{c} = X \setminus B \).
+  Hence, the outer measure is additive for subsets of \( X \). However, since
+  the example of disproving additivity of the outer measure in MIRA is a bounded
+  set, this can not hold true. Hence, the inner measure could not be a measure
+  on all subsets of \( \mathbb{R} \).
+\end{enumerate}
+
+  
+\end{enumerate}
+
+% section Exercises 2D (end)
+
+\section{Exercises 2E} % (fold)
+\label{sec:Exercises 2E}
+
+Here, instead of using the original definition for uniform continuity, we will
+use my personal lim-sup definition: \( f_{n} \) converges uniformly to \(
+f\) on \( X \) if and only if:
+\[
+  \lim_{n \to \infty} \sup_{x \in X} |f(x)-f_{n}(x)| = 0
+.\] 
+The sup term may be infinity, but it does not matter if it only happens for
+small values of \( n \). However, if that happens for all large \( n \), then
+the limit is \( \infty \) and the condition will not be fulfilled.
+
+Note that here, the \( \lim \sup \) is not the limit superior (\( \limsup \)),
+it's just a limit of a supremum term. The equivalence of the definitions can be
+easily proven by using the definition of limits and supremums.
+
+\begin{enumerate}[label=\textbf{2E.\arabic*}]
+  \item The definition of uniform continuity is equivalent to:
+    \[
+      \lim_{n \to \infty} \sup_{x \in X} |f_{n}(x)-f(x)| = 0
+    .\] 
+    When \( X \) is finite, the supremum term here has an upper bound of:
+    \[
+      0 \le \sup_{x \in X} |f_{n}(x) - f(x)| \le \frac{1}{n(X)} \sum_{x \in X}
+      |f_{n}(x)-f(x)| \to 0
+    ,\] as \( n \to \infty \) (here, \( n(X) \) denotes the cardinality of \( X \),
+    which is finite).
+
+    Hence, by the squeeze theorem, the supremum term must converges to \( 0 \),
+    which means that \( f_{n} \) converges uniformly to \( f \).
+
+  \item Take \( f_{n}(x) = \frac{x}{n} \). We have \( \lim_{n \to \infty}
+    f_{n}(x) = \lim_{n \to \infty} \frac{x}{n} = 0 \) for all \( x \in
+    \mathbb{R} \) (and \( \mathbb{Z}^{+} \)), but \( f_{n} \) does not converge
+    uniformly to \( f(x) = 0 \), since:
+    \[
+      \lim_{n \to \infty} \sup_{x \in \mathbb{Z}^{+}} |f(x)-f_{n}(x)| = \lim_{n
+      \to \infty} \sup_{x \in \mathbb{Z}^{+}} \frac{x}{n} = \lim_{n \to \infty}
+      \infty = \infty \neq 0
+    .\]
+  \item 
+    Take \( f_{n}(x) \) as:
+    \[
+      f_{n}(x) = \frac{x}{\left( x + \frac{1}{n} \right) ^2}
+    ,\] then:
+    \[
+      f(x) = \lim_{n \to \infty} f_{n}(x) = \begin{cases}
+        0, &\text{ if } x = 0\\
+        \frac{1}{x}, & \text{ otherwise}
+      \end{cases}
+    ,\] is unbounded.
+
+  \item 
+    To reiterate, \( f \) being uniformly continuous is equivalent to:
+    \[
+      \lim_{\delta \to 0^{+}} \sup_{\substack{x_{0} \in A\\x \in B(x_{0}, \delta)}}
+      |f(x)-f(x_{0})| = 0
+    .\] 
+    Here, we have:
+    \begin{align*}
+      |f(x)-f(x_{0})| &\le |f(x)-f_{k}(x)| + |f(x_{0})-f_{k}(x_{0})| +
+      |f_{k}(x)-f_{k}(x_{0})|\\
+                      &\le 2\sup_{x' \in A} |f(x')-f_{k}(x')| +
+                      |f_{k}(x)-f_{k}(x_{0})|
+    .\end{align*}
+    Taking the supremum yields:
+    \[
+      0 \le \sup_{\substack{x_{0} \in A\\x \in B(x_{0}, \delta)}} |f(x)-f(x_{0})| \le
+      2\sup_{x' \in A} |f(x')-f_{k}(x')| + \sup_{\substack{x_{0} \in A\\x \in
+      B(x_{0}, \delta)}} |f_{k}(x)-f_{k}(x_{0})|
+    .\] 
+    To continue, we will apply the squeeze theorem by taking the limit (in this
+    particular order of the RHS expression as \( \delta \to 0^{+} \) and \( k
+    \to \infty \):
+    \[
+      \begin{array}{c|c|c}
+        & \sup\limits_{x' \in A} |f(x')-f_{k}(x')| & \sup\limits_{\substack{x_{0} \in
+        A\\ x \in B(x_{0}, \delta)}}|f_{k}(x)-f_{k}(x_{0})|
+        \\
+        \hline
+        \delta \to 0^{+} & \sup\limits_{x' \in A} |f(x')-f_{k}(x')| & 0\\
+        \hline
+        k \to \infty & 0 & 
+      \end{array}
+    .\] 
+    \begin{quote}
+      Note that here, the order of taking limits is very important, much like in
+      multivariable calculus, e.g. \( \lim_{n \to \infty} \lim_{m \to \infty} f(m, n)
+      \neq \lim_{(m, n) \to \infty} f(m, n) \).
+    \end{quote}
+    From this, we can conclude that:
+    \[
+      \lim_{\delta \to 0^{+}} \sup_{\substack{x_{0} \in A\\x \in B(x_{0}, \delta)}}
+      |f(x)-f(x_{0})| = 0
+    \] and \( f \) is uniformly continuous\footnote{This is a method that uses
+    no \( \varepsilon-\delta \) in its proof, purely based on limits and their
+  properties. This method will be used instead of the more traditional methods
+  throughout this document where applicable.} on \( A \).
+
+\item Take \( f_{n}(x) = \frac{x}{n} \) with the pointwise limit \( f(x) = 0 \).
+  If \( A \subseteq \mathbb{R} \) is unbounded, then:
+  \[
+    \lim_{n \to \infty} \sup_{x \in A} |f_{n}(x) - f(x)| = \lim_{n \to \infty}
+    \infty = \infty \neq 0
+  ,\] which means that \( f_{n} \) cannot converges to \( f \) uniformly on \( A
+  \).
+
+  However, if Egorov's Theorem holds in the \( \mu (X) = \infty \) case, then we
+  would have some set \( E \) satisfying \( \mu (X \setminus E) = 0 \) such that
+  \( f_{n} \) converges uniformly to \( E \). Such a set \( E \) would have to
+  be unbounded, since \( \infty = \mu (E) \le  |\sup E - \inf E| \), which
+  contradicts with what we have above.
+\item Define Borel sets \( A_{m, n} \) as:
+  \[
+    A_{m, n} = \{x \in X: f_{k}(x) > n, \forall k \ge m\} = \bigcup_{k \ge m}
+    f_{k}^{-1}((n, +\infty))
+  .\] 
+  Then, since \( f_{k} \) converges pointwise to \( \infty \), \( \forall x \in
+  X, M \in \mathbb{R}, \exists m \in \mathbb{N}^{*}, f_{k}(x) > M, \forall k \ge
+  m\). In other terms, \( x \in A_{m, M} \). Hence, we can write:
+  \[
+    X = \bigcup_{m \in \mathbb{N}^{*}} A_{m, M}, \forall M \in \mathbb{R}
+  .\] 
+  We have the sequence of sets \( A_{1, M} \subseteq A_{2, M} \subseteq \ldots
+  \) is increasing, so taking the limit yields:
+  \[
+    \lim_{m \to \infty} \mu (A_{m, M}) = \mu (X)
+  ,\] which means, for every \( M \) and \( \varepsilon > 0 \),
+  there exists some \( m = m(\varepsilon, M) \) such that \(
+  \mu (A_{m, M}) > \mu (X) - \varepsilon\).
+
+  Take \( E = \bigcap_{M = 1}^{\infty} A_{m_{M}, M} \), then:
+  \( E = \bigcap_{M = 1}^{\infty} A_{m_{M}, M} \) then:
+  \[
+    \inf_{x \in E} f_{k}(x) \ge \inf_{x \in A_{m_{M}, M}} f_{k}(x) \ge M
+  ,\] for some \( M \) satisfying \( k \ge m_{M} \). This implies:
+  \[
+    \lim_{k \to \infty} \inf_{x \in E} f_{k}(x) = +\infty
+  ,\] and therefore \( f_{n} \) converges uniformly to \( \infty \), on \( E \).
+  Finally, we just need \( \mu (X \setminus E) < \varepsilon \):
+  \begin{align*}
+    \mu (X \setminus E) &= \mu \left( \bigcup_{M = 1}^{\infty} (X \setminus
+    A_{m_{M}, M}) \right)  \\
+                        &\le \sum_{M = 1}^{\infty} (\mu (X) - \mu (A_{m_{M},
+                        M}))\\
+                        &\le  \sum_{M = 1}^{\infty} 2^{-M - 1}\varepsilon =
+                        \frac{\varepsilon}{2} < \varepsilon
+  ,\end{align*} if we let \( m_{M} = 2^{-M-1}\varepsilon \) from earlier.
+
+\item If \( g_{n} \) converges uniformly, then we are done. We will only
+  consider the reverse statement.
+  
+  By definition, \( g_{n} \) converges uniformly to \( g \) is equivalent to:
+  \[
+    \lim_{n \to \infty} \sup_{x \in F} |g(x)-g_{n}(x)| = 0
+  .\] 
+  Note that here, the sequence \( u_{n} = \sup_{x \in F} |g(x)-g_{n}(x)| \) is
+  a decreasing, non-negative sequence, so it must converge to some limit \( L
+  \). Here, the function \( |g - g_{n}| = g - g_{n} \) is a continuous function,
+  as \( g \) and \( g_{n} \) are both continuous, and since \( F \) is closed
+  and bounded, then \( g-g_{n} \) must attain some maximum on \( F \).
+  
+  Let \( x_{n} \) be
+  the value that maximizes \( g(x)-g_{n}(x) \) on F, then the sequence \( x_{n}
+  \) must have a convergent subsequence \( x_{n_{k}} \).
+  For brevity, denote \( y_{k} = x_{n_{k}}, y = \lim_{k \to \infty} y_{k} \),
+  \( f_{k} = g_{n_{k}} \) and \( f = g \).
+
+  Now, we have:
+  \begin{align*}
+    0\le L &\le |f(y_{k}) - f_{k}(y_{k})|\\
+    &\le |f(y_{k}) - f_{k_{0}}(y_{k})|\\
+    &\le |f(y_{k})-f(y)| + |f(y)-f_{k_{0}}(y)| +
+    |f_{k_{0}}(y)-f_{k_{0}}(y_{k})|
+  ,\end{align*} for all \( k_{0} \le k \)
+  Now, take the limit (in this particular order) as \( k \to \infty \) and \(
+  k_{0} \to \infty \) of RHS:
+  \begin{center}
+    \begin{tabular}{c|c|c|c}
+      & \( |f(y_{k})-f(y)| \) & \( |f(y)-f_{k_{0}}(y)| \) & \(
+      |f_{k_{0}}(y)-f_{k_{0}}(y_{k})| \)\\
+      \hline
+      \( k \to \infty \) & 0 & \( |f(y)-f_{k_{0}}(y)| \) & 0\\
+      \hline
+      \( k_{0} \to \infty \) &  & 0 & 
+    \end{tabular}
+  \end{center}
+  \begin{quote}
+  Here, if we naively let \( k_{0} = k \to \infty \), then \(
+  f_{k_{0}}(y)-f_{k_{0}}(y_{k}) = f_{k}(y)-f_{k}(y_{k}) \) only converges if \(
+  f_{k}\) converges
+  uniformly\footnote{\href{https://math.stackexchange.com/questions/182223}{https://math.stackexchange.com/questions/182223}}.
+  The variable \( k_{0} \) here is used as a workaround for this particular
+  problem.
+\end{quote}
+  Hence, we must have \( L = 0 \), which implies uniform continuity.
+
+\item For every \( \varepsilon > 0 \), one can always pick a finite \( E
+  \subseteq \mathbb{Z}^{+} \) satisfying \( |\mathbb{Z}^{+} \setminus E| <
+  \varepsilon \). Then, every sequence of function that converges pointwise also
+  converges uniformly on \( E \).
+\item For every \( x_{0} \in F_{1} \), there exists some \( \varepsilon > 0 \)
+  such that \( B(x_{0}, \varepsilon) \) does not intersect \( F_{2}, F_{3},
+  \ldots , F_{n} \). Assuming that this is not true, then for every \(
+  \varepsilon_{n} > 0 \), \( B(x_{0}, \varepsilon_{n}) \) will intersect at
+  least one of the \( n-1 \) sets \( F_{2}, F_{3}, \ldots , F_{n} \). Since
+  there are infinitely many \( \varepsilon_{n} \) as one let \( \varepsilon_{n}
+  \to 0\), one of the sets must contain a sequence \( x_{1}, x_{2}, \ldots  \)
+  such that \( x_{k} \in B(x_{0}, \varepsilon_{k}) \cap F_{m}, \forall  k \in
+  \mathbb{N}^{*} \) and \( x_{n} \) converges to \( x_{0} \). But since \( F_{m}
+  \) is closed, we must have \( x_{n} \in F_{m} \), which leads to \( F_{m} \)
+  and \( F_{1} \) intersecting, which is a contradiction.
+\item If \( F \) is not closed, then \( \exists x_{0} \in \partial F \setminus F
+  \). Then, define \( f \) as:
+  \[
+    f(x) = \frac{1}{x - x_{0}}
+  \] yields a continuous function on \( F \), but could not be extended to a
+  continuous function on \( \mathbb{R} \) (since \( \lim_{x \to x_{0}}
+  f(x)=\infty \)).
+
+\item We can do the same as the above problem, but adding \( \sin \) to make \(
+  f\) bounded:
+  \[
+    f(x) = \sin \left( \frac{1}{x - x_{0}} \right) 
+  ,\] with some \( x_{0} \in \partial  F \setminus F \).
+  Then, if we can extend \( f \) to a function \( g \) that is continuous on \(
+  \mathbb{R}\), then:
+  \[
+    g(x_{0}) = \lim_{x \to x_{0}} g(x) = \lim_{x \to x_{0}} \sin \left(
+    \frac{1}{x - x_{0}} \right) 
+  .\] 
+  But since the limit on RHS does not converge, we have a contradiction. Hence,
+  \( \partial  F \setminus F \) has to be empty, and therefore \( F \) is
+  closed.
+
+\item \label{2E12}
+  Consider a closed set \( C \subseteq [0, 1] \) with positive measure and empty
+  interior. 
+  \begin{quote}
+  One such example of \(
+  C\) is the dense Cantor set, but that's outside the scope of this problem as we
+  only care about the existence of such sets.
+  \end{quote}
+
+  Take \( f \) as:
+  \[
+    f(x) = \chi_{C}(x) = \begin{cases}
+      1, &\text{ if } x \in C\\
+      0, & \text{ otherwise}
+    \end{cases}
+  .\] 
+  For every \( B \subseteq \mathbb{R} \) such that \( |\mathbb{R} \setminus
+  B| = 0\), \( B \) must contain some element \( x_{0} \) in \( C \) (otherwise \( C
+  \subseteq \mathbb{R} \setminus B \) but \( \mu (C) > \mu (\mathbb{R} \setminus
+  B) \)).
+
+  Then, we will prove that \( f_{|B} \) is not continuous at \( x_{0} \). First,
+  since \( x_{0} \in C \), we must have \( f(x_{0}) = 1 \). However, we can
+  construct a sequence \( x_{n} \in B \setminus C \) that converges to \( x_{0}
+  \), i.e. showing that \( B(x_{0}, \varepsilon) \cap B \setminus C \) is
+  non-empty for all small \( \varepsilon > 0 \).
+
+  Rewrite this set as \( B(x_{0}, \varepsilon) \cap (\mathbb{R} \setminus C)
+  \setminus (\mathbb{R} \setminus B) \). The set \( G = B(x_{0}, \varepsilon)
+  \cap (\mathbb{R} \setminus C ) \) is the intersection of two open sets,
+  therefore open. \( G \) also contains \( x_{0} \), so it is non-empty and
+  therefore has positive measure (since \( \exists \varepsilon' > 0 \) such that
+  \( B(x_{0}, \varepsilon') \subseteq G \)). The set \( \mathbb{R} \setminus B
+  \) has zero measure, so the set \( G \setminus (R \setminus B ) \) must have
+  measure equal to that of \( G \), which means that \( G \setminus (\mathbb{R}
+  \setminus B ) \) must be non-empty.
+
+  Hence, by picking \( x_{n} \in B(x_{0}, \varepsilon_{n}) \cap B \setminus C
+  \), for some \( \varepsilon_{n} \to 0 \), we have a sequence \( x_{n} \in B \)
+  satisfying:
+  \[
+    \lim_{n \to \infty} f(x_{n}) = 0 \neq 1 = f(x_{0})
+  .\] 
+\item Consider a non-Borel set \( S \subseteq [0, +\infty) \). For every \( t
+  \in \mathbb{R} \), define:
+  \[
+    f_{t}(x) = \begin{cases}
+      1, & \text{ if } x = t \text{ and } t \in S\\
+      0, &\text{ otherwise}
+    \end{cases}
+  ,\] then \( f = \chi_{S} \), which is not Borel measurable.
+\item If \( |x-b_{k}| > 2^{-k} \) for all \( k \in \mathbb{N}^{*} \),
+  then:
+  \[
+    f(x) = \sum_{k=1}^{\infty} \frac{1}{4^{k}|x-b_{k}|} < \sum_{n=1}^{\infty}
+    \frac{1}{4^{k} \cdot 2^{-k}} = \sum_{k = 1}^{\infty} \frac{1}{2^{k}} = 1
+  .\] 
+  The condition is equivalent to \( x \in X = \mathbb{R} \setminus \bigcup_{k =
+  1}^{\infty} [b_{k} - 2^{-k}, b_{k} + 2^{-k}] \). One can calculate the outer
+  measure of \( X \) as:
+  \[
+    |X| = |\mathbb{R}| - \sum_{k = 1}^{\infty} 2^{1-k} = \infty - 2 = \infty
+  .\] 
+  From this, we have:
+  \[
+    |\{x \in \mathbb{R}: f(x)<1\}| \ge |X| = \infty
+  .\] 
+\item 
+  Let \( f_{1}, f_{2}, \ldots  \) be a sequence of simple functions that
+  converge to \( f \). Consider a function \( f_{k} \):
+  \[
+    f_{k} = \sum_{n = 1}^{m} c_{n}\chi_{A_{n}}
+  ,\] with Lebesgue measurable sets \( A_{1}, A_{2}, \ldots , A_{m} \).
+
+  Let \( B_{1}, B_{2}, \ldots , B_{m} \) be Borel sets satisfying \( A_{k}
+  \subseteq B_{k} \) and \( |B_{k} \setminus A_{k}| = 0 \) for all \( k \in \{1,
+  2, \ldots , m\}   \). Define \( g_{k} \) as:
+  \[
+    g_{k} = \sum_{n=1}^{\infty} c_{n}\chi_{B_{n}} 
+  .\] 
+  Now, let \( g \) be the pointwise limit of \( g_{k} \) as \( k \to \infty \),
+  defined on the set \( E = \{x \in B: \lim_{k \to \infty} g_{k}(x) \text{
+  exists}\}   \).
+
+  Then, if \( f(x) \neq g(x) \) then either \( x \notin E \) or \( f_{k}(x) \neq
+  g_{k}(x)\) for some \( k \in \mathbb{N}^{*} \). Since the former implies the
+  latter, this can be reduced to:
+  \[
+    \{x \in B: f(x)\neq g(x)\}  \subseteq \bigcup_{k \in
+    \mathbb{N}^{*}} \{x \in B: f_{k}(x)\neq g_{k}(x)\}  
+  .\] 
+  On the other hand, we have:
+  \[
+    |\{x \in B: f_{k}(x) \neq g_{k}(x)\}| \le \sum_{n = 1}^{m} |B_{n} \setminus
+    A_{n}| = 0
+  ,\] so we can conclude that:
+  \[
+    |\{x \in B: f(x) \neq  g(x)\}|   = 0
+  .\] 
+\end{enumerate}
+
+% section Exercises 2E (end)
+
+% chapter Measures (end)
